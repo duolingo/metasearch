@@ -3,14 +3,22 @@ import axios, { AxiosInstance } from "axios";
 import { Engine, Result } from "./index";
 
 let client: AxiosInstance | undefined;
+let org: string | undefined;
 
 const engine: Engine = {
   id: "hound",
-  init: ({ origin }: { origin: string }) => {
+  init: ({
+    organization,
+    origin,
+  }: {
+    organization: string;
+    origin: string;
+  }) => {
     client = axios.create({ baseURL: `${origin}/api/v1` });
+    org = organization;
   },
   search: async q => {
-    if (!client) {
+    if (!(client && org)) {
       throw Error("Client not initialized");
     }
 
@@ -34,7 +42,7 @@ const engine: Engine = {
           Matches.map(({ Line, LineNumber }) => ({
             snippet: Line,
             title: `${repo}/${Filename}#L${LineNumber}`,
-            url: `https://github.com/duolingo/${repo}/blob/master/${Filename}#L${LineNumber}`,
+            url: `https://github.com/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
           })),
         ),
       )

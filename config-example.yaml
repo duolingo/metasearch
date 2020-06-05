@@ -7,6 +7,7 @@ engines:
     organization: example
     token: b701f041284869e7ff1d5b71e65d27119c869aba
   - id: hound
+    organization: example
     origin: https://hound.example.com
   - id: jenkins
     origin: https://jenkins.example.com
