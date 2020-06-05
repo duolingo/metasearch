@@ -15,3 +15,6 @@ engines:
     origin: https://example.atlassian.net
     token: 8NTHnTHE94xt6E6l6ig5fUbN
     user: admin@example.com
+  - id: zoom
+    key: iLGl0DWeD4xeWeQWzGi4Ju
+    secret: KbJ9Axxi9Md5BfeeGBuXaAofkRlqQoQ3Eff1

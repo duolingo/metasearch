@@ -3,6 +3,7 @@ import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
+import zoom from "./zoom";
 
 export interface Engine {
   id: string;
@@ -43,5 +44,5 @@ export const rateLimit = <R, F extends () => R>(
   }) as unknown) as F;
 };
 
-const engines: Engine[] = [confluence, github, hound, jenkins, jira];
+const engines: Engine[] = [confluence, github, hound, jenkins, jira, zoom];
 export default engines;
