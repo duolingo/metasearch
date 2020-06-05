@@ -5,3 +5,7 @@ engines:
     user: admin@example.com
   - id: hound
     origin: https://hound.example.com
+  - id: jira
+    origin: https://example.atlassian.net
+    token: 8NTHnTHE94xt6E6l6ig5fUbN
+    user: admin@example.com

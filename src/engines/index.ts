@@ -1,5 +1,6 @@
 import confluence from "./confluence";
 import hound from "./hound";
+import jira from "./jira";
 
 export interface Engine {
   id: string;
@@ -13,6 +14,6 @@ export interface Result {
   url: string;
 }
 
-const engines: Engine[] = [confluence, hound];
+const engines: Engine[] = [confluence, hound, jira];
 
 export default engines;
