@@ -1,0 +1,4 @@
+*.js
+*.map
+/config.yaml
+/node_modules
