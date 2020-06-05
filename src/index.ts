@@ -23,13 +23,10 @@ import engines from "./engines";
     return safeLoad(
       fs
         .readFileSync(configFile, "utf8")
-        .replace(/\$\{(\w+)(?::([^}]*))?\}/g, ({}, varName, defaultValue) => {
+        .replace(/\$\{(\w+)\}/g, ({}, varName) => {
           const varValue = process.env[varName];
           if (varValue) {
             return varValue;
-          }
-          if (defaultValue) {
-            return defaultValue;
           }
           throw Error(
             `Config references nonexistent environment variable '${varName}'`,

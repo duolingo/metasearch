@@ -1,3 +1,7 @@
+# Metasearch config file. Anywhere in this file, you can reference environment
+# variables using placeholders such as ${FOOBAR} that Metasearch will expand at
+# runtime.
+
 # An "engine" is an individual content source, e.g. Confluence. All supported
 # engines are listed below. You should simply delete the entries for any engines
 # you don't plan to use.
