@@ -3,6 +3,7 @@
 Metasearch is a tool for searching many content sources in parallel:
 
 - Confluence pages
+- Dropbox files and folders
 - GitHub repo names and descriptions
 - [Hound](https://github.com/hound-search/hound)-indexed code
 - Jenkins job names

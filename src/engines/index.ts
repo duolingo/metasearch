@@ -1,4 +1,5 @@
 import confluence from "./confluence";
+import dropbox from "./dropbox";
 import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
@@ -45,5 +46,13 @@ export const rateLimit = <R, F extends () => R>(
   }) as unknown) as F;
 };
 
-const engines: Engine[] = [confluence, github, hound, jenkins, jira, zoom];
+const engines: Engine[] = [
+  confluence,
+  dropbox,
+  github,
+  hound,
+  jenkins,
+  jira,
+  zoom,
+];
 export default engines;

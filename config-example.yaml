@@ -3,8 +3,9 @@
 # runtime.
 
 # An "engine" is an individual content source, e.g. Confluence. All supported
-# engines are listed below. You should simply delete the entries for any engines
-# you don't plan to use.
+# engines are listed below. You should customize the config values (required
+# unless stated otherwise) for all engines that you plan to use and simply
+# delete the entries for any engines that you don't plan to use.
 engines:
   # Confluence pages
   - id: confluence
@@ -14,6 +15,14 @@ engines:
     token: 8NTHnTHE94xt6E6l6ig5fUbN
     # Atlassian user who owns the API token
     user: admin@example.com
+
+  # Dropbox files and folders
+  - id: dropbox
+    # Case-insensitive top-level folder to search in (optional, defaults to all
+    # folders)
+    folder: untitled (2)
+    # Dropbox API token
+    token: vqTsOkuz0bAE_znMjyUfeHLkXUa6gj5mG5BS4pjS2pem9tMahbXpS0Hd725GY-oJ
 
   # GitHub repo names and descriptions (for GitHub code, use Hound engine)
   - id: github
