@@ -56,19 +56,26 @@ import engines from "./engines";
   // Set up server
   const app = express();
   const port = 3000;
+
+  // Declare search route for individual engines
   app.get(`/search`, async (req, res) => {
+    // Check that desired engine exists
     const { engine: engineId, q } = req.query as Record<string, string>;
     const engine = engineMap[engineId];
     if (!engine) {
       res.status(400);
-      res.send(engineId);
+      res.send(JSON.stringify({ error: `Unknown engine: ${engineId}` }));
       return;
     }
+
+    // Query engine
     try {
       res.send(await engine.search(q));
     } catch (ex) {
       res.status(500);
-      res.send("{}");
+      res.send(JSON.stringify({}));
+
+      // If Axios error, print only the useful parts
       if (ex.isAxiosError) {
         const {
           request: { method, path },
@@ -80,5 +87,7 @@ import engines from "./engines";
       throw ex;
     }
   });
+
+  // Start server
   app.listen(port, () => console.log(`Serving at http://localhost:${port}`));
 })();

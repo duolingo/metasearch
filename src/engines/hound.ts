@@ -19,7 +19,7 @@ const engine: Engine = {
   },
   search: async q => {
     if (!(client && org)) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
     const data: {

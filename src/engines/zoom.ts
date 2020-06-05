@@ -23,6 +23,7 @@ const engine: Engine = {
       const jwt = jsonwebtoken.sign({ exp, iss: key }, secret);
 
       const PAGE_SIZE = 300; // Maximum value allowed by Zoom backend
+      // https://marketplace.zoom.us/docs/api-reference/zoom-api/rooms/listzoomrooms
       const data: { page_size: number; rooms: Room[] } = (
         await client.get("/rooms", {
           headers: { Authorization: `Bearer ${jwt}` },
@@ -37,10 +38,9 @@ const engine: Engine = {
   },
   search: async q => {
     if (!getRooms) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
-    const JOIN_LINK_REGEX = /\w+\.zoom\.us\/j\/\d{10,}/;
     return Array.from(await getRooms())
       .filter(r => r.name.toLowerCase().includes(q.toLowerCase()))
       .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -48,7 +48,8 @@ const engine: Engine = {
         snippet: `Current status: ${r.status}`,
         title: r.name,
         // If room name contains a join link, set it as the URL
-        url: `https://${r.name.match(JOIN_LINK_REGEX)?.[0] ?? "zoom.us/"}`,
+        url: `https://${r.name.match(/\w+\.zoom\.us\/j\/\d{10,}/)?.[0] ??
+          "zoom.us/"}`,
       }));
   },
 };

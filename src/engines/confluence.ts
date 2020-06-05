@@ -31,9 +31,10 @@ const engine: Engine = {
   },
   search: async q => {
     if (!client) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
+    // https://developer.atlassian.com/cloud/confluence/rest/#api-group-Search
     const data: {
       _links: { base: string };
       results: {

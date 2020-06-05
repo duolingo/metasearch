@@ -24,6 +24,7 @@ const engine: Engine = {
       let cursor: string | undefined;
       const repos = new Set<Repo>();
       while (true) {
+        // https://developer.github.com/v4/object/repository/
         const {
           data,
         }: {
@@ -70,7 +71,7 @@ const engine: Engine = {
   },
   search: async q => {
     if (!(getRepos && org)) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
     return Array.from(await getRepos())

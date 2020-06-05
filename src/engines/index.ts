@@ -17,6 +17,7 @@ export interface Result {
   url: string;
 }
 
+/** Replaces all `"` with `\"`. */
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
 /**

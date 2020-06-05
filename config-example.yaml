@@ -1,20 +1,47 @@
+# An "engine" is an individual content source, e.g. Confluence. All supported
+# engines are listed below. You should simply delete the entries for any engines
+# you don't plan to use.
 engines:
+  # Confluence pages
   - id: confluence
+    # Confluence server URL origin
     origin: https://example.atlassian.net
+    # Atlassian API token
     token: 8NTHnTHE94xt6E6l6ig5fUbN
+    # Atlassian user who owns the API token
     user: admin@example.com
+
+  # GitHub repo names and descriptions (for GitHub code, use Hound engine)
   - id: github
+    # GitHub organization
     organization: example
+    # GitHub personal access token
     token: b701f041284869e7ff1d5b71e65d27119c869aba
+
+  # Hound-indexed code: https://github.com/hound-search/hound
   - id: hound
+    # GitHub organization
     organization: example
+    # Hound server URL origin
     origin: https://hound.example.com
+
+  # Jenkins job names
   - id: jenkins
+    # Jenkins server URL origin
     origin: https://jenkins.example.com
+
+  # Jira issue titles and descriptions
   - id: jira
+    # Jira server URL origin
     origin: https://example.atlassian.net
+    # Atlassian API token
     token: 8NTHnTHE94xt6E6l6ig5fUbN
+    # Atlassian user who owns the API token
     user: admin@example.com
+
+  # Zoom room names
   - id: zoom
+    # Zoom API key used for JWT authentication
     key: iLGl0DWeD4xeWeQWzGi4Ju
+    # Zoom API secret used for JWT authentication
     secret: KbJ9Axxi9Md5BfeeGBuXaAofkRlqQoQ3Eff1

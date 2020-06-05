@@ -16,9 +16,11 @@ const engine: Engine = {
   },
   search: async q => {
     if (!(client && origin)) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
+    // TODO: Use API v3?
+    // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
     const data: {
       issues: {
         fields: { description: string; summary: string };

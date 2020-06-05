@@ -11,9 +11,10 @@ const engine: Engine = {
   },
   search: async q => {
     if (!client) {
-      throw Error("Client not initialized");
+      throw Error("Engine not initialized");
     }
 
+    // https://stackoverflow.com/a/25685928
     const data: {
       jobs: { name: string; url: string }[];
     } = (await client.get("/api/json")).data;
