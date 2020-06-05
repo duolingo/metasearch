@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { Engine } from "./index";
+import { Engine, escapeQuotes } from "./index";
 
 let client: AxiosInstance | undefined;
 let origin: string | undefined;
@@ -26,7 +26,7 @@ const engine: Engine = {
       }[];
     } = (
       await client.get("/search", {
-        params: { jql: `text ~ "${q.replace(/"/g, '\\"')}"` },
+        params: { jql: `text ~ "${escapeQuotes(q)}"` },
       })
     ).data;
     return data.issues.map(issue => ({

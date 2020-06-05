@@ -14,6 +14,7 @@ export interface Result {
   url: string;
 }
 
-const engines: Engine[] = [confluence, hound, jira];
+export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
+const engines: Engine[] = [confluence, hound, jira];
 export default engines;

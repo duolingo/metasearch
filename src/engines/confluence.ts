@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { Engine } from "./index";
+import { Engine, escapeQuotes } from "./index";
 
 let client: AxiosInstance | undefined;
 
@@ -48,7 +48,9 @@ const engine: Engine = {
     } = (
       await client.get("/search", {
         params: {
-          cql: `(type = page) AND (text ~ "${q}") OR (title ~ "${q}")`,
+          cql: `(type = page) AND (text ~ "${escapeQuotes(
+            q,
+          )}") OR (title ~ "${escapeQuotes(q)}")`,
         },
       })
     ).data;
