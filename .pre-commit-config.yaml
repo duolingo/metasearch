@@ -1,4 +1,11 @@
 repos:
+  - repo: local
+    hooks:
+      - id: company-agnostic
+        name: Source code is free of "duolingo" mentions
+        entry: bash -c '! grep -Hin duolingo $@' --
+        language: system
+        files: ^src/*
   - repo: https://github.com/duolingo/pre-commit-hooks.git
     rev: 1.1.2
     hooks:
