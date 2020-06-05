@@ -10,4 +10,4 @@ VOLUME ["/data"]
 
 EXPOSE 80
 
-ENTRYPOINT ["make"]
+ENTRYPOINT ["make", "serve"]

@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import * as fs from "fs";
 
 import * as express from "express";
 import { safeLoad } from "js-yaml";
@@ -7,23 +7,36 @@ import engines from "./engines";
 
 (async () => {
   // Load config
-  const config: { engines: { id: "hound"; url: string }[] } = safeLoad(
-    readFileSync("config.yaml", "utf8").replace(
-      /\$\{(\w+)(?::([^}]*))?\}/g,
-      ({}, varName, defaultValue) => {
-        const varValue = process.env[varName];
-        if (varValue) {
-          return varValue;
-        }
-        if (defaultValue) {
-          return defaultValue;
-        }
-        throw Error(
-          `Config references nonexistent environment variable '${varName}'`,
-        );
-      },
-    ),
-  );
+  const config: { engines: { id: "hound"; url: string }[] } = (() => {
+    // Locate config file
+    const DOCKER_MOUNT = "/data";
+    const CONFIG_FILENAME = "config.yaml";
+    const dockerizedConfig = `${DOCKER_MOUNT}/${CONFIG_FILENAME}`;
+    const configFile = fs.existsSync("/.dockerenv")
+      ? dockerizedConfig
+      : CONFIG_FILENAME;
+    if (!fs.existsSync(configFile)) {
+      throw Error(`Metasearch config file '${configFile}' not found`);
+    }
+
+    // Parse config file and expand environment variables
+    return safeLoad(
+      fs
+        .readFileSync(configFile, "utf8")
+        .replace(/\$\{(\w+)(?::([^}]*))?\}/g, ({}, varName, defaultValue) => {
+          const varValue = process.env[varName];
+          if (varValue) {
+            return varValue;
+          }
+          if (defaultValue) {
+            return defaultValue;
+          }
+          throw Error(
+            `Config references nonexistent environment variable '${varName}'`,
+          );
+        }),
+    );
+  })();
   if (!config.engines) {
     throw Error("No engines specified");
   }

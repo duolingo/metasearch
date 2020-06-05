@@ -1,4 +1,5 @@
 *
+!/.node-version
 !/Makefile
 !/package-lock.json
 !/package.json
