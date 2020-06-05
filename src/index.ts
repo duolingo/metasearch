@@ -5,7 +5,7 @@ import { safeLoad } from "js-yaml";
 
 import engines from "./engines";
 
-const main = async () => {
+(async () => {
   // Load config
   const config: { engines: { id: "hound"; url: string }[] } = safeLoad(
     readFileSync("config.yaml", "utf8").replace(
@@ -51,29 +51,21 @@ const main = async () => {
       res.send(engineId);
       return;
     }
-    res.send(await engine.search(q));
+    try {
+      res.send(await engine.search(q));
+    } catch (ex) {
+      let errorMessage = "Error";
+      if (ex.isAxiosError) {
+        const {
+          request: { method, path },
+          response: { data },
+        } = ex;
+        console.error(`500 error: ${method} ${path}`);
+        errorMessage = JSON.stringify(data);
+      }
+      res.status(500);
+      res.send(errorMessage);
+    }
   });
   app.listen(port, () => console.log(`Serving at http://localhost:${port}`));
-};
-
-// Wrap the entire script to print Axios errors more usefully
-process.on("unhandledRejection", ex => {
-  throw ex;
-});
-(async () => {
-  try {
-    await main();
-  } catch (ex) {
-    const axiosResponse = ex?.response;
-    if (axiosResponse) {
-      const {
-        data: {
-          response: { data },
-        },
-        request: { method, path },
-      } = axiosResponse;
-      console.error(`${method} ${path}\n${data}`);
-    }
-    throw ex;
-  }
 })();
