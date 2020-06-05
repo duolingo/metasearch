@@ -33,7 +33,7 @@ const engine: Engine = {
         throw Error("Too many Zoom rooms - must implement pagination");
       }
       return new Set(data.rooms);
-    }, 1440);
+    }, 24);
   },
   search: async q => {
     if (!getRooms) {

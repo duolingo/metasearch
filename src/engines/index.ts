@@ -21,7 +21,7 @@ export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
 /**
  * Wraps a function so that it returns the last invocation's cached result if
- * called multiple times during a cooldown period of N minutes.
+ * called multiple times during a cooldown period of N hours.
  *
  * The wrapped function must be parameterless since the cached result would be
  * not just stale but also incorrect in the case that different parameter
@@ -29,13 +29,13 @@ export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
  */
 export const rateLimit = <R, F extends () => R>(
   f: F,
-  intervalMinutes: number,
+  intervalHours: number,
 ): F => {
   let lastRunAt = -Infinity;
   let lastResult: any;
   return ((() => {
     const now = Date.now();
-    if (now < lastRunAt + intervalMinutes * 60 * 1000) {
+    if (now < lastRunAt + intervalHours * 60 * 60 * 1000) {
       return lastResult;
     }
     lastRunAt = now;

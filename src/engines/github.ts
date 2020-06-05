@@ -65,7 +65,7 @@ const engine: Engine = {
       }
 
       return repos;
-    }, 60);
+    }, 1);
     org = organization;
   },
   search: async q => {
