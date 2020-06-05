@@ -78,7 +78,8 @@ const engine: Engine = {
         r =>
           !r.isArchived &&
           !r.isFork &&
-          (r.description?.includes(q) || r.name.includes(q)),
+          (r.description?.toLowerCase().includes(q.toLowerCase()) ||
+            r.name.toLowerCase().includes(q.toLowerCase())),
       )
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({

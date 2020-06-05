@@ -42,7 +42,7 @@ const engine: Engine = {
 
     const JOIN_LINK_REGEX = /\w+\.zoom\.us\/j\/\d{10,}/;
     return Array.from(await getRooms())
-      .filter(r => r.name.includes(q))
+      .filter(r => r.name.toLowerCase().includes(q.toLowerCase()))
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({
         snippet: `Current status: ${r.status}`,

@@ -18,7 +18,7 @@ const engine: Engine = {
       jobs: { name: string; url: string }[];
     } = (await client.get("/api/json")).data;
     return data.jobs
-      .filter(j => j.name.includes(q))
+      .filter(j => j.name.toLowerCase().includes(q.toLowerCase()))
       .map(j => ({
         title: j.name,
         url: j.url,
