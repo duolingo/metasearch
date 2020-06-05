@@ -3,6 +3,9 @@ engines:
     origin: https://example.atlassian.net
     token: 8NTHnTHE94xt6E6l6ig5fUbN
     user: admin@example.com
+  - id: github
+    organization: example
+    token: b701f041284869e7ff1d5b71e65d27119c869aba
   - id: hound
     origin: https://hound.example.com
   - id: jenkins

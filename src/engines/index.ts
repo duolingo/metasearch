@@ -1,4 +1,5 @@
 import confluence from "./confluence";
+import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
@@ -17,5 +18,5 @@ export interface Result {
 
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
-const engines: Engine[] = [confluence, hound, jenkins, jira];
+const engines: Engine[] = [confluence, github, hound, jenkins, jira];
 export default engines;
