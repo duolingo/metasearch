@@ -54,17 +54,17 @@ import engines from "./engines";
     try {
       res.send(await engine.search(q));
     } catch (ex) {
-      let errorMessage = "Error";
+      res.status(500);
+      res.send("{}");
       if (ex.isAxiosError) {
         const {
           request: { method, path },
           response: { data },
         } = ex;
         console.error(`500 error: ${method} ${path}`);
-        errorMessage = JSON.stringify(data);
+        throw Error(JSON.stringify(data));
       }
-      res.status(500);
-      res.send(errorMessage);
+      throw ex;
     }
   });
   app.listen(port, () => console.log(`Serving at http://localhost:${port}`));
