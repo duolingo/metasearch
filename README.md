@@ -2,15 +2,15 @@
 
 Metasearch is a tool for searching many content sources in parallel:
 
-- Confluence pages
-- Dropbox files and folders
-- Figma files, projects, and teams
-- GitHub repo names and descriptions
+- [Confluence](https://www.atlassian.com/software/confluence) pages
+- [Dropbox](https://www.dropbox.com/) files and folders
+- [Figma](https://www.figma.com/) files, projects, and teams
+- [GitHub](https://github.com/) repo names and descriptions
 - [Hound](https://github.com/hound-search/hound)-indexed code
-- Jenkins job names
-- Jira issues
-- Slack messages and channels
-- Zoom rooms
+- [Jenkins](https://www.jenkins.io/) job names
+- [Jira](https://www.atlassian.com/software/jira) issues
+- [Slack](https://slack.com/) messages and channels
+- [Zoom](https://zoom.us/) rooms
 
 ## Quick start guide
 
