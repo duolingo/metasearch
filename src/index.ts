@@ -7,20 +7,25 @@ import engines from "./engines";
 
 (async () => {
   // Load config
-  const config: { engines: Record<string, object> } = (() => {
-    // Locate config file
+  interface Config {
+    engines: Record<string, object>;
+  }
+  const config: Config = (() => {
     const DOCKER_MOUNT = "/data";
-    const CONFIG_FILENAME = "config.yaml";
-    const dockerizedConfig = `${DOCKER_MOUNT}/${CONFIG_FILENAME}`;
+    const USER_CONFIG_FILENAME = "config.yaml";
+    const EXAMPLE_CONFIG_FILENAME = "config-example.yaml";
+
+    // Locate user-provided config file
+    const dockerizedConfig = `${DOCKER_MOUNT}/${USER_CONFIG_FILENAME}`;
     const configFile = fs.existsSync("/.dockerenv")
       ? dockerizedConfig
-      : CONFIG_FILENAME;
+      : USER_CONFIG_FILENAME;
     if (!fs.existsSync(configFile)) {
       throw Error(`Metasearch config file '${configFile}' not found`);
     }
 
-    // Parse config file and expand environment variables
-    return safeLoad(
+    // Parse user-provided config file and expand environment variables
+    const userConfig: Config = safeLoad(
       fs
         .readFileSync(configFile, "utf8")
         .replace(/\$\{(\w+)\}/g, ({}, varName) => {
@@ -39,6 +44,30 @@ import engines from "./engines";
           );
         }),
     );
+
+    // Parse example config file and abort if user erroneously (1) specified an
+    // unrecognized engine ID or (2) left any of their engine configs equal to
+    // the example's engine configs (which are populated with invalid dummy
+    // data)
+    const exampleConfig: Config = safeLoad(
+      fs.readFileSync(EXAMPLE_CONFIG_FILENAME, "utf8"),
+    );
+    const uncustomizedEngineOptions = Object.entries(
+      userConfig.engines,
+    ).flatMap(([id, userOptions]) => {
+      const exampleOptions = exampleConfig.engines[id];
+      if (!exampleOptions) {
+        throw Error(`Unrecognized engine '${id}'`);
+      }
+      return Object.entries(userOptions)
+        .filter(([k, v]) => exampleOptions[k] === v)
+        .map(([k, {}]) => `\n  Option '${k}' of engine '${id}'`);
+    });
+    if (uncustomizedEngineOptions.length) {
+      throw Error(`Invalid engine options:${uncustomizedEngineOptions}`);
+    }
+
+    return userConfig;
   })();
   if (!config.engines) {
     throw Error("No engines specified");
@@ -47,13 +76,9 @@ import engines from "./engines";
   // Initialize engines
   const engineMap = Object.fromEntries(engines.map(e => [e.id, e]));
   await Promise.all(
-    Object.entries(config.engines).map(async ([id, options]) => {
-      const engine = engineMap[id];
-      if (!engine) {
-        throw Error(`Unrecognized engine '${id}'`);
-      }
-      await engine.init(options);
-    }),
+    Object.entries(config.engines).map(([id, options]) =>
+      engineMap[id].init(options),
+    ),
   );
 
   // Set up server
