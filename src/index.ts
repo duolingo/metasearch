@@ -28,6 +28,12 @@ import engines from "./engines";
           if (varValue) {
             return varValue;
           }
+
+          // Keep ${FOOBAR} because it's used as an example in the YAML comment
+          if (varName === "FOOBAR") {
+            return "${FOOBAR}";
+          }
+
           throw Error(
             `Config references nonexistent environment variable '${varName}'`,
           );
