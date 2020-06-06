@@ -9,6 +9,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Hound](https://github.com/hound-search/hound)-indexed code
 - Jenkins job names
 - Jira issues
+- Slack messages and channels
 - Zoom rooms
 
 ## Quick start guide

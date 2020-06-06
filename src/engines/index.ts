@@ -5,6 +5,7 @@ import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
+import slack from "./slack";
 import zoom from "./zoom";
 
 export interface Engine {
@@ -55,6 +56,7 @@ const engines: Engine[] = [
   hound,
   jenkins,
   jira,
+  slack,
   zoom,
 ];
 export default engines;
