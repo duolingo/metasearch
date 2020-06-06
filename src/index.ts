@@ -6,6 +6,14 @@ import { safeLoad } from "js-yaml";
 import engines from "./engines";
 
 (async () => {
+  // Set up exception handler
+  const exceptionHandler = (ex: Error) => {
+    console.error(`\x1b[31m${ex.message}\x1b[0m`);
+    process.exit(1);
+  };
+  process.on("uncaughtException", exceptionHandler);
+  process.on("unhandledRejection", exceptionHandler);
+
   // Load config
   interface Config {
     engines: Record<string, object>;
@@ -61,10 +69,12 @@ import engines from "./engines";
       }
       return Object.entries(userOptions)
         .filter(([k, v]) => exampleOptions[k] === v)
-        .map(([k, {}]) => `\n  Option '${k}' of engine '${id}'`);
+        .map(([k, {}]) => `\n\tBad value for option '${k}' of engine '${id}'`);
     });
     if (uncustomizedEngineOptions.length) {
-      throw Error(`Invalid engine options:${uncustomizedEngineOptions}`);
+      throw Error(
+        `The example config's engine options are populated with dummy values. Please customize the option values for engines you want to use and delete the config blocks for engines you don't want to use.\n${uncustomizedEngineOptions}`,
+      );
     }
 
     return userConfig;
@@ -103,16 +113,16 @@ import engines from "./engines";
       res.status(500);
       res.send(JSON.stringify({}));
 
-      // If Axios error, print only the useful parts
+      // If Axios error, keep only the useful parts
       if (ex.isAxiosError) {
         const {
           request: { method, path },
-          response: { data },
+          response: { data, status },
         } = ex;
-        console.error(`500 error: ${method} ${path}`);
-        throw Error(JSON.stringify(data));
+        console.error(`${status} ${method} ${path}: ${JSON.stringify(data)}`);
+      } else {
+        console.error(ex);
       }
-      throw ex;
     }
   });
 
