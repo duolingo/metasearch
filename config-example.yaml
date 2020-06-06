@@ -63,6 +63,11 @@ engines:
     # Atlassian user who owns the API token
     user: admin@example.com
 
+  # PagerDuty schedules and services
+  pagerduty:
+    # PagerDuty API token
+    token: tViu3EFqBHVYfPtLDBV5
+
   # Pingboard employees
   pingboard:
     # Pingboard non-admin API key ID
