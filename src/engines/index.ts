@@ -5,6 +5,7 @@ import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
+import pingboard from "./pingboard";
 import slack from "./slack";
 import zoom from "./zoom";
 
@@ -56,6 +57,7 @@ const engines: Engine[] = [
   hound,
   jenkins,
   jira,
+  pingboard,
   slack,
   zoom,
 ];
