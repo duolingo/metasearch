@@ -7,7 +7,7 @@ import engines from "./engines";
 
 (async () => {
   // Load config
-  const config: { engines: { id: "hound"; url: string }[] } = (() => {
+  const config: { engines: Record<string, object> } = (() => {
     // Locate config file
     const DOCKER_MOUNT = "/data";
     const CONFIG_FILENAME = "config.yaml";
@@ -47,12 +47,12 @@ import engines from "./engines";
   // Initialize engines
   const engineMap = Object.fromEntries(engines.map(e => [e.id, e]));
   await Promise.all(
-    Object.values(config.engines).map(async engineOptions => {
-      const engine = engineMap[engineOptions.id];
+    Object.entries(config.engines).map(async ([id, options]) => {
+      const engine = engineMap[id];
       if (!engine) {
-        throw Error(`Unrecognized engine '${engineOptions.id}'`);
+        throw Error(`Unrecognized engine '${id}'`);
       }
-      await engine.init(engineOptions);
+      await engine.init(options);
     }),
   );
 

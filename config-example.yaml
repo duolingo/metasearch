@@ -8,7 +8,7 @@
 # delete the entries for any engines that you don't plan to use.
 engines:
   # Confluence pages
-  - id: confluence
+  confluence:
     # Confluence server URL origin
     origin: https://example.atlassian.net
     # Atlassian API token
@@ -17,7 +17,7 @@ engines:
     user: admin@example.com
 
   # Dropbox files and folders
-  - id: dropbox
+  dropbox:
     # Case-insensitive top-level folder to search in (optional, defaults to all
     # folders)
     folder: untitled (2)
@@ -25,7 +25,7 @@ engines:
     token: vqTsOkuz0bAE_znMjyUfeHLkXUa6gj5mG5BS4pjS2pem9tMahbXpS0Hd725GY-oJ
 
   # Figma files, projects, and teams
-  - id: figma
+  figma:
     # Organization ID, the number that appears in the URL when viewing your
     # Figma organization's home page: https://www.figma.com/files/<org_id>
     organization: 735245445471726247
@@ -36,26 +36,26 @@ engines:
     token: 729509569287108002-eb910a13a599573c8f2ae86ae850ea3f5cb2a1c6de4468d5f566f3e606893e12-1591815511
 
   # GitHub repo names and descriptions (for GitHub code, use Hound engine)
-  - id: github
+  github:
     # GitHub organization
     organization: example
     # GitHub personal access token
     token: b701f041284869e7ff1d5b71e65d27119c869aba
 
   # Hound-indexed code: https://github.com/hound-search/hound
-  - id: hound
+  hound:
     # GitHub organization
     organization: example
     # Hound server URL origin
     origin: https://hound.example.com
 
   # Jenkins job names
-  - id: jenkins
+  jenkins:
     # Jenkins server URL origin
     origin: https://jenkins.example.com
 
   # Jira issue titles and descriptions
-  - id: jira
+  jira:
     # Jira server URL origin
     origin: https://example.atlassian.net
     # Atlassian API token
@@ -64,7 +64,7 @@ engines:
     user: admin@example.com
 
   # Zoom room names
-  - id: zoom
+  zoom:
     # Zoom API key used for JWT authentication
     key: iLGl0DWeD4xeWeQWzGi4Ju
     # Zoom API secret used for JWT authentication
