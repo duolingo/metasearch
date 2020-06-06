@@ -24,6 +24,17 @@ engines:
     # Dropbox API token
     token: vqTsOkuz0bAE_znMjyUfeHLkXUa6gj5mG5BS4pjS2pem9tMahbXpS0Hd725GY-oJ
 
+  # Figma files, projects, and teams
+  - id: figma
+    # Organization ID, the number that appears in the URL when viewing your
+    # Figma organization's home page: https://www.figma.com/files/<org_id>
+    organization: 735245445471726247
+    # Value of the `figma.st` cookie that gets attached to HTTP requests that
+    # your browser makes while logged into the Figma website. If you're not sure
+    # how to view this cookie:
+    # https://www.dev2qa.com/how-to-view-http-headers-cookies-in-google-chrome-firefox-internet-explorer/
+    token: 729509569287108002-eb910a13a599573c8f2ae86ae850ea3f5cb2a1c6de4468d5f566f3e606893e12-1591815511
+
   # GitHub repo names and descriptions (for GitHub code, use Hound engine)
   - id: github
     # GitHub organization

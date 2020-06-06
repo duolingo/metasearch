@@ -1,5 +1,6 @@
 import confluence from "./confluence";
 import dropbox from "./dropbox";
+import figma from "./figma";
 import github from "./github";
 import hound from "./hound";
 import jenkins from "./jenkins";
@@ -49,6 +50,7 @@ export const rateLimit = <R, F extends () => R>(
 const engines: Engine[] = [
   confluence,
   dropbox,
+  figma,
   github,
   hound,
   jenkins,
