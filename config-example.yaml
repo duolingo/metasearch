@@ -24,6 +24,18 @@ engines:
     # Dropbox API token
     token: vqTsOkuz0bAE_znMjyUfeHLkXUa6gj5mG5BS4pjS2pem9tMahbXpS0Hd725GY-oJ
 
+  # Google Drive documents
+  drive:
+    # Path to Google service account credentials.
+    # https://github.com/googleapis/google-api-nodejs-client#service-account-credentials
+    #
+    # Note that if you run Metasearch using Docker, you need to make the host's
+    # credentials file accessible from inside the container. One way to do so is
+    # by entering `/data/credentials.json` as this option's value and supplying
+    # to `docker run` an additional flag that mounts the host file to that path:
+    # `-v '/path/to/credentials.json:/data/credentials.json'`
+    credentials: /path/to/credentials.json
+
   # Figma files, projects, and teams
   figma:
     # Organization ID, the number that appears in the URL when viewing your

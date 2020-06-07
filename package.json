@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "0.19.2",
     "express": "4.17.1",
+    "googleapis": "52.1.0",
     "js-yaml": "3.14.0",
     "jsonwebtoken": "8.5.1"
   }

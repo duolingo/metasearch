@@ -6,6 +6,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Dropbox](https://www.dropbox.com/) files and folders
 - [Figma](https://www.figma.com/) files, projects, and teams
 - [GitHub](https://github.com/) repo names and descriptions
+- [Google Drive](https://www.google.com/drive/) documents
 - [Hound](https://github.com/hound-search/hound)-indexed code
 - [Jenkins](https://www.jenkins.io/) job names
 - [Jira](https://www.atlassian.com/software/jira) issues
