@@ -16,6 +16,7 @@ const engine: Engine = {
   id: "talentlms",
   init: ({ key, organization }: { key: string; organization: string }) => {
     const client = axios.create({
+      // https://github.com/Easy-Forex/TalentLMS-PHP-API/blob/b323461/src/ApiRequestor.php#L101
       auth: { password: "", username: key },
       baseURL: `https://${organization}.talentlms.com/api`,
     });
