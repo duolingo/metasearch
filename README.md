@@ -13,6 +13,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [PagerDuty](https://www.pagerduty.com/) schedules and services
 - [Pingboard](https://pingboard.com/) employees
 - [Slack](https://slack.com/) messages and channels
+- [TalentLMS](https://www.talentlms.com/) courses
 - [Zoom](https://zoom.us/) rooms
 
 ## Quick start guide

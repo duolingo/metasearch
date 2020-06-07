@@ -9,6 +9,7 @@ import jira from "./jira";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
 import slack from "./slack";
+import talentlms from "./talentlms";
 import zoom from "./zoom";
 
 export interface Engine {
@@ -63,6 +64,7 @@ const engines: Engine[] = [
   pagerduty,
   pingboard,
   slack,
+  talentlms,
   zoom,
 ];
 export default engines;

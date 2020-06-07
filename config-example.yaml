@@ -96,6 +96,13 @@ engines:
     # Slack OAuth token that has the scopes `channels:read` and `search:read`
     token: xoxp-9317820445-5055344098406-9716974264728-bc5986b6a3963c57fd3d1c8528e7e7a6
 
+  # TalentLMS courses
+  talentlms:
+    # TalentLMS API key
+    key: wbrSRlXBGmAs2WTvOsx0HxIL0iHWBn
+    # TalentLMS organization name (appears before `.talentlms.com` in your account's URLs)
+    organization: example
+
   # Zoom room names
   zoom:
     # Zoom API key used for JWT authentication
