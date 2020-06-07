@@ -1,5 +1,6 @@
 *
 !/.node-version
+!/config-example.yaml
 !/Makefile
 !/package-lock.json
 !/package.json
