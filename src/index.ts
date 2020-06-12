@@ -1,5 +1,6 @@
 import * as fs from "fs";
 
+import { AxiosError } from "axios";
 import * as express from "express";
 import { safeLoad } from "js-yaml";
 
@@ -122,10 +123,16 @@ import engines from "./engines";
       // If Axios error, keep only the useful parts
       if (ex.isAxiosError) {
         const {
-          request: { method, path },
-          response: { data, status },
-        } = ex;
-        console.error(`${status} ${method} ${path}: ${JSON.stringify(data)}`);
+          code,
+          config: { baseURL, method, url },
+          response: { data = undefined, status = undefined } = {},
+        } = ex as AxiosError;
+        console.error(
+          `${status ??
+            code} ${method?.toUpperCase()} ${baseURL}${url}: ${JSON.stringify(
+            data,
+          )}`,
+        );
       } else {
         console.error(ex);
       }
