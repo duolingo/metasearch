@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { Engine, rateLimit } from "./index";
+import { rateLimit } from "./index";
 
 interface Repo {
   description: null | string;

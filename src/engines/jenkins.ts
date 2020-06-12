@@ -1,7 +1,5 @@
 import axios, { AxiosInstance } from "axios";
 
-import { Engine } from "./index";
-
 let client: AxiosInstance | undefined;
 
 const engine: Engine = {

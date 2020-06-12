@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as jsonwebtoken from "jsonwebtoken";
 
-import { Engine, rateLimit } from "./index";
+import { rateLimit } from "./index";
 
 interface Room {
   id: string;

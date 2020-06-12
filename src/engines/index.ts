@@ -12,18 +12,6 @@ import slack from "./slack";
 import talentlms from "./talentlms";
 import zoom from "./zoom";
 
-export interface Engine {
-  id: string;
-  init: (options: object) => void | Promise<void>;
-  search: (q: string) => Promise<Result[]>;
-}
-
-export interface Result {
-  snippet?: string;
-  title: string;
-  url: string;
-}
-
 /** Replaces all `"` with `\"`. */
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 

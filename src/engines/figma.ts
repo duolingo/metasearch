@@ -1,7 +1,5 @@
 import axios, { AxiosInstance } from "axios";
 
-import { Engine } from "./index";
-
 let client: AxiosInstance | undefined;
 let orgId: string | undefined;
 

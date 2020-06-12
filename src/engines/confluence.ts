@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { Engine, escapeQuotes } from "./index";
+import { escapeQuotes } from "./index";
 
 let client: AxiosInstance | undefined;
 

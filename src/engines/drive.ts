@@ -1,8 +1,6 @@
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
 
-import { Engine } from "./index";
-
 let authPromise: Promise<OAuth2Client> | undefined;
 
 const engine: Engine = {
