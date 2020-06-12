@@ -94,6 +94,7 @@ import engines from "./engines";
   // Set up server
   const app = express();
   const port = 3000;
+  app.use(express.static("dist"));
 
   // Declare search route for individual engines
   app.get(`/search`, async (req, res) => {

@@ -1,4 +1,6 @@
 *.js
 *.map
 /config.yaml
-/node_modules
+/dist/*
+/node_modules/
+!/dist/react*
