@@ -4,6 +4,7 @@
 interface Engine {
   id: string;
   init: (options: object) => void | Promise<void>;
+  name: string;
   search: (q: string) => Promise<Result[]>;
 }
 

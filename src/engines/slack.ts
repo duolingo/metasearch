@@ -37,6 +37,7 @@ const engine: Engine = {
 
     subdomain = organization;
   },
+  name: "Slack",
   search: async q => {
     if (!(client && getChannels)) {
       throw Error("Engine not initialized");

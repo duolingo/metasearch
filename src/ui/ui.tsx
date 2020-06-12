@@ -32,7 +32,7 @@ const Sidebar = ({ engines }: { engines: Engine[] }) => (
   <div className="sidebar">
     <ul>
       {engines.map(engine => (
-        <li key={engine.id}>{engine.id}</li>
+        <li key={engine.id}>{engine.name}</li>
       ))}
     </ul>
   </div>
@@ -58,7 +58,7 @@ const App = () => {
       setEngines(
         Object.values<Engine>(
           await (await fetch(`/api/engines?${querify()}`)).json(),
-        ).sort((a, b) => (a.id > b.id ? 1 : -1)),
+        ).sort((a, b) => (a.name > b.name ? 1 : -1)),
       ))();
   }, []);
 

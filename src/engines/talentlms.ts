@@ -29,6 +29,7 @@ const engine: Engine = {
 
     orgName = organization;
   },
+  name: "TalentLMS",
   search: async q => {
     if (!getCourses) {
       throw Error("Engine not initialized");

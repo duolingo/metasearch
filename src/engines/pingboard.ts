@@ -49,6 +49,7 @@ const engine: Engine = {
 
     orgName = organization;
   },
+  name: "Pingboard",
   search: async q => {
     if (!getEmployees) {
       throw Error("Engine not initialized");

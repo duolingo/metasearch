@@ -69,6 +69,7 @@ const engine: Engine = {
     }, 1);
     org = organization;
   },
+  name: "GitHub",
   search: async q => {
     if (!(getRepos && org)) {
       throw Error("Engine not initialized");

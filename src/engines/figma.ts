@@ -12,6 +12,7 @@ const engine: Engine = {
     });
     orgId = `${organization}`;
   },
+  name: "Figma",
   search: async q => {
     /** Array of [human-readable model name, API route path] tuples */
     const MODEL_TYPES: [string, string][] = [

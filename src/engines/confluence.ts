@@ -29,6 +29,7 @@ const engine: Engine = {
       baseURL: `${options.origin}/wiki/rest/api`,
     });
   },
+  name: "Confluence",
   search: async q => {
     if (!client) {
       throw Error("Engine not initialized");

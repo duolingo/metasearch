@@ -7,6 +7,7 @@ const engine: Engine = {
   init: ({ origin }: { origin: string }) => {
     client = axios.create({ baseURL: origin });
   },
+  name: "Jenkins",
   search: async q => {
     if (!client) {
       throw Error("Engine not initialized");

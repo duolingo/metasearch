@@ -17,7 +17,7 @@ import engines from "./engines";
 
   // Load config
   interface Config {
-    engines: Record<string, object>;
+    engines: Record<string, { name?: string }>;
   }
   const config: Config = (() => {
     const DOCKER_MOUNT = "/data";
@@ -70,7 +70,7 @@ import engines from "./engines";
       }
       return Object.entries(userOptions)
         .filter(([k, v]) => exampleOptions[k] === v)
-        .map(([k, {}]) => `\n\tBad value for option '${k}' of engine '${id}'`);
+        .map(([k]) => `\n\tBad value for option '${k}' of engine '${id}'`);
     });
     if (uncustomizedEngineOptions.length) {
       throw Error(
@@ -87,9 +87,10 @@ import engines from "./engines";
   // Initialize engines
   const engineMap = Object.fromEntries(engines.map(e => [e.id, e]));
   await Promise.all(
-    Object.entries(config.engines).map(([id, options]) =>
-      engineMap[id].init(options),
-    ),
+    Object.entries(config.engines).map(([id, options]) => {
+      engineMap[id].name = options.name ?? engineMap[id].name;
+      engineMap[id].init(options);
+    }),
   );
 
   // Set up server

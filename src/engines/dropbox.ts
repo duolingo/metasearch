@@ -14,6 +14,7 @@ const engine: Engine = {
       searchPath = `/${folder}`;
     }
   },
+  name: "Dropbox",
   search: async q => {
     if (!client) {
       throw Error("Engine not initialized");

@@ -36,6 +36,7 @@ const engine: Engine = {
       return new Set(data.rooms);
     }, 24);
   },
+  name: "Zoom",
   search: async q => {
     if (!getRooms) {
       throw Error("Engine not initialized");

@@ -14,6 +14,7 @@ const engine: Engine = {
     });
     origin = options.origin;
   },
+  name: "Jira",
   search: async q => {
     if (!(client && origin)) {
       throw Error("Engine not initialized");

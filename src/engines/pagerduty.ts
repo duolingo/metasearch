@@ -40,6 +40,7 @@ const engine: Engine = {
       return new Set(data.services);
     }, 4);
   },
+  name: "PagerDuty",
   search: async q => {
     if (!(getSchedules && getServices)) {
       throw Error("Engine not initialized");

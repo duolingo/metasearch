@@ -15,6 +15,7 @@ const engine: Engine = {
     client = axios.create({ baseURL: `${origin}/api/v1` });
     org = organization;
   },
+  name: "Hound",
   search: async q => {
     if (!(client && org)) {
       throw Error("Engine not initialized");

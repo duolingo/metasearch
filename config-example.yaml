@@ -3,9 +3,15 @@
 # runtime.
 
 # An "engine" is an individual content source, e.g. Confluence. All supported
-# engines are listed below. You should customize the config values (required
-# unless stated otherwise) for all engines that you plan to use and simply
-# delete the entries for any engines that you don't plan to use.
+# engines are listed below.
+#
+# You should customize the config values (required unless stated otherwise) for
+# all engines that you plan to use and simply delete the entries for any engines
+# that you don't plan to use.
+#
+# Each engine's config accepts an optional `name` key (not shown in this
+# example) that you may declare to override the engine's default name for
+# display purposes, e.g. `name: Employee directory` in Pingboard's config.
 engines:
   # Confluence pages
   confluence:

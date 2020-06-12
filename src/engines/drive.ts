@@ -12,6 +12,7 @@ const engine: Engine = {
       scopes: ["https://www.googleapis.com/auth/drive"],
     }).getClient();
   },
+  name: "Google Drive",
   search: async q => {
     if (!authPromise) {
       throw Error("Engine not initialized");
