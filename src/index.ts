@@ -96,8 +96,13 @@ import engines from "./engines";
   const port = 3000;
   app.use(express.static("dist"));
 
+  // Declare route for getting all engines
+  app.get("/api/engines", async ({}, res) => {
+    res.send(engineMap);
+  });
+
   // Declare search route for individual engines
-  app.get(`/search`, async (req, res) => {
+  app.get("/api/search", async (req, res) => {
     // Check that desired engine exists
     const { engine: engineId, q } = req.query as Record<string, string>;
     const engine = engineMap[engineId];
