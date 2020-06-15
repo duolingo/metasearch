@@ -41,7 +41,7 @@ const engine: Engine = {
             "/graphql",
             JSON.stringify({
               query: `query {
-      organization(login: "${org}") { repositories(first: 100${
+      organization(login: "${organization}") { repositories(first: 100${
                 cursor ? `, after: "${cursor}"` : ""
               }) {
           edges { node { description isArchived isFork name } }
