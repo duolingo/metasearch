@@ -47,11 +47,12 @@ engines:
     # Organization ID, the number that appears in the URL when viewing your
     # Figma organization's home page: https://www.figma.com/files/<org_id>
     organization: 735245445471726247
-    # Value of the `figma.st` cookie that gets attached to HTTP requests that
-    # your browser makes while logged into the Figma website. If you're not sure
-    # how to view this cookie:
-    # https://www.dev2qa.com/how-to-view-http-headers-cookies-in-google-chrome-firefox-internet-explorer/
-    token: 729509569287108002-eb910a13a599573c8f2ae86ae850ea3f5cb2a1c6de4468d5f566f3e606893e12-1591815511
+    # Figma password. If your account doesn't have a password yet (e.g. because
+    # you sign into Figma via Google), you can add one to your account by going
+    # through Figma's "Forgot password?" flow.
+    password: ex4mp1ep4ssw0rd
+    # Figma user account
+    user: admin@example.com
 
   # GitHub repo names and descriptions (for GitHub code, use Hound engine)
   github:

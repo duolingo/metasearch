@@ -1,15 +1,42 @@
 import axios, { AxiosInstance } from "axios";
 
-let client: AxiosInstance | undefined;
+import { rateLimit } from "./index";
+
+let getClient: (() => Promise<AxiosInstance>) | undefined;
 let orgId: string | undefined;
 
 const engine: Engine = {
   id: "figma",
-  init: ({ organization, token }: { organization: number; token: string }) => {
-    client = axios.create({
-      baseURL: "https://www.figma.com/api",
-      headers: { Cookie: `figma.st=${token}` },
-    });
+  init: ({
+    organization,
+    password,
+    user,
+  }: {
+    organization: number;
+    password: string;
+    user: string;
+  }) => {
+    getClient = rateLimit(async () => {
+      // Log into Figma using their web browser flow. Their session token seems
+      // to expire after 1-3 days in my testing.
+      const tokenResponse = await axios.post(
+        "https://www.figma.com/api/session/login",
+        { email: user, password, username: user },
+        { headers: { "Content-Type": "application/json" } },
+      );
+      const token = (tokenResponse.headers["set-cookie"] as string[])
+        .find(c => /^figma\.st=[^;]/.test(c))
+        ?.split(/[=;]/)[1];
+      if (!token) {
+        throw Error("Figma login failed");
+      }
+
+      return axios.create({
+        baseURL: "https://www.figma.com/api",
+        headers: { Cookie: `figma.st=${token}` },
+      });
+    }, 24);
+
     orgId = `${organization}`;
   },
   name: "Figma",
@@ -24,7 +51,7 @@ const engine: Engine = {
     return (
       await Promise.all(
         MODEL_TYPES.map(async ([modelName, apiName]) => {
-          if (!client) {
+          if (!getClient) {
             throw Error("Engine not initialized");
           }
 
@@ -40,7 +67,7 @@ const engine: Engine = {
               }[];
             };
           } = (
-            await client.get(`/search/${apiName}`, {
+            await (await getClient()).get(`/search/${apiName}`, {
               params: {
                 desc: false,
                 org_id: orgId,
