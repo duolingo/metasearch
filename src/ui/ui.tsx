@@ -41,14 +41,27 @@ const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
   );
 };
 
-const Sidebar = ({ engines }: { engines: Record<string, Engine> }) => (
+const Sidebar = ({
+  engines,
+  resultGroups,
+}: {
+  engines: Record<string, Engine>;
+  resultGroups: ResultGroup[];
+}) => (
   <div className="sidebar">
     <ul>
       {Object.values(engines)
         .sort((a, b) => (a.name > b.name ? 1 : -1))
-        .map(engine => (
-          <li key={engine.id}>{engine.name}</li>
-        ))}
+        .map(engine => {
+          const numResults = resultGroups.find(rg => rg.engineId === engine.id)
+            ?.results.length;
+          return (
+            <li key={engine.id}>
+              {engine.name}
+              {numResults === undefined ? null : <span>{numResults}</span>}
+            </li>
+          );
+        })}
     </ul>
   </div>
 );
@@ -141,7 +154,7 @@ const App = () => {
   return (
     <>
       <Header onSearch={handleSearch} />
-      <Sidebar engines={engines} />
+      <Sidebar engines={engines} resultGroups={resultGroups} />
       <Results engines={engines} resultGroups={resultGroups} />
     </>
   );

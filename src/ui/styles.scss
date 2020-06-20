@@ -16,6 +16,7 @@ html {
 
 ul {
   list-style: none;
+  padding: 0;
 }
 
 #root {
@@ -33,6 +34,14 @@ ul {
 .sidebar {
   grid-area: 1 / 2 / 3 / 3;
   padding: $padding-standard;
+
+  li {
+    min-width: 150px;
+  }
+
+  span {
+    float: right;
+  }
 }
 
 .results {
