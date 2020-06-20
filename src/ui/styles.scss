@@ -37,6 +37,7 @@ ul {
 
 .results {
   grid-area: 2 / 1 / 3 / 2;
+  overflow-wrap: anywhere;
   overflow-y: auto;
   padding: 0 $padding-standard (2 * $padding-standard);
 }
