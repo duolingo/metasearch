@@ -87,8 +87,10 @@ const App = () => {
   );
 
   const handleSearch = async (q: string) => {
-    // Ignore empty queries
-    if (!q.trim().length) {
+    // Normalize and validate query
+    q = q.trim().replace(/\s+/, " ");
+    if (!/\w/.test(q)) {
+      console.log(`Invalid query: ${q}`);
       return;
     }
 
