@@ -18,6 +18,14 @@ const querify = (params: Record<string, string> = {}) =>
 const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
   const [q, setQ] = useState("");
 
+  // Prefill query if present in URL
+  useEffect(() => {
+    (async () => {
+      const urlQ = new URLSearchParams(window.location.search).get("q");
+      urlQ && setQ(urlQ);
+    })();
+  }, []);
+
   return (
     <div className="header">
       <form
@@ -26,7 +34,7 @@ const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
           e.preventDefault();
         }}
       >
-        <input onChange={e => setQ(e.target.value)} type="text" />
+        <input onChange={e => setQ(e.target.value)} type="text" value={q} />
         <input type="submit" value="🔎" />
       </form>
     </div>
@@ -70,6 +78,7 @@ const Results = ({
 );
 
 const App = () => {
+  const [initialQ, setInitialQ] = useState<string | undefined>(undefined);
   const [engines, setEngines] = useState<Record<string, Engine>>({});
   const [resultGroups, dispatch] = useReducer(
     (state: ResultGroup[], action: ResultGroup | undefined) =>
@@ -77,38 +86,59 @@ const App = () => {
     [],
   );
 
+  const handleSearch = async (q: string) => {
+    // Ignore empty queries
+    if (!q.trim().length) {
+      return;
+    }
+
+    // Update URL
+    window.history.replaceState(null, "", `/?q=${encodeURIComponent(q)}`);
+
+    // Clear results
+    dispatch(undefined);
+
+    // Get results
+    const start = Date.now();
+    let slowestEngine: string | undefined;
+    await Promise.all(
+      Object.values(engines).map(async engine => {
+        dispatch({
+          engineId: engine.id,
+          results: await (
+            await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
+          ).json(),
+        });
+        slowestEngine = engine.id;
+      }),
+    );
+    console.log(
+      `Slowest engine (${slowestEngine}) took ${Math.round(
+        Date.now() - start,
+      )}ms`,
+    );
+  };
+
+  // Load engine data
   useEffect(() => {
-    (async () =>
-      setEngines(await (await fetch(`/api/engines?${querify()}`)).json()))();
+    (async () => {
+      setEngines(await (await fetch(`/api/engines?${querify()}`)).json());
+      const urlQ = new URLSearchParams(window.location.search).get("q");
+      urlQ && setInitialQ(urlQ);
+    })();
   }, []);
+
+  // Run initial query if present
+  useEffect(() => {
+    if (engines && initialQ) {
+      setInitialQ(undefined);
+      handleSearch(initialQ);
+    }
+  }, [engines, initialQ]);
 
   return (
     <>
-      <Header
-        onSearch={async q => {
-          dispatch(undefined);
-          const start = Date.now();
-          let slowestEngine: string | undefined;
-          await Promise.all(
-            Object.values(engines).map(async engine => {
-              dispatch({
-                engineId: engine.id,
-                results: await (
-                  await fetch(
-                    `/api/search?${querify({ engine: engine.id, q })}`,
-                  )
-                ).json(),
-              });
-              slowestEngine = engine.id;
-            }),
-          );
-          console.log(
-            `Slowest engine (${slowestEngine}) took ${Math.round(
-              Date.now() - start,
-            )}ms`,
-          );
-        }}
-      />
+      <Header onSearch={handleSearch} />
       <Sidebar engines={engines} />
       <Results engines={engines} resultGroups={resultGroups} />
     </>
