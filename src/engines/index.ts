@@ -16,31 +16,23 @@ import zoom from "./zoom";
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
 /**
- * Wraps a function so that it returns the last invocation's cached result if
- * called multiple times during a cooldown period of N hours. The wrapped
- * function is also called immediately upon creation to precache its result.
+ * Calls the provided function every N hours and returns a wrapper function
+ * that itself returns the cached result of the provided function's most
+ * recent invocation.
  *
- * The wrapped function must be parameterless since the cached result would be
- * not just stale but also incorrect in the case that different parameter
+ * The provided function must be parameterless since the cached result would
+ * be not just stale but also incorrect in the case that different parameter
  * values were provided to the current call and the cached call.
  */
 export const rateLimit = <R, F extends () => R>(
   fn: F,
   intervalHours: number,
 ): F => {
-  let lastRunAt = -Infinity;
-  let lastResult: any;
-  const rateLimitedFn = ((() => {
-    const now = Date.now();
-    if (now < lastRunAt + intervalHours * 60 * 60 * 1000) {
-      return lastResult;
-    }
-    lastRunAt = now;
+  let lastResult = fn();
+  setInterval(() => {
     lastResult = fn();
-    return lastResult;
-  }) as unknown) as F;
-  rateLimitedFn();
-  return rateLimitedFn;
+  }, intervalHours * 60 * 60 * 1000);
+  return (() => lastResult) as F;
 };
 
 const engines: Engine[] = [
