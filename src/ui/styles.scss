@@ -1,5 +1,7 @@
 @use "../../node_modules/normalize.css/normalize.css";
 
+$padding-standard: 30px;
+
 *,
 *::before,
 *::after {
@@ -12,21 +14,29 @@ html {
   box-sizing: border-box;
 }
 
+ul {
+  list-style: none;
+}
+
 #root {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr;
-  padding: 30px;
+  height: 100vh;
 }
 
 .header {
   grid-area: 1 / 1 / 2 / 2;
+  padding: $padding-standard;
 }
 
 .sidebar {
   grid-area: 1 / 2 / 3 / 3;
+  padding: $padding-standard;
 }
 
-.main {
+.results {
   grid-area: 2 / 1 / 3 / 2;
+  overflow-y: auto;
+  padding: 0 $padding-standard (2 * $padding-standard);
 }
