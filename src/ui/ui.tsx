@@ -34,7 +34,12 @@ const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
           e.preventDefault();
         }}
       >
-        <input onChange={e => setQ(e.target.value)} type="text" value={q} />
+        <input
+          autoFocus
+          onChange={e => setQ(e.target.value)}
+          type="text"
+          value={q}
+        />
         <input type="submit" value="🔎" />
       </form>
     </div>
@@ -81,8 +86,10 @@ const Results = ({
           <h2>{engines[resultGroup.engineId].name}</h2>
           {resultGroup.results.map((result, i) => (
             <div key={i}>
-              <a href={result.url}>{result.title}</a>
-              <p>{result.snippet}</p>
+              <a className="title" href={result.url}>
+                {result.title}
+              </a>
+              <p className="snippet">{result.snippet}</p>
             </div>
           ))}
         </div>
