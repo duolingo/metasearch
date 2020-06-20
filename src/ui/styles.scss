@@ -2,11 +2,26 @@
 
 $padding-standard: 30px;
 
+@font-face {
+  font-display: swap;
+  font-family: Metasearch;
+  font-style: normal;
+  font-weight: 500;
+  src: url(/normal.woff2) format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: Metasearch;
+  font-style: normal;
+  font-weight: 700;
+  src: url(/bold.woff2) format('woff2');
+}
+
 *,
 *::before,
 *::after {
   box-sizing: inherit;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Metasearch, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   outline: none;
 }
 
