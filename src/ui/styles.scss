@@ -64,6 +64,7 @@ ul {
   overflow-wrap: anywhere;
   overflow-y: auto;
   padding: 0 $padding-standard (2 * $padding-standard);
+  position: relative; // Simplifies programmatic adjustment of scroll position
 }
 
 .title {

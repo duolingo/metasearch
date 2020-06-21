@@ -63,7 +63,26 @@ const Sidebar = ({
           return (
             <li key={engine.id}>
               {engine.name}
-              {numResults === undefined ? null : <span>{numResults}</span>}
+              {numResults === undefined ? null : (
+                <span
+                  className="num-results"
+                  onClick={() => {
+                    const $results = document.querySelector(".results");
+                    const $resultGroup: HTMLDivElement | null = document.querySelector(
+                      `[data-engine-results=${engine.id}]`,
+                    );
+                    if (!($results && $resultGroup)) {
+                      return;
+                    }
+                    $results.scrollTo({
+                      behavior: "smooth",
+                      top: $resultGroup.offsetTop,
+                    });
+                  }}
+                >
+                  {numResults}
+                </span>
+              )}
             </li>
           );
         })}
@@ -82,7 +101,10 @@ const Results = ({
     {resultGroups
       .filter(rg => rg.results.length)
       .map(resultGroup => (
-        <div key={resultGroup.engineId}>
+        <div
+          data-engine-results={resultGroup.engineId}
+          key={resultGroup.engineId}
+        >
           <h2>{engines[resultGroup.engineId].name}</h2>
           {resultGroup.results.map((result, i) => (
             <div key={i}>
