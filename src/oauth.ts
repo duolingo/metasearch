@@ -12,7 +12,10 @@ import { google } from "googleapis";
  * Should be kept as the union of all scopes required by each of Metasearch's
  * engines
  */
-const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"];
+const SCOPES = [
+  "https://www.googleapis.com/auth/admin.directory.group.readonly",
+  "https://www.googleapis.com/auth/drive.readonly",
+];
 const PORT = 3001;
 const REDIRECT_URI = `http://localhost:${PORT}/`;
 
