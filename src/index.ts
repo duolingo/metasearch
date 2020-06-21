@@ -64,10 +64,7 @@ import engines from "./engines";
     const uncustomizedEngineOptions = Object.entries(
       userConfig.engines,
     ).flatMap(([id, userOptions]) => {
-      const exampleOptions = exampleConfig.engines[id];
-      if (!exampleOptions) {
-        throw Error(`Unrecognized engine '${id}'`);
-      }
+      const exampleOptions = exampleConfig.engines[id] ?? {};
       return Object.entries(userOptions)
         .filter(([k, v]) => exampleOptions[k] === v)
         .map(([k]) => `\n\tBad value for option '${k}' of engine '${id}'`);
@@ -85,11 +82,23 @@ import engines from "./engines";
   }
 
   // Initialize engines
-  const engineMap = Object.fromEntries(engines.map(e => [e.id, e]));
-  await Promise.all(
+  const uninitializedEngineMap = Object.fromEntries(
+    engines.map(e => [e.id, e]),
+  );
+  const engineMap = Object.fromEntries(
     Object.entries(config.engines).map(([id, options]) => {
-      engineMap[id].name = options.name ?? engineMap[id].name;
-      engineMap[id].init(options);
+      const uninitializedEngine = uninitializedEngineMap[id];
+      if (!uninitializedEngine) {
+        throw Error(`Unrecognized engine '${id}'`);
+      }
+      uninitializedEngine.init(options);
+      return [
+        id,
+        {
+          ...uninitializedEngine,
+          name: options.name ?? uninitializedEngine.name,
+        },
+      ];
     }),
   );
 
