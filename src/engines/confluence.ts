@@ -39,7 +39,7 @@ const engine: Engine = {
     const data: {
       _links: { base: string };
       results: {
-        content: {
+        content?: {
           status: "current" | "draft" | "historical" | "trashed";
           type: "blogpost" | "page";
         };
@@ -57,7 +57,9 @@ const engine: Engine = {
       })
     ).data;
     return data.results
-      .filter(r => r.content.status === "current" && r.content.type === "page")
+      .filter(
+        r => r.content?.status === "current" && r.content?.type === "page",
+      )
       .map(r => ({
         snippet: normalize(r.excerpt),
         title: normalize(r.title),
