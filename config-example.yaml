@@ -24,6 +24,9 @@ engines:
 
   # Dropbox files and folders
   dropbox:
+    # Case-insensitive regex for excluding search results based on file path
+    # (optional)
+    exclude: wip
     # Case-insensitive top-level folder to search in (optional, defaults to all
     # folders)
     folder: untitled (2)

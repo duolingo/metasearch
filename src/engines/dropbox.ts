@@ -1,15 +1,27 @@
 import axios, { AxiosInstance } from "axios";
 
 let client: AxiosInstance | undefined;
+let excludeRegex: RegExp | undefined;
 let searchPath: string | undefined;
 
 const engine: Engine = {
   id: "dropbox",
-  init: ({ folder, token }: { folder?: string; token: string }) => {
+  init: ({
+    exclude,
+    folder,
+    token,
+  }: {
+    exclude?: string;
+    folder?: string;
+    token: string;
+  }) => {
     client = axios.create({
       baseURL: "https://api.dropboxapi.com/2",
       headers: { Authorization: `Bearer ${token}` },
     });
+    if (exclude) {
+      excludeRegex = new RegExp(exclude, "i");
+    }
     if (folder) {
       searchPath = `/${folder}`;
     }
@@ -40,11 +52,18 @@ const engine: Engine = {
       })
     ).data;
 
-    return data.matches.map(({ metadata: { metadata } }) => ({
-      snippet: metadata[".tag"],
-      title: metadata.name,
-      url: `https://www.dropbox.com/home${metadata.path_display}`,
-    }));
+    return data.matches
+      .map(m => m.metadata.metadata)
+      .filter(metadata => !excludeRegex?.test(metadata.path_display))
+      .map(metadata => ({
+        snippet: `${metadata[".tag"].charAt(0).toUpperCase()}${metadata[
+          ".tag"
+        ].slice(1)} in ${metadata.path_display
+          .slice(1)
+          .replace(/\/[^/]+$/, "")}`,
+        title: metadata.name,
+        url: `https://www.dropbox.com/home${metadata.path_display}`,
+      }));
   },
 };
 
