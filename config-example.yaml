@@ -32,8 +32,13 @@ engines:
 
   # Google Drive documents
   drive:
-    # Path to Google service account credentials.
-    # https://github.com/googleapis/google-api-nodejs-client#service-account-credentials
+    # Path to Google OAuth credentials. You can obtain this file by going to the
+    # Google API console, creating credentials of type "OAuth client ID" with
+    # application type "Web application" and `http://localhost:3001/` as an
+    # authorized redirect URI, and clicking "DOWNLOAD JSON".
+    #
+    # https://console.developers.google.com/apis/credentials
+    # https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
     #
     # Note that if you run Metasearch using Docker, you need to make the host's
     # credentials file accessible from inside the container. One way to do so is
@@ -41,6 +46,12 @@ engines:
     # to `docker run` an additional flag that mounts the host file to that path:
     # `-v '/path/to/credentials.json:/data/credentials.json'`
     credentials: /path/to/credentials.json
+    # OAuth2 refresh token. You can obtain this by piping the aforementioned
+    # credentials file into this repo's `make oauth` command and then following
+    # the CLI's instructions.
+    #
+    # For example: make oauth < /path/to/credentials.json
+    token: 5DRP6HbKpPwO41oFjr0RHxqldF6V9LTrMY/VW0GpfCYVuRX1aA4pjS7f/ECOWRz7ff2O4FfdL3zD7inAhZMcqC4O16G8xEhMXQ24Gyl
 
   # Figma files, projects, and teams
   figma:
