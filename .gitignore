@@ -1,6 +1,7 @@
+*.css
 *.js
 *.map
+*.woff2
 /config.yaml
-/dist/*
+/dist/*.html
 /node_modules/
-!/dist/react*
