@@ -67,6 +67,15 @@ ul {
   position: relative; // Simplifies programmatic adjustment of scroll position
 }
 
+h2 {
+  display: inline-block;
+}
+
+.stats {
+  color: #888;
+  margin-left: 0.5 * $padding-standard;
+}
+
 .title {
   color: #1cb0f6;
   font-weight: bold;

@@ -4,6 +4,7 @@
 const { useEffect, useReducer, useState } = React;
 
 interface ResultGroup {
+  elapsedMs: number;
   engineId: string;
   results: Result[];
 }
@@ -100,13 +101,14 @@ const Results = ({
   <div className="results">
     {resultGroups
       .filter(rg => rg.results.length)
-      .map(resultGroup => (
-        <div
-          data-engine-results={resultGroup.engineId}
-          key={resultGroup.engineId}
-        >
-          <h2>{engines[resultGroup.engineId].name}</h2>
-          {resultGroup.results.map((result, i) => (
+      .map(({ elapsedMs, engineId, results }) => (
+        <div data-engine-results={engineId} key={engineId}>
+          <h2>{engines[engineId].name}</h2>
+          <span className="stats">
+            {results.length} result{results.length === 1 ? "" : "s"} (
+            {(elapsedMs / 1000).toFixed(2)} seconds)
+          </span>
+          {results.map((result, i) => (
             <div key={i}>
               <a className="title" href={result.url}>
                 {result.title}
@@ -157,11 +159,14 @@ const App = () => {
     let slowestEngine: string | undefined;
     await Promise.all(
       Object.values(engines).map(async engine => {
+        const start = Date.now();
+        const results = await (
+          await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
+        ).json();
         dispatch({
+          elapsedMs: Date.now() - start,
           engineId: engine.id,
-          results: await (
-            await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
-          ).json(),
+          results,
         });
         slowestEngine = engine.id;
       }),
