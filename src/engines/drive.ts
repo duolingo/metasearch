@@ -5,6 +5,7 @@ import { OAuth2Client } from "google-auth-library";
 
 let auth: OAuth2Client | undefined;
 
+// https://developers.google.com/drive/api/v3/mime-types
 const getMimeInfo = (
   mimeType: null | string | undefined,
 ): { name: string; urlFragment: string } =>
@@ -12,6 +13,14 @@ const getMimeInfo = (
     "application/vnd.google-apps.document": {
       name: "Doc",
       urlFragment: "document",
+    },
+    "application/vnd.google-apps.form": {
+      name: "Survey",
+      urlFragment: "forms",
+    },
+    "application/vnd.google-apps.presentation": {
+      name: "Presentation",
+      urlFragment: "presentation",
     },
     "application/vnd.google-apps.spreadsheet": {
       name: "Spreadsheet",
@@ -48,9 +57,7 @@ const engine: Engine = {
       data.data.files?.map(f => {
         const { name, urlFragment } = getMimeInfo(f.mimeType);
         return {
-          snippet:
-            f.description ??
-            `${name} owned by ${f.owners?.[0].displayName}, ${f.owners?.[0].emailAddress}`,
+          snippet: f.description ?? `${name} by ${f.owners?.[0].displayName}`,
           title: f.name ?? "Drive file",
           url: `https://docs.google.com/${urlFragment}/d/${f.id}/edit`,
         };
