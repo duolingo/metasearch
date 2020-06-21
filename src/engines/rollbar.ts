@@ -11,6 +11,7 @@ const engine: Engine = {
     const client = axios.create({ baseURL: "https://api.rollbar.com/api/1" });
 
     getProjects = rateLimit(async () => {
+      // https://explorer.docs.rollbar.com/#operation/list-all-projects
       const data: { result: { name: null | string }[] } = (
         await client.get("/projects", { params: { access_token: token } })
       ).data;
