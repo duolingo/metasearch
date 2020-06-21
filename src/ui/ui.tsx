@@ -37,11 +37,12 @@ const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
       >
         <input
           autoFocus
+          className="search-box"
           onChange={e => setQ(e.target.value)}
           type="text"
           value={q}
         />
-        <input type="submit" value="🔎" />
+        <input className="submit" title="Search" type="submit" value="" />
       </form>
     </div>
   );
@@ -62,27 +63,36 @@ const Sidebar = ({
           const numResults = resultGroups.find(rg => rg.engineId === engine.id)
             ?.results.length;
           return (
-            <li key={engine.id}>
+            <li
+              className={numResults ? "has-results" : undefined}
+              key={engine.id}
+              onClick={() => {
+                if (!numResults) {
+                  return;
+                }
+                const $results = document.querySelector(".results");
+                const $resultGroup: HTMLDivElement | null = document.querySelector(
+                  `[data-engine-results=${engine.id}]`,
+                );
+                if (!($results && $resultGroup)) {
+                  return;
+                }
+                $results.scrollTo({
+                  behavior: "smooth",
+                  top: $resultGroup.offsetTop,
+                });
+              }}
+              title={
+                numResults === undefined
+                  ? "Searching..."
+                  : numResults
+                  ? "Jump to results"
+                  : "No results found"
+              }
+            >
               {engine.name}
               {numResults === undefined ? null : (
-                <span
-                  className="num-results"
-                  onClick={() => {
-                    const $results = document.querySelector(".results");
-                    const $resultGroup: HTMLDivElement | null = document.querySelector(
-                      `[data-engine-results=${engine.id}]`,
-                    );
-                    if (!($results && $resultGroup)) {
-                      return;
-                    }
-                    $results.scrollTo({
-                      behavior: "smooth",
-                      top: $resultGroup.offsetTop,
-                    });
-                  }}
-                >
-                  {numResults}
-                </span>
+                <span className="num-results">{numResults}</span>
               )}
             </li>
           );
@@ -102,7 +112,11 @@ const Results = ({
     {resultGroups
       .filter(rg => rg.results.length)
       .map(({ elapsedMs, engineId, results }) => (
-        <div data-engine-results={engineId} key={engineId}>
+        <div
+          className="result-group"
+          data-engine-results={engineId}
+          key={engineId}
+        >
           <h2>{engines[engineId].name}</h2>
           <span className="stats">
             {results.length} result{results.length === 1 ? "" : "s"} (
