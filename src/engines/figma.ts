@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
 
 import { rateLimit } from "./index";
 
@@ -32,7 +32,7 @@ const engine: Engine = {
       }
 
       return axios.create({
-        baseURL: "https://www.figma.com/api",
+        baseURL: "https://www.figma.com",
         headers: { Cookie: `figma.st=${token}` },
       });
     }, 24);
@@ -41,33 +41,103 @@ const engine: Engine = {
   },
   name: "Figma",
   search: async q => {
-    /** Array of [human-readable model name, API route path] tuples */
-    const MODEL_TYPES: [string, string][] = [
-      ["File", "fig_files"],
-      ["Project", "folders"],
-      ["Team", "teams"],
+    interface Model<M> {
+      getResult: (el: M, client: AxiosInstance) => Result | Promise<Result>;
+      urlFragment: string;
+    }
+
+    interface File {
+      creator: { handle: string };
+      name: string;
+      thumbnail_url: string;
+      url: string;
+    }
+
+    /** Generates a string of HTML for displaying a linked thumbnail */
+    const getThumbnail = async (client: AxiosInstance, f: File) => {
+      try {
+        await client.get(f.thumbnail_url, { maxRedirects: 0 });
+        throw Error("Thumbnail URL not found");
+      } catch (ex) {
+        // TODO: Use library-provided type guard in v0.20
+        // https://github.com/axios/axios/pull/2949
+        if (
+          ((e): e is AxiosError => e.isAxiosError)(ex) &&
+          ex.response?.status === 302
+        ) {
+          const src = ex.response?.headers["location"] as string;
+          return `<a href="${f.url}"><img src="${src}"></a>`;
+        }
+        throw ex;
+      }
+    };
+
+    const MODEL_TYPES: Model<unknown>[] = [
+      {
+        getResult: async ({ model }: { model: File }, client) => ({
+          snippet: `File created by ${
+            model.creator.handle
+          }<br>${await getThumbnail(client, model)}`,
+          title: model.name,
+          url: model.url,
+        }),
+        urlFragment: "fig_files",
+      },
+      {
+        getResult: async (
+          {
+            file_count,
+            model,
+            recent_files,
+          }: {
+            file_count: number;
+            model: { id: string; name: string };
+            recent_files: File[];
+          },
+          client,
+        ) => ({
+          snippet: `Project containing ${
+            file_count === 1 ? "1 file" : `${file_count} files`
+          }<br>${(
+            await Promise.all(
+              recent_files.slice(0, 3).map(f => getThumbnail(client, f)),
+            )
+          ).join("")}`,
+          title: model.name,
+          url: `https://www.figma.com/files/${orgId}/project/${model.id}`,
+        }),
+        urlFragment: "folders",
+      },
+      {
+        getResult: ({
+          member_count,
+          model,
+        }: {
+          member_count: number;
+          model: { id: string; name: string };
+        }) => ({
+          snippet: `Team with ${
+            member_count === 1 ? "1 member" : `${member_count} members`
+          }`,
+          title: model.name,
+          url: `https://www.figma.com/files/${orgId}/team/${model.id}`,
+        }),
+        urlFragment: "teams",
+      },
     ];
 
     return (
       await Promise.all(
-        MODEL_TYPES.map(async ([modelName, apiName]) => {
+        MODEL_TYPES.map(async ({ getResult, urlFragment }) => {
           if (!getClient) {
             throw Error("Engine not initialized");
           }
 
+          const client = await getClient();
           const data: {
-            meta: {
-              results: {
-                model: {
-                  id?: string;
-                  name: string;
-                  team_id?: string;
-                  url?: string;
-                };
-              }[];
-            };
+            meta: { results: Parameters<typeof getResult>[0][] };
           } = (
-            await (await getClient()).get(`/search/${apiName}`, {
+            await client.get(`/api/search/${urlFragment}`, {
               params: {
                 desc: false,
                 org_id: orgId,
@@ -76,15 +146,9 @@ const engine: Engine = {
               },
             })
           ).data;
-          return data.meta.results.map(({ model }) => ({
-            snippet: modelName,
-            title: model.name,
-            url:
-              model.url ??
-              `https://www.figma.com/files/${orgId}/${
-                model.team_id ? "project" : "team"
-              }/${model.id}`,
-          }));
+          return Promise.all(
+            data.meta.results.map(el => getResult(el, client)),
+          );
         }),
       )
     ).flat();

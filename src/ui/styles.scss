@@ -74,4 +74,11 @@ ul {
 
 .snippet {
   margin: 0 0 $padding-standard;
+
+  img {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 5px 10px 0 0;
+    max-height: 100px;
+  }
 }

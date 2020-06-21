@@ -89,7 +89,17 @@ const Results = ({
               <a className="title" href={result.url}>
                 {result.title}
               </a>
-              <p className="snippet">{result.snippet}</p>
+              {result.snippet ? (
+                // Don't make XSS toooo easy
+                /<script|javascript:\b/.test(result.snippet) ? (
+                  <p className="snippet">{result.snippet}</p>
+                ) : (
+                  <p
+                    className="snippet"
+                    dangerouslySetInnerHTML={{ __html: result.snippet }}
+                  />
+                )
+              ) : null}
             </div>
           ))}
         </div>
