@@ -12,6 +12,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Jira](https://www.atlassian.com/software/jira) issues
 - [PagerDuty](https://www.pagerduty.com/) schedules and services
 - [Pingboard](https://pingboard.com/) employees
+- [Rollbar](https://rollbar.com/) projects
 - [Slack](https://slack.com/) messages and channels
 - [TalentLMS](https://www.talentlms.com/) courses
 - [Zoom](https://zoom.us/) rooms

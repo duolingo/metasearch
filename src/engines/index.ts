@@ -8,6 +8,7 @@ import jenkins from "./jenkins";
 import jira from "./jira";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
+import rollbar from "./rollbar";
 import slack from "./slack";
 import talentlms from "./talentlms";
 import zoom from "./zoom";
@@ -46,6 +47,7 @@ const engines: Engine[] = [
   jira,
   pagerduty,
   pingboard,
+  rollbar,
   slack,
   talentlms,
   zoom,
