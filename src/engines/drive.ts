@@ -5,6 +5,20 @@ import { OAuth2Client } from "google-auth-library";
 
 let auth: OAuth2Client | undefined;
 
+const getMimeInfo = (
+  mimeType: null | string | undefined,
+): { name: string; urlFragment: string } =>
+  ({
+    "application/vnd.google-apps.document": {
+      name: "Doc",
+      urlFragment: "document",
+    },
+    "application/vnd.google-apps.spreadsheet": {
+      name: "Spreadsheet",
+      urlFragment: "spreadsheets",
+    },
+  }[mimeType ?? ""] ?? { name: "File", urlFragment: "file" });
+
 const engine: Engine = {
   id: "drive",
   init: ({ credentials, token }: { credentials: string; token: string }) => {
@@ -21,28 +35,26 @@ const engine: Engine = {
       throw Error("Engine not initialized");
     }
 
-    const MIMETYPE_TO_PATH = {
-      "application/vnd.google-apps.document": "document",
-      "application/vnd.google-apps.spreadsheet": "spreadsheets",
-    };
-
-    // https://developers.google.com/drive/api/v3/search-files
     const drive = google.drive({ version: "v3", auth });
     const data = await drive.files.list({
       // Searches "Visible to anyone in..."
       // https://developers.google.com/drive/api/v3/search-files#search_the_corpora
       corpora: "domain",
-      fields: "files(description, id, kind, mimeType, name)",
+      fields: "files(description, id, kind, mimeType, name, owners)",
       q: `fullText contains '${q}'`,
       spaces: "drive",
     });
     return (
-      data.data.files?.map(f => ({
-        snippet: f.description ?? undefined,
-        title: f.name ?? "Drive file",
-        url: `https://docs.google.com/${MIMETYPE_TO_PATH[f.mimeType ?? ""] ??
-          "file"}/d/${f.id}/edit`,
-      })) ?? []
+      data.data.files?.map(f => {
+        const { name, urlFragment } = getMimeInfo(f.mimeType);
+        return {
+          snippet:
+            f.description ??
+            `${name} owned by ${f.owners?.[0].displayName}, ${f.owners?.[0].emailAddress}`,
+          title: f.name ?? "Drive file",
+          url: `https://docs.google.com/${urlFragment}/d/${f.id}/edit`,
+        };
+      }) ?? []
     );
   },
 };
