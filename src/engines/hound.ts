@@ -39,7 +39,7 @@ const engine: Engine = {
       .map(([repo, result]) =>
         result.Matches.map(({ Filename, Matches }) =>
           Matches.map(({ Line, LineNumber }) => ({
-            snippet: Line,
+            snippet: `<code>${Line}</code>`,
             title: `${repo}/${Filename}#L${LineNumber}`,
             url: `https://github.com/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
           })),
