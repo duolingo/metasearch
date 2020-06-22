@@ -50,16 +50,13 @@ const engine: Engine = {
           const channels = Array.from(await getChannels()).sort((a, b) =>
             a.name > b.name ? 1 : -1,
           );
+          const normalize = (s: string) => s.replace(/\W/g, "").toLowerCase();
           return ([c => c.name, c => c.purpose.value, c => c.topic.value] as ((
             c: Channel,
           ) => string)[]).flatMap(fn =>
             channels
               .filter(
-                c =>
-                  !c.is_archived &&
-                  fn(c)
-                    .toLowerCase()
-                    .includes(q.toLowerCase()),
+                c => !c.is_archived && normalize(fn(c)).includes(normalize(q)),
               )
               .map(({ id, name, purpose, topic }) => ({
                 snippet: purpose.value.length ? purpose.value : topic.value,
