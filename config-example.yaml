@@ -84,6 +84,13 @@ engines:
     # (See `drive` engine config for an explanation of this property)
     token: 5DRP6HbKpPwO41oFjr0RHxqldF6V9LTrMY/VW0GpfCYVuRX1aA4pjS7f/ECOWRz7ff2O4FfdL3zD7inAhZMcqC4O16G8xEhMXQ24Gyl
 
+  # Guru cards
+  guru:
+    # API user token
+    token: 313be9f0-a3a8-4850-9db8-3b56640ccc4f
+    # Token owner
+    user: admin@example.com
+
   # Hound-indexed code: https://github.com/hound-search/hound
   hound:
     # GitHub organization

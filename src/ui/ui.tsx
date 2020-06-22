@@ -135,6 +135,12 @@ const Results = ({
                   <p
                     className="snippet"
                     dangerouslySetInnerHTML={{ __html: result.snippet }}
+                    style={
+                      // Indent huge snippets to help readability
+                      result.snippet.length > 1000
+                        ? { paddingLeft: 30 }
+                        : undefined
+                    }
                   />
                 )
               ) : null}

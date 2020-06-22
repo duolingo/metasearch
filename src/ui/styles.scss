@@ -37,9 +37,18 @@ html {
   font-size: 15px;
 }
 
+hr {
+  border: 1px solid $light-gray;
+}
+
 ul {
   list-style: none;
   padding: 0;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
 }
 
 #root {
@@ -145,9 +154,7 @@ h2 {
 }
 
 .title {
-  color: $blue;
   font-weight: bold;
-  text-decoration: none;
 }
 
 .snippet {
