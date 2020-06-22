@@ -129,7 +129,11 @@ const Results = ({
               </a>
               {result.snippet ? (
                 // Don't make XSS toooo easy
-                /<script|javascript:\b/.test(result.snippet) ? (
+                // TODO: Use a proper library
+                // https://owasp.org/www-community/xss-filter-evasion-cheatsheet
+                /<\s*(embed|iframe|script|style)\b|\bj\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:|\bon\w+=['"]/i.test(
+                  result.snippet,
+                ) ? (
                   <div className="snippet">{result.snippet}</div>
                 ) : (
                   <div
