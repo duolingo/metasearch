@@ -57,9 +57,9 @@ const engine: Engine = {
 
     return Array.from(await getEmployees())
       .filter(u =>
-        JSON.stringify(u)
-          .toLowerCase()
-          .includes(q.toLowerCase()),
+        Object.values(u)
+          .filter((v): v is string => typeof v === "string")
+          .some(v => v.toLowerCase().includes(q.toLowerCase())),
       )
       .sort((a, b) => (a.first_name > b.first_name ? 1 : -1))
       .map(u => ({
