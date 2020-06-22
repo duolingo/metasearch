@@ -123,16 +123,16 @@ const Results = ({
             {(elapsedMs / 1000).toFixed(2)} seconds)
           </span>
           {results.map((result, i) => (
-            <div key={i}>
+            <div className="result" key={i}>
               <a className="title" href={result.url}>
                 {result.title}
               </a>
               {result.snippet ? (
                 // Don't make XSS toooo easy
                 /<script|javascript:\b/.test(result.snippet) ? (
-                  <p className="snippet">{result.snippet}</p>
+                  <div className="snippet">{result.snippet}</div>
                 ) : (
-                  <p
+                  <div
                     className="snippet"
                     dangerouslySetInnerHTML={{ __html: result.snippet }}
                     style={

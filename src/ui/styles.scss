@@ -153,13 +153,16 @@ h2 {
   margin-left: 0.5 * $padding-standard;
 }
 
+.result {
+  margin-bottom: $padding-standard;
+}
+
 .title {
   font-weight: bold;
 }
 
 .snippet {
   color: $gray;
-  margin: 0 0 $padding-standard;
 
   img {
     border-radius: 5px;
