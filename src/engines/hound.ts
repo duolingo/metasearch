@@ -39,7 +39,10 @@ const engine: Engine = {
       .map(([repo, result]) =>
         result.Matches.map(({ Filename, Matches }) =>
           Matches.map(({ Line, LineNumber }) => ({
-            snippet: `<code>${Line}</code>`,
+            snippet:
+              Line.length > 10000
+                ? "(Line too long to display)"
+                : `<code>${Line.replace(/</g, "&lt;")}</code>`,
             title: `${repo}/${Filename}#L${LineNumber}`,
             url: `https://github.com/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
           })),
