@@ -160,7 +160,7 @@ const App = () => {
     [],
   );
 
-  const handleSearch = async (q: string) => {
+  const handleSearch = async (q: string, isInitial = false) => {
     // Normalize and validate query
     q = q.trim().replace(/\s+/, " ");
     if (!/\w/.test(q)) {
@@ -168,8 +168,13 @@ const App = () => {
       return;
     }
 
-    // Update URL
-    window.history.replaceState(null, "", `/?q=${encodeURIComponent(q)}`);
+    // Update browser URL and tab title
+    window.history[isInitial ? "replaceState" : "pushState"](
+      null,
+      "",
+      `/?q=${encodeURIComponent(q)}`,
+    );
+    document.title = `${q} - Metasearch`;
 
     // Clear results
     dispatch(undefined);
@@ -211,7 +216,7 @@ const App = () => {
   useEffect(() => {
     if (engines && initialQ) {
       setInitialQ(undefined);
-      handleSearch(initialQ);
+      handleSearch(initialQ, true);
     }
   }, [engines, initialQ]);
 
