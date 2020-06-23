@@ -80,11 +80,13 @@ const engine: Engine = {
             };
           } = (await client.get("/search.messages", { params: { query: q } }))
             .data;
-          return data.messages.matches.map(m => ({
-            snippet: m.text,
-            title: `Post by @${m.username} in #${m.channel.name}`,
-            url: m.permalink,
-          }));
+          return data.messages.matches
+            .filter(m => m.channel.name !== "USLACKBOT")
+            .map(m => ({
+              snippet: m.text,
+              title: `Post by @${m.username} in #${m.channel.name}`,
+              url: m.permalink,
+            }));
         })(),
       ])
     ).flat();
