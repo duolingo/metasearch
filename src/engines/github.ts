@@ -86,7 +86,7 @@ const engine: Engine = {
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({
         snippet: r.description || undefined,
-        title: r.name,
+        title: `${org}/${r.name}`,
         url: `https://github.com/${org}/${r.name}`,
       }));
   },
