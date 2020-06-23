@@ -128,25 +128,16 @@ const Results = ({
                 {result.title}
               </a>
               {result.snippet ? (
-                // Don't make XSS toooo easy
-                // TODO: Use a proper library
-                // https://owasp.org/www-community/xss-filter-evasion-cheatsheet
-                /<\s*(embed|iframe|script|style)\b|\bj\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:|\bon\w+=['"]/i.test(
-                  result.snippet,
-                ) ? (
-                  <div className="snippet">{result.snippet}</div>
-                ) : (
-                  <div
-                    className="snippet"
-                    dangerouslySetInnerHTML={{ __html: result.snippet }}
-                    style={
-                      // Indent huge snippets to help readability
-                      result.snippet.length > 1000
-                        ? { paddingLeft: 30 }
-                        : undefined
-                    }
-                  />
-                )
+                <div
+                  className="snippet"
+                  dangerouslySetInnerHTML={{ __html: result.snippet }}
+                  style={
+                    // Indent huge snippets to help readability
+                    result.snippet.length > 1000
+                      ? { paddingLeft: 30 }
+                      : undefined
+                  }
+                />
               ) : null}
             </div>
           ))}

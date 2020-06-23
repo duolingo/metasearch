@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { AxiosError } from "axios";
 import * as express from "express";
 import { safeLoad } from "js-yaml";
+import * as sanitize from "sanitize-html";
 
 import engines from "./engines";
 
@@ -125,7 +126,23 @@ import engines from "./engines";
 
     // Query engine
     try {
-      res.send(await engine.search(q));
+      res.send(
+        (await engine.search(q)).map(result => ({
+          ...result,
+          snippet: result.snippet
+            ? sanitize(result.snippet, {
+                allowedTags: [
+                  ...sanitize.defaults.allowedTags,
+                  "h1",
+                  "h2",
+                  "img",
+                  "span",
+                  "u",
+                ],
+              })
+            : undefined,
+        })),
+      );
     } catch (ex) {
       res.status(500);
       res.send(JSON.stringify({}));
