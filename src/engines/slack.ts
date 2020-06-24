@@ -39,7 +39,8 @@ const engine: Engine = {
   },
   name: "Slack",
   search: async q => {
-    if (!(client && getChannels)) {
+    const axiosClient = client;
+    if (!(axiosClient && getChannels)) {
       throw Error("Engine not initialized");
     }
 
@@ -91,7 +92,7 @@ const engine: Engine = {
               paging: { pages: number };
             };
           }>> =>
-            client!.get("/search.messages", {
+            axiosClient.get("/search.messages", {
               params: { count: PAGE_SIZE, page: zeroIndexedPage + 1, query: q },
             });
 
