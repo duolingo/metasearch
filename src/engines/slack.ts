@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 import { rateLimit } from "./index";
 
@@ -68,8 +68,19 @@ const engine: Engine = {
 
         // Messages
         (async () => {
+          /**
+           * This limit could probably be further increased without triggering
+           * Slack's rate limiting, but it's hard to imagine a real user
+           * needing to see more than this many results during regular use...
+           */
+          const MAX_RESULTS = 1000;
+          /** Maximum value allowed by Slack */
+          const PAGE_SIZE = 100;
+
           // https://api.slack.com/methods/search.messages
-          const data: {
+          const getPage = (
+            zeroIndexedPage: number,
+          ): Promise<AxiosResponse<{
             messages: {
               matches: {
                 channel: { name: string };
@@ -77,10 +88,24 @@ const engine: Engine = {
                 text: string;
                 username: string;
               }[];
+              paging: { pages: number };
             };
-          } = (await client.get("/search.messages", { params: { query: q } }))
-            .data;
-          return data.messages.matches
+          }>> =>
+            client!.get("/search.messages", {
+              params: { count: PAGE_SIZE, page: zeroIndexedPage + 1, query: q },
+            });
+
+          const firstPageResponse = await getPage(0);
+          const numPages = firstPageResponse.data.messages.paging.pages;
+          const pageResponses = await Promise.all(
+            Array(Math.ceil(Math.min(numPages, MAX_RESULTS / PAGE_SIZE)) - 1)
+              .fill(0)
+              .map(({}, i) => getPage(i + 1)),
+          );
+          pageResponses.unshift(firstPageResponse);
+
+          return pageResponses
+            .flatMap(r => r.data.messages.matches)
             .filter(m => m.channel.name !== "USLACKBOT")
             .map(m => ({
               snippet: m.text,
