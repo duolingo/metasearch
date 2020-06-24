@@ -24,16 +24,20 @@ const engine: Engine = {
     // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
     const data: {
       issues: {
-        fields: { description: string; summary: string };
+        fields: { summary: string };
         key: string;
+        renderedFields: { description: string };
       }[];
     } = (
       await client.get("/search", {
-        params: { jql: `text ~ "${escapeQuotes(q)}"` },
+        params: {
+          expand: "renderedFields",
+          jql: `text ~ "${escapeQuotes(q)}"`,
+        },
       })
     ).data;
     return data.issues.map(issue => ({
-      snippet: issue.fields.description,
+      snippet: issue.renderedFields.description,
       title: `${issue.key}: ${issue.fields.summary}`,
       url: `${origin}/browse/${issue.key}`,
     }));
