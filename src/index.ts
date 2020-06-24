@@ -7,6 +7,48 @@ import * as sanitize from "sanitize-html";
 
 import engines from "./engines";
 
+const SANITIZATION_OPTIONS: sanitize.IOptions = {
+  allowedTags: [
+    "a",
+    "abbr",
+    "b",
+    "blockquote",
+    "br",
+    "caption",
+    "code",
+    "div",
+    "em",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "hr",
+    "i",
+    "img",
+    "li",
+    "nl",
+    "ol",
+    "p",
+    "pre",
+    "span",
+    "strike",
+    "strong",
+    "table",
+    "tbody",
+    "td",
+    "th",
+    "thead",
+    "tr",
+    "u",
+    "ul",
+  ],
+  // Strip Jira emoticons and other images referenced with relative paths
+  exclusiveFilter: frame =>
+    frame.tag === "img" && !/^https?:/.test(frame.attribs["src"]),
+};
+
 (async () => {
   // Set up exception handler
   const exceptionHandler = (ex: Error) => {
@@ -130,16 +172,7 @@ import engines from "./engines";
         (await engine.search(q)).map(result => ({
           ...result,
           snippet: result.snippet
-            ? sanitize(result.snippet, {
-                allowedTags: [
-                  ...sanitize.defaults.allowedTags,
-                  "h1",
-                  "h2",
-                  "img",
-                  "span",
-                  "u",
-                ],
-              })
+            ? sanitize(result.snippet, SANITIZATION_OPTIONS)
             : undefined,
         })),
       );
