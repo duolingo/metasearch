@@ -8,6 +8,7 @@ import guru from "./guru";
 import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
+import lingo from "./lingo";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
 import rollbar from "./rollbar";
@@ -49,6 +50,7 @@ const engines: Engine[] = [
   hound,
   jenkins,
   jira,
+  lingo,
   pagerduty,
   pingboard,
   rollbar,

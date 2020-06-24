@@ -112,6 +112,16 @@ engines:
     # Atlassian user who owns the API token
     user: admin@example.com
 
+  # Lingo assets
+  lingo:
+    # List of public and/or private kit URLs. Several URL formats are supported;
+    # your kit URL may or may not include `?kit_token` depending on when it was
+    # created in Lingo
+    kits:
+      - https://www.lingoapp.com/space/1234/k/34AFA130-49FC-43E1-8BA0-5F8849FE5FDE?kit_token=H5hlmjNV8vE6a9iJfpjrmX0e-4KMcN70EwjY6eNntVA
+      - https://www.lingoapp.com/1234/k/Icons-RWEr24?kit_token=ydZEKijeJNeH7XO4LkI6RLzPbo9O0QkxY7k3aMYkaIu
+      - https://www.lingoapp.com/1234/k/Illustrations-uGyoMP
+
   # PagerDuty schedules and services
   pagerduty:
     # PagerDuty API token
