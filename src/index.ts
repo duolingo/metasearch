@@ -172,7 +172,12 @@ const SANITIZATION_OPTIONS: sanitize.IOptions = {
         (await engine.search(q)).map(result => ({
           ...result,
           snippet: result.snippet
-            ? sanitize(result.snippet, SANITIZATION_OPTIONS)
+            ? sanitize(
+                engine.isSnippetLarge
+                  ? `<blockquote>${result.snippet}</blockquote>`
+                  : result.snippet,
+                SANITIZATION_OPTIONS,
+              )
             : undefined,
         })),
       );

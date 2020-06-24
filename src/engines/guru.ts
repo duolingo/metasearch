@@ -10,6 +10,7 @@ const engine: Engine = {
       baseURL: "https://api.getguru.com/api/v1",
     });
   },
+  isSnippetLarge: true,
   name: "Guru",
   search: async q => {
     if (!client) {

@@ -14,6 +14,7 @@ const engine: Engine = {
     });
     origin = options.origin;
   },
+  isSnippetLarge: true,
   name: "Jira",
   search: async q => {
     if (!(client && origin)) {
