@@ -157,6 +157,15 @@ engines:
     # TalentLMS organization name (appears before `.talentlms.com` in your account's URLs)
     organization: example
 
+  # Arbitrary website content
+  website:
+    # XML sitemaps to scrape. Metasearch will download and search the HTML
+    # content of each <url> location that appears in these sitemaps. The HTML is
+    # kept in memory and rescraped every day, so it probably isn't a good idea
+    # to specify sitemaps that have a million <url> entries
+    sitemaps:
+      - https://www.example.com/sitemap.xml
+
   # Zoom room names
   zoom:
     # Zoom API key used for JWT authentication

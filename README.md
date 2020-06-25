@@ -19,6 +19,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Slack](https://slack.com/) messages and channels
 - [TalentLMS](https://www.talentlms.com/) courses
 - [Zoom](https://zoom.us/) rooms
+- Arbitrary websites via sitemaps
 
 ## Quick start guide
 
