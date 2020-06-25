@@ -216,7 +216,16 @@ const App = () => {
 
   return (
     <>
-      <div className="logo">Metasearch</div>
+      <div
+        className="logo"
+        onClick={() => {
+          document
+            .querySelector(".results")
+            ?.scrollTo({ behavior: "smooth", top: 0 });
+        }}
+      >
+        Metasearch
+      </div>
       <Header
         onChange={e => setQ(e.target.value)}
         onSearch={q => handleSearch(engines, dispatch, q, true)}
