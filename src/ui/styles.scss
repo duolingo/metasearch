@@ -72,6 +72,7 @@ a {
   height: 50px;
   min-width: 300px;
   padding: 0 15px;
+  vertical-align: top;
   width: calc(100% - #{$submit-button-width} - #{$sidebar-width});
 }
 
@@ -82,6 +83,7 @@ a {
   cursor: pointer;
   height: 50px;
   transition: 0.2s;
+  vertical-align: top;
   width: $submit-button-width;
 
   &:hover {
