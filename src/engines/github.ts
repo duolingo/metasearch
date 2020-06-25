@@ -85,7 +85,8 @@ const engine: Engine = {
       )
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({
-        snippet: r.description || undefined,
+        // Strip emojis
+        snippet: r.description?.replace(/ *:[a-z-]+: */g, "") || undefined,
         title: `${org}/${r.name}`,
         url: `https://github.com/${org}/${r.name}`,
       }));
