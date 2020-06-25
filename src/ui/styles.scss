@@ -165,6 +165,14 @@ h2 {
   color: $gray;
 
   img {
+    // Show checkered background for partially transparent images
+    background-blend-mode: normal, difference, normal;
+    background-image:
+      linear-gradient(to right, rgba(224, 224, 224, 0.9), rgba(224, 224, 224, 0.9)),
+      linear-gradient(to right, black 50%, white 50%),
+      linear-gradient(to bottom, black 50%, white 50%);
+    background-size: 20px 20px;
+
     border-radius: 5px;
     border: 2px solid $light-gray;
     margin: 5px 10px 0 0;
