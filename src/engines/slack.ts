@@ -61,7 +61,7 @@ const engine: Engine = {
               )
               .map(({ id, name, purpose, topic }) => ({
                 snippet: purpose.value.length ? purpose.value : topic.value,
-                title: `#${name}`,
+                title: `Channel #${name}`,
                 url: `https://${subdomain}.slack.com/archives/${id}`,
               })),
           );
@@ -113,7 +113,7 @@ const engine: Engine = {
             .filter(m => m.channel.name !== "USLACKBOT")
             .map(m => ({
               snippet: m.text,
-              title: `Post by @${m.username} in #${m.channel.name}`,
+              title: `Message by @${m.username} in #${m.channel.name}`,
               url: m.permalink,
             }));
         })(),
