@@ -16,37 +16,33 @@ const querify = (params: Record<string, string> = {}) =>
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join("&");
 
-const Header = ({ onSearch }: { onSearch: (q: string) => any }) => {
-  const [q, setQ] = useState("");
-
-  // Prefill query if present in URL
-  useEffect(() => {
-    (async () => {
-      const urlQ = new URLSearchParams(window.location.search).get("q");
-      urlQ && setQ(urlQ);
-    })();
-  }, []);
-
-  return (
-    <div className="header">
-      <form
-        onSubmit={e => {
-          onSearch(q);
-          e.preventDefault();
-        }}
-      >
-        <input
-          autoFocus
-          className="search-box"
-          onChange={e => setQ(e.target.value)}
-          type="text"
-          value={q}
-        />
-        <input className="submit" title="Search" type="submit" value="" />
-      </form>
-    </div>
-  );
-};
+const Header = ({
+  onChange,
+  onSearch,
+  q,
+}: {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (q: string) => any;
+  q: string;
+}) => (
+  <div className="header">
+    <form
+      onSubmit={e => {
+        onSearch(q);
+        e.preventDefault();
+      }}
+    >
+      <input
+        autoFocus
+        className="search-box"
+        onChange={onChange}
+        type="text"
+        value={q}
+      />
+      <input className="submit" title="Search" type="submit" value="" />
+    </form>
+  </div>
+);
 
 const Sidebar = ({
   engines,
@@ -140,8 +136,55 @@ const Results = ({
   </div>
 );
 
+const handleSearch = async (
+  engines: Record<string, Engine>,
+  dispatch: React.Dispatch<ResultGroup | undefined>,
+  q: string,
+  createHistoryEntry: boolean,
+) => {
+  // Normalize and validate query
+  q = q.trim().replace(/\s+/, " ");
+  if (!/\w/.test(q)) {
+    console.log(`Invalid query: ${q}`);
+    return;
+  }
+
+  // Update browser URL and tab title
+  const path = `/?q=${encodeURIComponent(q)}`;
+  createHistoryEntry
+    ? window.history.pushState(null, "", path)
+    : window.history.replaceState(null, "", path);
+  document.title = `${q} - Metasearch`;
+
+  // Clear results
+  dispatch(undefined);
+
+  // Get results
+  const start = Date.now();
+  let slowestEngine: string | undefined;
+  await Promise.all(
+    Object.values(engines).map(async engine => {
+      const start = Date.now();
+      const results = await (
+        await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
+      ).json();
+      dispatch({
+        elapsedMs: Date.now() - start,
+        engineId: engine.id,
+        results,
+      });
+      slowestEngine = engine.id;
+    }),
+  );
+  console.log(
+    `Slowest engine (${slowestEngine}) took ${Math.round(
+      Date.now() - start,
+    )}ms`,
+  );
+};
+
 const App = () => {
-  const [initialQ, setInitialQ] = useState<string | undefined>(undefined);
+  const [q, setQ] = useState<string>("");
   const [engines, setEngines] = useState<Record<string, Engine>>({});
   const [resultGroups, dispatch] = useReducer(
     (state: ResultGroup[], action: ResultGroup | undefined) =>
@@ -149,69 +192,34 @@ const App = () => {
     [],
   );
 
-  const handleSearch = async (q: string, isInitial = false) => {
-    // Normalize and validate query
-    q = q.trim().replace(/\s+/, " ");
-    if (!/\w/.test(q)) {
-      console.log(`Invalid query: ${q}`);
-      return;
-    }
-
-    // Update browser URL and tab title
-    window.history[isInitial ? "replaceState" : "pushState"](
-      null,
-      "",
-      `/?q=${encodeURIComponent(q)}`,
-    );
-    document.title = `${q} - Metasearch`;
-
-    // Clear results
-    dispatch(undefined);
-
-    // Get results
-    const start = Date.now();
-    let slowestEngine: string | undefined;
-    await Promise.all(
-      Object.values(engines).map(async engine => {
-        const start = Date.now();
-        const results = await (
-          await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
-        ).json();
-        dispatch({
-          elapsedMs: Date.now() - start,
-          engineId: engine.id,
-          results,
-        });
-        slowestEngine = engine.id;
-      }),
-    );
-    console.log(
-      `Slowest engine (${slowestEngine}) took ${Math.round(
-        Date.now() - start,
-      )}ms`,
-    );
-  };
-
   // Load engine data
   useEffect(() => {
     (async () => {
-      setEngines(await (await fetch(`/api/engines?${querify()}`)).json());
-      const urlQ = new URLSearchParams(window.location.search).get("q");
-      urlQ && setInitialQ(urlQ);
+      const engines: Record<string, Engine> = await (
+        await fetch(`/api/engines?${querify()}`)
+      ).json();
+      setEngines(engines);
+
+      // Run query on initial page load and on HTML5 history change
+      const runUrlQ = () => {
+        const urlQ = new URLSearchParams(window.location.search).get("q");
+        if (urlQ) {
+          setQ(urlQ);
+          handleSearch(engines, dispatch, urlQ, false);
+        }
+      };
+      runUrlQ();
+      window.addEventListener("popstate", runUrlQ);
     })();
   }, []);
 
-  // Run initial query if present
-  useEffect(() => {
-    if (engines && initialQ) {
-      setInitialQ(undefined);
-      handleSearch(initialQ, true);
-    }
-  }, [engines, initialQ]);
-
   return (
     <>
-      <Header onSearch={handleSearch} />
+      <Header
+        onChange={e => setQ(e.target.value)}
+        onSearch={q => handleSearch(engines, dispatch, q, true)}
+        q={q}
+      />
       <Sidebar engines={engines} resultGroups={resultGroups} />
       <Results engines={engines} resultGroups={resultGroups} />
     </>
