@@ -2,13 +2,51 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
 import { rateLimit } from "./index";
 
-let getClients: (() => Promise<Record<string, AxiosInstance>>) | undefined;
+interface KitClient {
+  kitName: string;
+  kitToken?: string;
+  client: AxiosInstance;
+}
+
+interface HSB {
+  /** Range: [0, 100] */
+  brightness: number;
+  /** Range: [0, 360) */
+  hue: number;
+  /** Range: [0, 100] */
+  saturation: number;
+}
+
+let getClients: (() => Promise<Set<KitClient>>) | undefined;
+
+const hsb2rgb = ({ brightness, hue, saturation }: HSB) => {
+  brightness /= 100;
+  saturation /= 100;
+  const c = brightness * saturation;
+  const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+  const m = brightness - c;
+  const rgb = [
+    [c, x, 0],
+    [x, c, 0],
+    [0, c, x],
+    [0, x, c],
+    [x, 0, c],
+    [c, 0, x],
+  ][Math.floor(hue / 60)]
+    .map(p =>
+      Math.round(255 * (m + p))
+        .toString(16)
+        .toUpperCase(),
+    )
+    .join("");
+  return `#${rgb}`;
+};
 
 const engine: Engine = {
   id: "lingo",
   init: ({ kits }: { kits: string[] }) => {
     const COOLDOWN_HOURS = 1;
-    const getClient = async (kit: string) => {
+    const getClient = async (kit: string): Promise<KitClient | undefined> => {
       interface KitResponse {
         result: { kit: { kit_uuid: string; name: string } };
       }
@@ -91,7 +129,7 @@ const engine: Engine = {
         : // Handle URL format C
           undefined;
       if (headers === null) {
-        return [];
+        return undefined;
       }
       const client = axios.create({
         baseURL: `https://api.lingoapp.com/v4/kits/${kitUuid}`,
@@ -109,13 +147,13 @@ const engine: Engine = {
         kitName = response.result.kit.name;
       }
 
-      return [kitName, client];
+      return { client, kitName, kitToken };
     };
     getClients = rateLimit(
       async () =>
-        Object.fromEntries(
+        new Set(
           (await Promise.all(kits.map(getClient))).filter(
-            entry => entry.length,
+            (kc): kc is KitClient => !!kc,
           ),
         ),
       COOLDOWN_HOURS,
@@ -130,15 +168,16 @@ const engine: Engine = {
     const clients = await getClients();
     return (
       await Promise.all(
-        Object.entries(clients).map(async ([kitName, client]) => {
+        Array.from(clients).map(async ({ client, kitName, kitToken }) => {
           const data: {
             result: {
               sections: {
                 items: {
                   asset: {
+                    colors?: HSB[];
                     name: string;
-                    permalink: string;
-                    thumbnails: { "292": string };
+                    thumbnails?: { "292": string };
+                    token: string;
                   };
                   short_id: string;
                   space_id: number;
@@ -152,11 +191,18 @@ const engine: Engine = {
           return data.result.sections.flatMap(s =>
             s.items.map(item => {
               // Construct authenticated URL to asset preview page
-              const authParams = item.asset.permalink.match(/\?.+/)?.[0] ?? "";
-              const url = `https://www.lingoapp.com/${item.space_id}/a/${item.short_id}${authParams}`;
+              const url = `https://www.lingoapp.com/${item.space_id}/a/${
+                item.short_id
+              }?asset_token=${item.asset.token}${
+                kitToken ? `&kit_token=${kitToken}` : ""
+              }`;
 
               return {
-                snippet: `<a href="${url}"><img src="${item.asset.thumbnails["292"]}"></a>`,
+                snippet: item.asset.colors
+                  ? hsb2rgb(item.asset.colors[0])
+                  : item.asset.thumbnails
+                  ? `<a href="${url}"><img src="${item.asset.thumbnails["292"]}"></a>`
+                  : undefined,
                 title: `${kitName} > ${s.section.name} > ${item.asset.name}`,
                 url,
               };
