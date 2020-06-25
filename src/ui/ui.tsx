@@ -36,6 +36,7 @@ const Header = ({
         autoFocus
         className="search-box"
         onChange={onChange}
+        placeholder={"Search for anything!"}
         type="text"
         value={q}
       />
@@ -215,6 +216,7 @@ const App = () => {
 
   return (
     <>
+      <div className="logo">Metasearch</div>
       <Header
         onChange={e => setQ(e.target.value)}
         onSearch={q => handleSearch(engines, dispatch, q, true)}
