@@ -97,7 +97,10 @@ const engine: Engine = {
             });
 
           const firstPageResponse = await getPage(0);
-          const numPages = firstPageResponse.data.messages.paging.pages;
+          const numPages = Math.max(
+            firstPageResponse.data.messages.paging.pages,
+            1,
+          );
           const pageResponses = await Promise.all(
             Array(Math.ceil(Math.min(numPages, MAX_RESULTS / PAGE_SIZE)) - 1)
               .fill(0)
