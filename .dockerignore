@@ -1,6 +1,10 @@
 *
 !/.node-version
 !/config-example.yaml
+!/dist/favicon.png
+!/dist/react-dom.production.min.js
+!/dist/react.production.min.js
+!/dist/search.svg
 !/Makefile
 !/package-lock.json
 !/package.json
