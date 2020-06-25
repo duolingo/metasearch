@@ -39,7 +39,9 @@ _ts: _install
 .PHONY: ui
 ui:
 	echo 'Compiling EJS...'
-	node_modules/.bin/ejs -o dist/index.html \
-		-i "%7B%22v%22%3A%22$$(git rev-parse HEAD)%22%7D" src/ui/index.html
+	node_modules/.bin/ejs \
+		-i "%7B%22v%22%3A%22$$(node -p 'require("./package.json").version')%22%7D" \
+		-o dist/index.html \
+		src/ui/index.html
 	echo 'Compiling Sass...'
 	node_modules/.bin/sass -s compressed src/ui/styles.scss dist/styles.css
