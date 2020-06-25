@@ -28,9 +28,9 @@ Metasearch is a tool for searching many content sources in parallel:
 1. Save [`config-example.yaml`](https://github.com/duolingo/metasearch/raw/master/config-example.yaml) locally as `config.yaml` and customize its contents
 1. In the local directory that contains `config.yaml`, run:
    ```shell
-   docker run --rm -v "${PWD}:/data" duolingo/metasearch
+   docker run --rm -v "$PWD:/data" duolingo/metasearch
    ```
-   - If your `config.yaml` references environment variables, pass them through to the container with flags like `-e "ZOOM_SECRET=${ZOOM_SECRET}"`
+   - If your `config.yaml` references the host's environment variables, pass them through to the container with flags like `-e ZOOM_KEY`
 1. Access Metasearch at http://localhost:3000
    - Optional: Map it to a different port with a flag like `-p 0.0.0.0:4242:3000`
 
