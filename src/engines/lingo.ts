@@ -149,7 +149,7 @@ const engine: Engine = {
           } = (
             await client.get("/search", { params: { limit: 1000, query: q } })
           ).data;
-          return data.result.sections.map(s =>
+          return data.result.sections.flatMap(s =>
             s.items.map(item => {
               // Construct authenticated URL to asset preview page
               const authParams = item.asset.permalink.match(/\?.+/)?.[0] ?? "";
@@ -165,7 +165,7 @@ const engine: Engine = {
         }),
       )
     )
-      .flat(2)
+      .flat()
       .sort((a, b) => (a.title > b.title ? 1 : -1));
   },
 };
