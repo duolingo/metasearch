@@ -198,7 +198,7 @@ const engine: Engine = {
               }`;
 
               return {
-                snippet: item.asset.colors
+                snippet: item.asset.colors?.length
                   ? hsb2rgb(item.asset.colors[0])
                   : item.asset.thumbnails
                   ? `<a href="${url}"><img src="${item.asset.thumbnails["292"]}"></a>`
