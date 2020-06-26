@@ -150,26 +150,14 @@ const handleSearch = async (
   dispatch(undefined);
 
   // Get results
-  const start = Date.now();
-  let slowestEngine: string | undefined;
   await Promise.all(
     Object.values(ENGINES).map(async engine => {
       const start = Date.now();
       const results = await (
         await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
       ).json();
-      dispatch({
-        elapsedMs: Date.now() - start,
-        engineId: engine.id,
-        results,
-      });
-      slowestEngine = engine.id;
+      dispatch({ elapsedMs: Date.now() - start, engineId: engine.id, results });
     }),
-  );
-  console.log(
-    `Slowest engine (${slowestEngine}) took ${Math.round(
-      Date.now() - start,
-    )}ms`,
   );
 };
 
