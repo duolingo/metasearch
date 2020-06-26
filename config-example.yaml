@@ -2,6 +2,10 @@
 # variables using placeholders such as ${FOOBAR} that Metasearch will expand at
 # runtime.
 
+
+###############################################################################
+# ENGINE CONFIG
+#
 # An "engine" is an individual content source, e.g. Confluence. All supported
 # engines are listed below.
 #
@@ -12,7 +16,9 @@
 # Each engine's config accepts an optional `name` key (not shown in this
 # example) that you may declare to override the engine's default name for
 # display purposes, e.g. `name: Employee directory` in Pingboard's config.
+###############################################################################
 engines:
+
   # Confluence pages
   confluence:
     # Confluence server URL origin
@@ -177,9 +183,16 @@ engines:
     key: iLGl0DWeD4xeWeQWzGi4Ju
     # Zoom API secret used for JWT authentication
     secret: KbJ9Axxi9Md5BfeeGBuXaAofkRlqQoQ3Eff1
-# Advanced config options
-# (Optional) Some custom HTML to render at the bottom of the page
+
+
+###############################################################################
+# ADVANCED CONFIG
+#
+# All config properties below are optional and commented out by default.
+###############################################################################
+
+# Some custom HTML to render at the bottom of the page
 # footer: 'Lorem ipsum dolor sit amet'
 
-# (Optional) Google Analytics tracking ID
+# Google Analytics tracking ID
 # trackingId: UA-00000000-00

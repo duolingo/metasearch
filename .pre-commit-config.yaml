@@ -10,3 +10,4 @@ repos:
     rev: 1.1.2
     hooks:
       - id: duolingo
+        exclude: config-example.yaml
