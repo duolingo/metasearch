@@ -9,7 +9,7 @@ interface ResultGroup {
   results: Result[];
 }
 
-const { ENGINES } = window.metasearch;
+const { ENGINES, TRACKING_ID } = window.metasearch;
 
 /** Converts an object to a query string that includes a cache-busting param */
 const querify = (params: Record<string, string> = {}) =>
@@ -144,6 +144,7 @@ const handleSearch = async (
   createHistoryEntry
     ? window.history.pushState(null, "", path)
     : window.history.replaceState(null, "", path);
+  TRACKING_ID && window.gtag?.("config", TRACKING_ID, { page_path: path });
   document.title = `${q} - Metasearch`;
 
   // Clear results

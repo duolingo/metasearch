@@ -20,6 +20,7 @@ import { sanitizeHtml } from "./util";
   // Load config
   interface Config {
     engines: Record<string, { name?: string }>;
+    trackingId?: string;
   }
   const config: Config = (() => {
     const DOCKER_MOUNT = "/data";
@@ -108,7 +109,7 @@ import { sanitizeHtml } from "./util";
   fs.writeFileSync(
     "dist/index.html",
     await ejs.renderFile("src/ui/index.html", {
-      metasearch: JSON.stringify({ ENGINES: engineMap }),
+      metasearch: { ENGINES: engineMap, TRACKING_ID: config.trackingId },
       v: 9,
     }),
     "utf8",

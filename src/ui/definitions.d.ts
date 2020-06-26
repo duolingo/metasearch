@@ -16,5 +16,6 @@ interface Result {
 }
 
 interface Window {
-  metasearch: { ENGINES: Record<string, Engine> };
+  gtag?: (action: string, id: string, data: object) => void;
+  metasearch: { ENGINES: Record<string, Engine>; TRACKING_ID?: string };
 }
