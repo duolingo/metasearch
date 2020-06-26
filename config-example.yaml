@@ -177,5 +177,9 @@ engines:
     key: iLGl0DWeD4xeWeQWzGi4Ju
     # Zoom API secret used for JWT authentication
     secret: KbJ9Axxi9Md5BfeeGBuXaAofkRlqQoQ3Eff1
+# Advanced config options
+# (Optional) Some custom HTML to render at the bottom of the page
+# footer: 'Lorem ipsum dolor sit amet'
+
 # (Optional) Google Analytics tracking ID
 # trackingId: UA-00000000-00

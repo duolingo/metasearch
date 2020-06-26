@@ -7,6 +7,7 @@ $blue: #1cb0f6;
 $light-gray: #e5e5e5;
 $gray: #888;
 $sidebar-width: 250px;
+$engine-padding-left: 12px;
 
 @font-face {
   font-display: swap;
@@ -59,7 +60,7 @@ a {
 #root {
   display: grid;
   grid-template-columns: $sidebar-width 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
 
@@ -114,7 +115,7 @@ a {
 
   li {
     color: $gray;
-    padding: 8px 10px 8px 12px;
+    padding: 8px 8px 8px $engine-padding-left;
   }
 
   .has-results {
@@ -145,7 +146,7 @@ a {
 }
 
 .results {
-  grid-area: 2 / 2 / 3 / 3;
+  grid-area: 2 / 2 / 4 / 3;
   overflow-wrap: anywhere;
   overflow-y: auto;
   padding: 0 (2 * $padding-standard) 0 $padding-standard;
@@ -198,4 +199,10 @@ h2 {
   pre {
     white-space: pre-wrap;
   }
+}
+
+.footer {
+  color: $gray;
+  grid-area: 3 / 1 / 4 / 2;
+  padding: $padding-standard ($padding-standard + $engine-padding-left);
 }

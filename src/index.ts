@@ -21,6 +21,7 @@ import { sanitizeHtml } from "./util";
   // Load config
   interface Config {
     engines: Record<string, { name?: string }>;
+    footer?: string;
     trackingId?: string;
   }
   const config: Config = (() => {
@@ -110,7 +111,11 @@ import { sanitizeHtml } from "./util";
   fs.writeFileSync(
     "dist/index.html",
     await ejs.renderFile("src/ui/index.html", {
-      metasearch: { ENGINES: engineMap, TRACKING_ID: config.trackingId },
+      metasearch: {
+        ENGINES: engineMap,
+        FOOTER: config.footer,
+        TRACKING_ID: config.trackingId,
+      },
       v: JSON.parse(fs.readFileSync("package.json", "utf8")).version,
     }),
     "utf8",

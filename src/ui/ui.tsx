@@ -9,7 +9,7 @@ interface ResultGroup {
   results: Result[];
 }
 
-const { ENGINES, TRACKING_ID } = window.metasearch;
+const { ENGINES, FOOTER, TRACKING_ID } = window.metasearch;
 
 /** Converts an object to a query string that includes a cache-busting param */
 const querify = (params: Record<string, string> = {}) =>
@@ -202,6 +202,10 @@ const App = () => {
       />
       <Sidebar resultGroups={resultGroups} />
       <Results resultGroups={resultGroups} />
+      <div
+        className="footer"
+        dangerouslySetInnerHTML={FOOTER ? { __html: FOOTER } : undefined}
+      />
     </>
   );
 };
