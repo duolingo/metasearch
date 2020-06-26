@@ -1,6 +1,7 @@
 import * as fs from "fs";
 
 import { AxiosError } from "axios";
+import * as compression from "compression";
 import * as ejs from "ejs";
 import * as express from "express";
 import { safeLoad } from "js-yaml";
@@ -118,6 +119,7 @@ import { sanitizeHtml } from "./util";
   // Set up server
   const app = express();
   const port = 3000;
+  app.use(compression());
   app.use(express.static("dist"));
 
   // Declare search route for individual engines
