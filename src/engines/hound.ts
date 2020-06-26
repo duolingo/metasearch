@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import * as he from "he";
 
 let client: AxiosInstance | undefined;
 let org: string | undefined;
@@ -42,7 +43,7 @@ const engine: Engine = {
             snippet:
               Line.length > 10000
                 ? "(Line too long to display)"
-                : `<code>${Line.replace(/</g, "&lt;")}</code>`,
+                : `<code>${he.encode(Line)}</code>`,
             title: `${repo}/${Filename}#L${LineNumber}`,
             url: `https://github.com/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
           })),

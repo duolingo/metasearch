@@ -1,23 +1,13 @@
 import axios, { AxiosInstance } from "axios";
+import * as he from "he";
 
 import { escapeQuotes } from "./index";
 
 let client: AxiosInstance | undefined;
 
 const normalize = (wikiMarkup: string) =>
-  wikiMarkup
-    .replace(
-      /&(amp|gt|lt|nbsp|quot);/g,
-      ({}, entity) =>
-        ({
-          amp: "&",
-          gt: ">",
-          lt: "<",
-          nbsp: " ",
-          quot: '"',
-        }[entity]),
-    )
-    .replace(/&#(\d+);/gi, ({}, n) => String.fromCharCode(parseInt(n, 10)))
+  he
+    .decode(wikiMarkup)
     .replace(/@@@(end)?hl@@@/g, "")
     .replace(/\s+/g, " ");
 
