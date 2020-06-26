@@ -37,9 +37,11 @@ const SANITIZATION_OPTIONS: sanitize.IOptions = {
     "u",
     "ul",
   ],
-  // Strip Jira emoticons and other images referenced with relative paths
-  exclusiveFilter: frame =>
-    frame.tag === "img" && !/^https?:/.test(frame.attribs["src"]),
+  // Strip images that either require authentication or are referenced with
+  // relative paths
+  exclusiveFilter: ({ attribs: { src }, tag }) =>
+    tag === "img" &&
+    (!/^https?:/.test(src) || /(atlassian\.net|getguru\.com)/.test(src)),
 };
 
 export const sanitizeHtml = (s: string) => sanitize(s, SANITIZATION_OPTIONS);
