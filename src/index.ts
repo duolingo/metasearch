@@ -111,7 +111,7 @@ import { sanitizeHtml } from "./util";
     "dist/index.html",
     await ejs.renderFile("src/ui/index.html", {
       metasearch: { ENGINES: engineMap, TRACKING_ID: config.trackingId },
-      v: 9,
+      v: JSON.parse(fs.readFileSync("package.json", "utf8")).version,
     }),
     "utf8",
   );
