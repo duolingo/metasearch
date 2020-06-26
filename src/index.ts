@@ -1,6 +1,7 @@
 import * as fs from "fs";
 
 import { AxiosError } from "axios";
+import * as ejs from "ejs";
 import * as express from "express";
 import { safeLoad } from "js-yaml";
 
@@ -101,6 +102,13 @@ import { sanitizeHtml } from "./util";
         },
       ];
     }),
+  );
+
+  // Generate index.html
+  fs.writeFileSync(
+    "dist/index.html",
+    await ejs.renderFile("src/ui/index.html", { v: 9 }),
+    "utf8",
   );
 
   // Set up server
