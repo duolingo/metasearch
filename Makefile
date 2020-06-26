@@ -27,7 +27,7 @@ oauth: _ts
 # Serve pre-built JS. Intended use case: Docker entry point
 .PHONY: serve
 serve:
-	node src/index.js
+	NODE_ENV=production node src/index.js
 
 # Compile TypeScript
 .PHONY: _ts
