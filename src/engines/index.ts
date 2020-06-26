@@ -3,6 +3,7 @@ import drive from "./drive";
 import dropbox from "./dropbox";
 import figma from "./figma";
 import github from "./github";
+import greenhouse from "./greenhouse";
 import groups from "./groups";
 import guru from "./guru";
 import hound from "./hound";
@@ -46,6 +47,7 @@ const engines: Engine[] = [
   dropbox,
   figma,
   github,
+  greenhouse,
   groups,
   guru,
   hound,

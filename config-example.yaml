@@ -75,6 +75,11 @@ engines:
     # GitHub personal access token
     token: b701f041284869e7ff1d5b71e65d27119c869aba
 
+  # Greenhouse job posts
+  greenhouse:
+    # Board token
+    token: example
+
   # Google Groups (i.e. mailing lists)
   groups:
     # (See `drive` engine config for an explanation of this property)

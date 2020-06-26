@@ -8,6 +8,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [GitHub](https://github.com/) repo names and descriptions
 - [Google Drive](https://www.google.com/drive/) docs, spreadsheets, slides, etc.
 - [Google Groups](https://groups.google.com/) groups
+- [Greenhouse](https://www.greenhouse.io/) job posts
 - [Guru](https://www.getguru.com/) cards
 - [Hound](https://github.com/hound-search/hound)-indexed code
 - [Jenkins](https://www.jenkins.io/) job names
