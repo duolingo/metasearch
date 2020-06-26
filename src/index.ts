@@ -26,14 +26,13 @@ import { sanitizeHtml } from "./util";
   }
   const config: Config = (() => {
     const DOCKER_MOUNT = "/data";
-    const USER_CONFIG_FILENAME = "config.yaml";
-    const EXAMPLE_CONFIG_FILENAME = "config-example.yaml";
+    const CONFIG_FILENAME = "config.yaml";
 
     // Locate user-provided config file
-    const dockerizedConfig = `${DOCKER_MOUNT}/${USER_CONFIG_FILENAME}`;
+    const dockerizedConfig = `${DOCKER_MOUNT}/${CONFIG_FILENAME}`;
     const configFile = fs.existsSync("/.dockerenv")
       ? dockerizedConfig
-      : USER_CONFIG_FILENAME;
+      : CONFIG_FILENAME;
     if (!fs.existsSync(configFile)) {
       throw Error(`Metasearch config file '${configFile}' not found`);
     }
@@ -59,24 +58,20 @@ import { sanitizeHtml } from "./util";
         }),
     );
 
-    // Parse example config file and abort if user erroneously (1) specified an
-    // unrecognized engine ID or (2) left any of their engine configs equal to
-    // the example's engine configs (which are populated with invalid dummy
-    // data)
-    const exampleConfig: Config = safeLoad(
-      fs.readFileSync(EXAMPLE_CONFIG_FILENAME, "utf8"),
-    );
-    const uncustomizedEngineOptions = Object.entries(
-      userConfig.engines,
-    ).flatMap(([id, userOptions]) => {
-      const exampleOptions = exampleConfig.engines[id] ?? {};
-      return Object.entries(userOptions)
-        .filter(([k, v]) => exampleOptions[k] === v)
-        .map(([k]) => `\n\tBad value for option '${k}' of engine '${id}'`);
-    });
-    if (uncustomizedEngineOptions.length) {
+    /** Recursively pulls out all values from a complex object */
+    const allValues = (node: any): Set<any> =>
+      new Set(
+        node && typeof node === "object"
+          ? (Array.isArray(node) ? node : Object.values(node)).flatMap(child =>
+              Array.from(allValues(child)),
+            )
+          : [node],
+      );
+
+    // Abort if user didn't follow instructions to customize config.yaml
+    if (allValues(userConfig).has("example")) {
       throw Error(
-        `The example config's engine options are populated with dummy values. Please customize the option values for engines you want to use and delete the config blocks for engines you don't want to use.\n${uncustomizedEngineOptions}`,
+        "The engine options in config.yaml are populated with dummy values. Please customize the option values for engines you want to use and delete the config blocks for engines you don't want to use.",
       );
     }
 

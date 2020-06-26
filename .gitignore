@@ -2,6 +2,5 @@
 *.js
 *.map
 *.woff2
-/config.yaml
 /dist/*.html
 /node_modules/

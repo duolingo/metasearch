@@ -26,7 +26,7 @@ Metasearch is a tool for searching many content sources in parallel:
 
 ### With Docker
 
-1. Save [`config-example.yaml`](https://github.com/duolingo/metasearch/raw/master/config-example.yaml) locally as `config.yaml` and customize its contents
+1. Download [`config.yaml`](https://github.com/duolingo/metasearch/raw/master/config.yaml) and customize its contents
 1. In the local directory that contains `config.yaml`, run:
    ```shell
    docker run --rm -v "$PWD:/data" duolingo/metasearch
@@ -37,10 +37,10 @@ Metasearch is a tool for searching many content sources in parallel:
 
 ### Without Docker
 
-1. Clone this repo
-1. Copy `config-example.yaml` to a new file `config.yaml` and customize the latter's contents
 1. Install Node.js v12.13.1
    - Optional: Use a manager like [nodenv](https://github.com/nodenv/nodenv)
+1. Clone this repo
+1. Customize the contents of `config.yaml`
 1. Run `make`
 1. Access Metasearch at http://localhost:3000
 
