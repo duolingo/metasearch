@@ -110,7 +110,7 @@ const engine: Engine = {
 
           return pageResponses
             .flatMap(r => r.data.messages.matches)
-            .filter(m => m.channel.name !== "USLACKBOT")
+            .filter(m => !m.channel.name.startsWith("U")) // Exclude bot DMs
             .map(m => ({
               snippet: m.text,
               title: `Message by @${m.username} in #${m.channel.name}`,
