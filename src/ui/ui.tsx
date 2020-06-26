@@ -9,6 +9,8 @@ interface ResultGroup {
   results: Result[];
 }
 
+const { ENGINES } = window.metasearch;
+
 /** Converts an object to a query string that includes a cache-busting param */
 const querify = (params: Record<string, string> = {}) =>
   Object.entries({ ...params, _: Date.now() })
@@ -45,16 +47,10 @@ const Header = ({
   </div>
 );
 
-const Sidebar = ({
-  engines,
-  resultGroups,
-}: {
-  engines: Record<string, Engine>;
-  resultGroups: ResultGroup[];
-}) => (
+const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
   <div className="sidebar">
     <ul>
-      {Object.values(engines)
+      {Object.values(ENGINES)
         .sort((a, b) => (a.name > b.name ? 1 : -1))
         .map(engine => {
           const numResults = resultGroups.find(rg => rg.engineId === engine.id)
@@ -98,13 +94,7 @@ const Sidebar = ({
   </div>
 );
 
-const Results = ({
-  engines,
-  resultGroups,
-}: {
-  engines: Record<string, Engine>;
-  resultGroups: ResultGroup[];
-}) => (
+const Results = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
   <div className="results">
     {resultGroups
       .filter(rg => rg.results.length)
@@ -114,7 +104,7 @@ const Results = ({
           data-engine-results={engineId}
           key={engineId}
         >
-          <h2>{engines[engineId].name}</h2>
+          <h2>{ENGINES[engineId].name}</h2>
           <span className="stats">
             {results.length} result{results.length === 1 ? "" : "s"} (
             {(elapsedMs / 1000).toFixed(2)} seconds)
@@ -138,7 +128,6 @@ const Results = ({
 );
 
 const handleSearch = async (
-  engines: Record<string, Engine>,
   dispatch: React.Dispatch<ResultGroup | undefined>,
   q: string,
   createHistoryEntry: boolean,
@@ -164,7 +153,7 @@ const handleSearch = async (
   const start = Date.now();
   let slowestEngine: string | undefined;
   await Promise.all(
-    Object.values(engines).map(async engine => {
+    Object.values(ENGINES).map(async engine => {
       const start = Date.now();
       const results = await (
         await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
@@ -186,32 +175,23 @@ const handleSearch = async (
 
 const App = () => {
   const [q, setQ] = useState<string>("");
-  const [engines, setEngines] = useState<Record<string, Engine>>({});
   const [resultGroups, dispatch] = useReducer(
     (state: ResultGroup[], action: ResultGroup | undefined) =>
       action ? [...state, action] : [],
     [],
   );
 
-  // Load engine data
   useEffect(() => {
-    (async () => {
-      const engines: Record<string, Engine> = await (
-        await fetch(`/api/engines?${querify()}`)
-      ).json();
-      setEngines(engines);
-
-      // Run query on initial page load and on HTML5 history change
-      const runUrlQ = () => {
-        const urlQ = new URLSearchParams(window.location.search).get("q");
-        if (urlQ) {
-          setQ(urlQ);
-          handleSearch(engines, dispatch, urlQ, false);
-        }
-      };
-      runUrlQ();
-      window.addEventListener("popstate", runUrlQ);
-    })();
+    // Run query on initial page load and on HTML5 history change
+    const runUrlQ = () => {
+      const urlQ = new URLSearchParams(window.location.search).get("q");
+      if (urlQ) {
+        setQ(urlQ);
+        handleSearch(dispatch, urlQ, false);
+      }
+    };
+    runUrlQ();
+    window.addEventListener("popstate", runUrlQ);
   }, []);
 
   return (
@@ -228,11 +208,11 @@ const App = () => {
       </div>
       <Header
         onChange={e => setQ(e.target.value)}
-        onSearch={q => handleSearch(engines, dispatch, q, true)}
+        onSearch={q => handleSearch(dispatch, q, true)}
         q={q}
       />
-      <Sidebar engines={engines} resultGroups={resultGroups} />
-      <Results engines={engines} resultGroups={resultGroups} />
+      <Sidebar resultGroups={resultGroups} />
+      <Results resultGroups={resultGroups} />
     </>
   );
 };

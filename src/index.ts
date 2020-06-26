@@ -107,7 +107,10 @@ import { sanitizeHtml } from "./util";
   // Generate index.html
   fs.writeFileSync(
     "dist/index.html",
-    await ejs.renderFile("src/ui/index.html", { v: 9 }),
+    await ejs.renderFile("src/ui/index.html", {
+      metasearch: JSON.stringify({ ENGINES: engineMap }),
+      v: 9,
+    }),
     "utf8",
   );
 
@@ -115,11 +118,6 @@ import { sanitizeHtml } from "./util";
   const app = express();
   const port = 3000;
   app.use(express.static("dist"));
-
-  // Declare route for getting all engines
-  app.get("/api/engines", async ({}, res) => {
-    res.send(engineMap);
-  });
 
   // Declare search route for individual engines
   app.get("/api/search", async (req, res) => {

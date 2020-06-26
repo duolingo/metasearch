@@ -14,3 +14,7 @@ interface Result {
   title: string;
   url: string;
 }
+
+interface Window {
+  metasearch: { ENGINES: Record<string, Engine> };
+}
