@@ -10,13 +10,24 @@ interface Channel {
   topic: { value: string };
 }
 
+let includeBotMessages = false;
 let client: AxiosInstance | undefined;
 let getChannels: (() => Promise<Set<Channel>>) | undefined;
 let subdomain: string | undefined;
 
 const engine: Engine = {
   id: "slack",
-  init: ({ organization, token }: { organization: string; token: string }) => {
+  init: ({
+    bots,
+    organization,
+    token,
+  }: {
+    bots: boolean;
+    organization: string;
+    token: string;
+  }) => {
+    includeBotMessages = bots;
+
     const axiosClient = axios.create({
       baseURL: "https://slack.com/api",
       headers: { Authorization: `Bearer ${token}` },
@@ -84,9 +95,14 @@ const engine: Engine = {
           ): Promise<AxiosResponse<{
             messages: {
               matches: {
-                channel: { name: string };
+                channel: {
+                  is_channel: boolean;
+                  is_private: boolean;
+                  name: string;
+                };
                 permalink: string;
                 text: string;
+                user: null | string;
                 username: string;
               }[];
               paging: { pages: number };
@@ -110,7 +126,12 @@ const engine: Engine = {
 
           return pageResponses
             .flatMap(r => r.data.messages.matches)
-            .filter(m => !m.channel.name.startsWith("U")) // Exclude bot DMs
+            .filter(
+              m =>
+                m.channel.is_channel &&
+                !m.channel.is_private &&
+                (includeBotMessages || m.user),
+            )
             .map(m => ({
               snippet: m.text,
               title: `Message by @${m.username} in #${m.channel.name}`,

@@ -156,6 +156,8 @@ engines:
 
   # Slack messages and channels
   slack:
+    # Whether to include bot messages in search results
+    bots: false
     # Slack organization name (appears before `.slack.com` in your account's URLs)
     organization: example
     # Slack OAuth token that has the scopes `channels:read` and `search:read`
