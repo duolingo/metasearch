@@ -55,6 +55,9 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
         .map(engine => {
           const numResults = resultGroups.find(rg => rg.engineId === engine.id)
             ?.results.length;
+          const verticalPadding = `calc(clamp(5px, (((100vh - 221px) / ${
+            Object.keys(ENGINES).length
+          }) - 17.25px) / 2, 10px))`;
           return (
             <li
               className={numResults ? "has-results" : undefined}
@@ -74,6 +77,10 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
                   behavior: "smooth",
                   top: $resultGroup.offsetTop,
                 });
+              }}
+              style={{
+                paddingBottom: verticalPadding,
+                paddingTop: verticalPadding,
               }}
               title={
                 numResults === undefined

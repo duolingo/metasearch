@@ -115,7 +115,8 @@ a {
 
   li {
     color: $gray;
-    padding: 8px 8px 8px $engine-padding-left;
+    padding-left: $engine-padding-left;
+    padding-right: 8px;
   }
 
   .has-results {
@@ -205,4 +206,9 @@ h2 {
   color: $gray;
   grid-area: 3 / 1 / 4 / 2;
   padding: $padding-standard ($padding-standard + $engine-padding-left);
+
+  @media (max-height: 600px) {
+    padding-bottom: $padding-standard / 2;
+    padding-top: $padding-standard / 2;
+  }
 }
