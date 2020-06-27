@@ -37,6 +37,8 @@ const Header = ({
       <input
         autoFocus
         className="search-box"
+        // For Firefox's "Add a Keyword for this Search..." feature
+        name="q"
         onChange={onChange}
         placeholder={"Search for anything!"}
         type="text"
