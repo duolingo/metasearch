@@ -142,7 +142,6 @@ const handleSearch = async (
   // Normalize and validate query
   q = q.trim().replace(/\s+/, " ");
   if (!/\w/.test(q)) {
-    console.log(`Invalid query: ${q}`);
     return;
   }
 
@@ -169,6 +168,9 @@ const handleSearch = async (
   );
 };
 
+const getUrlQ = () =>
+  new URLSearchParams(window.location.search).get("q") ?? "";
+
 const App = () => {
   const [q, setQ] = useState<string>("");
   const [resultGroups, dispatch] = useReducer(
@@ -180,11 +182,9 @@ const App = () => {
   useEffect(() => {
     // Run query on initial page load and on HTML5 history change
     const runUrlQ = () => {
-      const urlQ = new URLSearchParams(window.location.search).get("q");
-      if (urlQ) {
-        setQ(urlQ);
-        handleSearch(dispatch, urlQ, false);
-      }
+      const urlQ = getUrlQ();
+      setQ(urlQ);
+      handleSearch(dispatch, urlQ, false);
     };
     runUrlQ();
     window.addEventListener("popstate", runUrlQ);
@@ -204,7 +204,7 @@ const App = () => {
       </div>
       <Header
         onChange={e => setQ(e.target.value)}
-        onSearch={q => handleSearch(dispatch, q, true)}
+        onSearch={q => handleSearch(dispatch, q, !!getUrlQ().trim())}
         q={q}
       />
       <Sidebar resultGroups={resultGroups} />
