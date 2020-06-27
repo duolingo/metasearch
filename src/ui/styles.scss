@@ -2,7 +2,7 @@
 
 $padding-standard: 30px;
 $radius-standard: 999px;
-$submit-button-width: 60px;
+$submit-button-width: 50px;
 $blue: #1cb0f6;
 $light-gray: #e5e5e5;
 $gray: #888;
@@ -87,24 +87,22 @@ a {
   height: 50px;
   max-width: 600px;
   min-width: 200px;
-  padding: 0 ($padding-standard - 3px);
+  padding: 0 0 0 ($padding-standard - 3px);
   vertical-align: top;
   width: calc(100% - #{$submit-button-width});
 }
 
 .submit {
-  background: $blue url(/search.svg) no-repeat 15px center;
-  border: 0;
+  background: url(/favicon.png) no-repeat 10px center;
+  background-size: 20px;
+  border: 2px solid $light-gray;
+  border-left: 0;
   border-radius: 0 $radius-standard $radius-standard 0;
   cursor: pointer;
   height: 50px;
-  transition: 0.2s;
+  padding: 0;
   vertical-align: top;
   width: $submit-button-width;
-
-  &:hover {
-    opacity: 0.7;
-  }
 }
 
 .sidebar {
