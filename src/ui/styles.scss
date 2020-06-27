@@ -28,7 +28,12 @@ $engine-padding-left: 12px;
 *::before,
 *::after {
   box-sizing: inherit;
-  font-family: Metasearch, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  // Metasearch is mostly developed and tested using the proprietary font FF Din
+  // Rounded. We specify Arial instead of (the typographically superior?)
+  // Helvetica as the fallback because Din's height is closer to Arial's than to
+  // Helvetica's. More consistent behavior across OSes is a secondary reason for
+  // using web-safe Arial.
+  font-family: Metasearch, Arial, sans-serif;
   outline: none;
 }
 
