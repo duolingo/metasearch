@@ -5,6 +5,12 @@ import { escapeQuotes } from "./index";
 let client: AxiosInstance | undefined;
 let origin: string | undefined;
 
+// https://confluence.atlassian.com/jiracoreserver073/search-syntax-for-text-fields-861257223.html#Searchsyntaxfortextfields-escapingSpecialcharacters
+const sanitize = (s: string) =>
+  escapeQuotes(s.replace(/[+\-&|!(){}[\]^~*?\\:]/g, ""))
+    .replace(/\s+/, " ")
+    .trim();
+
 const engine: Engine = {
   id: "jira",
   init: (options: { origin: string; token: string; user: string }) => {
@@ -31,10 +37,7 @@ const engine: Engine = {
       }[];
     } = (
       await client.get("/search", {
-        params: {
-          expand: "renderedFields",
-          jql: `text ~ "${escapeQuotes(q)}"`,
-        },
+        params: { expand: "renderedFields", jql: `text ~ "${sanitize(q)}"` },
       })
     ).data;
     return data.issues.map(issue => ({
