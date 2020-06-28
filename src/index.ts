@@ -148,8 +148,8 @@ import { sanitizeHtml } from "./util";
         })),
       );
     } catch (ex) {
-      res.status(500);
-      res.send(JSON.stringify({}));
+      // TODO: Instead return 500 and show error UI
+      res.send(JSON.stringify([]));
 
       // If Axios error, keep only the useful parts
       if (ex.isAxiosError) {
