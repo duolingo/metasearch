@@ -136,6 +136,22 @@ const Results = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
   </div>
 );
 
+const memoize = <F extends Function>(fn: F) => {
+  let cache: Record<string, any> = {};
+  return (((...args: any[]) => {
+    const cacheKey = JSON.stringify(args);
+    if (!(cacheKey in cache)) {
+      cache[cacheKey] = fn(...args);
+    }
+    return cache[cacheKey];
+  }) as unknown) as F;
+};
+
+const getResults = memoize(
+  async (id: string, q: string): Promise<Result[]> =>
+    await (await fetch(`/api/search?${querify({ engine: id, q })}`)).json(),
+);
+
 const handleSearch = async (
   dispatch: React.Dispatch<ResultGroup | undefined>,
   q: string,
@@ -162,9 +178,7 @@ const handleSearch = async (
   await Promise.all(
     Object.values(ENGINES).map(async engine => {
       const start = Date.now();
-      const results = await (
-        await fetch(`/api/search?${querify({ engine: engine.id, q })}`)
-      ).json();
+      const results = await getResults(engine.id, q);
       dispatch({ elapsedMs: Date.now() - start, engineId: engine.id, results });
     }),
   );
