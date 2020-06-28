@@ -154,7 +154,10 @@ const engine: Engine = {
           }),
         );
       } while (token);
-      console.log(`Scraped AWS in ${(Date.now() - start) / 1000}s`);
+      console.log(
+        `Scraped ${resources.length} AWS resources in ${(Date.now() - start) /
+          1000}s`,
+      );
       return new Set(resources);
     }, 4);
   },
