@@ -1,13 +1,14 @@
 @use "../../node_modules/normalize.css/normalize.css";
 
-$padding-standard: 30px;
-$radius-standard: 999px;
-$submit-button-width: 50px;
-$blue: #1cb0f6;
-$light-gray: #e5e5e5;
-$gray: #888;
-$sidebar-width: 250px;
-$engine-padding-left: 12px;
+:root {
+  --padding-standard: 30px;
+  --radius-standard: 999px;
+  --submit-button-width: 50px;
+  --blue: #1cb0f6;
+  --light-gray: #e5e5e5;
+  --gray: #888;
+  --engine-padding-left: 12px;
+}
 
 @font-face {
   font-display: swap;
@@ -38,7 +39,7 @@ $engine-padding-left: 12px;
 }
 
 ::placeholder {
-  color: $gray;
+  color: var(--gray);
   opacity: 1;
 }
 
@@ -49,7 +50,7 @@ html {
 }
 
 hr {
-  border: 1px solid $light-gray;
+  border: 1px solid var(--light-gray);
 }
 
 ul {
@@ -58,13 +59,13 @@ ul {
 }
 
 a {
-  color: $blue;
+  color: var(--blue);
   text-decoration: none;
 }
 
 #root {
   display: grid;
-  grid-template-columns: $sidebar-width 1fr;
+  grid-template-columns: 250px 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
@@ -73,57 +74,57 @@ a {
   font-size: 35px;
   grid-area: 1 / 1 / 2 / 2;
   letter-spacing: -0.03em;
-  padding: $padding-standard $padding-standard ($padding-standard / 2) ($padding-standard + 9px);
+  padding: var(--padding-standard) var(--padding-standard) calc(var(--padding-standard) / 2) calc(var(--padding-standard) + 9px);
   text-transform: lowercase;
   user-select: none;
 }
 
 .header {
   grid-area: 1 / 2 / 2 / 3;
-  padding: $padding-standard $padding-standard ($padding-standard / 2) 0;
+  padding: var(--padding-standard) var(--padding-standard) calc(var(--padding-standard) / 2) 0;
   white-space: nowrap;
 }
 
 .search-box {
-  border: 2px solid $light-gray;
-  border-radius: $radius-standard 0 0 $radius-standard;
+  border: 2px solid var(--light-gray);
+  border-radius: var(--radius-standard) 0 0 var(--radius-standard);
   border-right: 0;
   font-size: 1.2rem;
   height: 50px;
   max-width: 600px;
   min-width: 200px;
-  padding: 0 0 0 ($padding-standard - 3px);
+  padding: 0 0 0 calc(var(--padding-standard) - 3px);
   vertical-align: top;
-  width: calc(100% - #{$submit-button-width});
+  width: calc(100% - var(--submit-button-width));
 }
 
 .submit {
   background: url(/favicon.png) no-repeat 10px center;
   background-size: 20px;
-  border: 2px solid $light-gray;
+  border: 2px solid var(--light-gray);
   border-left: 0;
-  border-radius: 0 $radius-standard $radius-standard 0;
+  border-radius: 0 var(--radius-standard) var(--radius-standard) 0;
   cursor: pointer;
   height: 50px;
   padding: 0;
   vertical-align: top;
-  width: $submit-button-width;
+  width: var(--submit-button-width);
 }
 
 .sidebar {
   grid-area: 2 / 1 / 3 / 2;
   overflow-y: auto;
-  padding: 0 $padding-standard;
+  padding: 0 var(--padding-standard);
   user-select: none;
 
   li {
-    color: $gray;
-    padding-left: $engine-padding-left;
+    color: var(--gray);
+    padding-left: var(--engine-padding-left);
     padding-right: 8px;
   }
 
   .has-results {
-    border-radius: $radius-standard;
+    border-radius: var(--radius-standard);
     color: inherit;
     cursor: pointer;
     font-weight: bold;
@@ -133,7 +134,7 @@ a {
     }
 
     span {
-      background: $blue;
+      background: var(--blue);
     }
   }
 
@@ -153,14 +154,14 @@ a {
   grid-area: 2 / 2 / 4 / 3;
   overflow-wrap: anywhere;
   overflow-y: auto;
-  padding: 0 (2 * $padding-standard) 0 $padding-standard;
+  padding: 0 calc(2 * var(--padding-standard)) 0 var(--padding-standard);
   position: relative; // Simplifies programmatic adjustment of scroll position
 }
 
 .result-group {
-  border-bottom: 2px solid $light-gray;
-  margin-bottom: ($padding-standard / 2);
-  padding-bottom: ($padding-standard / 2);
+  border-bottom: 2px solid var(--light-gray);
+  margin-bottom: calc(var(--padding-standard) / 2);
+  padding-bottom: calc(var(--padding-standard) / 2);
 }
 
 .result-group:last-child {
@@ -172,12 +173,12 @@ h2 {
 }
 
 .stats {
-  color: $gray;
-  margin-left: 0.5 * $padding-standard;
+  color: var(--gray);
+  margin-left: calc(var(--padding-standard) / 2);
 }
 
 .result {
-  margin-bottom: $padding-standard;
+  margin-bottom: var(--padding-standard);
 }
 
 .title {
@@ -185,7 +186,7 @@ h2 {
 }
 
 .snippet {
-  color: $gray;
+  color: var(--gray);
 
   img {
     // Show checkered background for partially transparent images
@@ -206,12 +207,12 @@ h2 {
 }
 
 .footer {
-  color: $gray;
+  color: var(--gray);
   grid-area: 3 / 1 / 4 / 2;
-  padding: $padding-standard ($padding-standard + $engine-padding-left);
+  padding: var(--padding-standard) calc(var(--padding-standard) + var(--engine-padding-left));
 
   @media (max-height: 600px) {
-    padding-bottom: $padding-standard / 2;
-    padding-top: $padding-standard / 2;
+    padding-bottom: calc(var(--padding-standard) / 2);
+    padding-top: calc(var(--padding-standard) / 2);
   }
 }
