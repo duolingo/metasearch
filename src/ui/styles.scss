@@ -1,13 +1,33 @@
 @use "../../node_modules/normalize.css/normalize.css";
 
 :root {
-  --padding-standard: 30px;
   --radius-standard: 999px;
-  --submit-button-width: 50px;
   --blue: #1cb0f6;
-  --light-gray: #e5e5e5;
   --gray: #888;
+  --light-gray: #e5e5e5;
+
+  --padding-standard: 30px;
+  --logo-font-size: 35px;
+  --logo-margin: 0px;
+  --search-box-height: 50px;
+  --search-box-padding-left: calc(var(--padding-standard) - 3px);
+  --placeholder-opacity: 1;
+  --sidebar-width: 250px;
   --engine-padding-left: 12px;
+  --footer-display: initial;
+}
+
+@media (max-height: 700px), (max-width: 700px) {
+  :root {
+    --padding-standard: 5px;
+    --logo-font-size: 31px;
+    --logo-margin: -2px;
+    --search-box-height: 40px;
+    --search-box-padding-left: 15px;
+    --placeholder-opacity: 0;
+    --sidebar-width: 180px;
+    --footer-display: none;
+  }
 }
 
 @font-face {
@@ -40,7 +60,7 @@
 
 ::placeholder {
   color: var(--gray);
-  opacity: 1;
+  opacity: var(--placeholder-opacity);
 }
 
 html {
@@ -65,15 +85,16 @@ a {
 
 #root {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
 
 .logo {
-  font-size: 35px;
+  font-size: var(--logo-font-size);
   grid-area: 1 / 1 / 2 / 2;
   letter-spacing: -0.03em;
+  margin-top: var(--logo-margin);
   padding: var(--padding-standard) var(--padding-standard) calc(var(--padding-standard) / 2) calc(var(--padding-standard) + 9px);
   text-transform: lowercase;
   user-select: none;
@@ -90,12 +111,12 @@ a {
   border-radius: var(--radius-standard) 0 0 var(--radius-standard);
   border-right: 0;
   font-size: 1.2rem;
-  height: 50px;
+  height: var(--search-box-height);
   max-width: 600px;
-  min-width: 200px;
-  padding: 0 0 0 calc(var(--padding-standard) - 3px);
+  min-width: 120px;
+  padding: 0 0 0 var(--search-box-padding-left);
   vertical-align: top;
-  width: calc(100% - var(--submit-button-width));
+  width: calc(100% - var(--search-box-height));
 }
 
 .submit {
@@ -105,10 +126,10 @@ a {
   border-left: 0;
   border-radius: 0 var(--radius-standard) var(--radius-standard) 0;
   cursor: pointer;
-  height: 50px;
+  height: var(--search-box-height);
   padding: 0;
   vertical-align: top;
-  width: var(--submit-button-width);
+  width: var(--search-box-height);
 }
 
 .sidebar {
@@ -174,7 +195,7 @@ h2 {
 
 .stats {
   color: var(--gray);
-  margin-left: calc(var(--padding-standard) / 2);
+  margin-left: 15px;
 }
 
 .result {
@@ -208,11 +229,7 @@ h2 {
 
 .footer {
   color: var(--gray);
+  display: var(--footer-display);
   grid-area: 3 / 1 / 4 / 2;
   padding: var(--padding-standard) calc(var(--padding-standard) + var(--engine-padding-left));
-
-  @media (max-height: 600px) {
-    padding-bottom: calc(var(--padding-standard) / 2);
-    padding-top: calc(var(--padding-standard) / 2);
-  }
 }

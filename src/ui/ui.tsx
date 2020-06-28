@@ -57,7 +57,7 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
         .map(engine => {
           const numResults = resultGroups.find(rg => rg.engineId === engine.id)
             ?.results.length;
-          const verticalPadding = `calc(clamp(5px, (((100vh - 221px) / ${
+          const verticalPadding = `calc(clamp(4px, (((100vh - 3.5 * var(--padding-standard) - 116px) / ${
             Object.keys(ENGINES).length
           }) - 17.25px) / 2, 10px))`;
           return (
