@@ -101,7 +101,7 @@ const engine: Engine = {
                   name: string;
                 };
                 permalink: string;
-                text: string;
+                text: string | undefined;
                 user: null | string;
                 username: string;
               }[];
@@ -130,7 +130,8 @@ const engine: Engine = {
               m =>
                 m.channel.is_channel &&
                 !m.channel.is_private &&
-                (includeBotMessages || m.user),
+                (includeBotMessages || m.user) &&
+                m.text?.trim().length,
             )
             .map(m => ({
               snippet: m.text,
