@@ -116,6 +116,7 @@ const engine: Engine = {
     getResources = rateLimit(async () => {
       let token: string | undefined;
       const resources: Result[] = [];
+      const start = Date.now();
       do {
         const { PaginationToken, ResourceTagMappingList = [] } = await new RGT({
           region,
@@ -153,6 +154,7 @@ const engine: Engine = {
           }),
         );
       } while (token);
+      console.log(`Scraped AWS in ${(Date.now() - start) / 1000}s`);
       return new Set(resources);
     }, 4);
   },
