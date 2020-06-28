@@ -38,7 +38,7 @@ Metasearch is a tool for searching many content sources in parallel:
 
 ### Without Docker
 
-1. Install Node.js v12.13.1
+1. Install Node.js v14.4.0
    - Optional: Use a manager like [nodenv](https://github.com/nodenv/nodenv)
 1. Clone this repo
 1. Customize the contents of `config.yaml`
