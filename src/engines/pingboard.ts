@@ -57,7 +57,7 @@ const engine: Engine = {
 
     return Array.from(await getEmployees())
       .filter(u =>
-        Object.values(u)
+        [...Object.values(u), `${u.first_name} ${u.last_name}`]
           .filter((v): v is string => typeof v === "string")
           .some(v => v.toLowerCase().includes(q.toLowerCase())),
       )
