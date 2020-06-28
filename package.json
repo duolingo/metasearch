@@ -27,6 +27,7 @@
     "typescript": "3.9.5"
   },
   "dependencies": {
+    "aws-sdk": "2.706.0",
     "axios": "0.19.2",
     "compression": "1.7.4",
     "ejs": "3.1.3",

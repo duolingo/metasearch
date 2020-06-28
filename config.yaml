@@ -19,6 +19,13 @@
 ###############################################################################
 engines:
 
+  # AWS tagged resources. Metasearch assumes that AWS credentials are located in
+  # ~/.aws. You should mount the host's .aws folder into the container if
+  # running Metasearch in Docker, e.g. -v "$HOME/.aws:/root/.aws"
+  aws:
+    # AWS region
+    region: us-east-1
+
   # Confluence pages
   confluence:
     # Confluence server URL origin

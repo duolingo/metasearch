@@ -2,6 +2,7 @@
 
 Metasearch is a tool for searching many content sources in parallel:
 
+- [AWS](https://aws.amazon.com/) tagged resources
 - [Confluence](https://www.atlassian.com/software/confluence) pages
 - [Dropbox](https://www.dropbox.com/) files and folders
 - [Figma](https://www.figma.com/) files, projects, and teams

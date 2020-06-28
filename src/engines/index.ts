@@ -1,3 +1,4 @@
+import aws from "./aws";
 import confluence from "./confluence";
 import drive from "./drive";
 import dropbox from "./dropbox";
@@ -42,6 +43,7 @@ export const rateLimit = <R, F extends () => R>(
 };
 
 const engines: Engine[] = [
+  aws,
   confluence,
   drive,
   dropbox,
