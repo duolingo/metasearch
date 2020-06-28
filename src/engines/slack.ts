@@ -55,6 +55,16 @@ const engine: Engine = {
       throw Error("Engine not initialized");
     }
 
+    // TODO: Also expand username mentions such as <@U8DL4L6VC> instead of
+    // letting them get stripped out by sanitize-html
+    const linkify = (s: string) =>
+      s
+        .replace(/<(https?:\/\/[^|>]+)>/g, '<a href="$1">$1</a>')
+        .replace(
+          /<((?:https?|mailto):[^|]+)\|([^>]+)>/g,
+          '<a href="$1">$2</a>',
+        );
+
     return (
       await Promise.all([
         // Channels
@@ -134,7 +144,7 @@ const engine: Engine = {
                 m.text?.trim().length,
             )
             .map(m => ({
-              snippet: m.text,
+              snippet: m.text ? linkify(m.text) : undefined,
               title: `Message by @${m.username} in #${m.channel.name}`,
               url: m.permalink,
             }));
