@@ -74,7 +74,7 @@ export const rateLimit = <R, F extends () => Promise<R>>(
   let lastPromise = resultCachingFn();
   setInterval(() => {
     lastPromise = resultCachingFn();
-  }, intervalHours * 60 * 60 * 1000);
+  }, (intervalHours * 60 - 5 * Math.random()) * 60 * 1000); // 5 minute jitter
 
   // Prefer returning the last resolved promise, falling back to a pending one
   return (() => (lastResult ? Promise.resolve(lastResult) : lastPromise)) as F;
