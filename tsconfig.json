@@ -12,7 +12,6 @@
     "pretty": true,
     "resolveJsonModule": true,
     "rootDir": "src",
-    "sourceMap": true,
     "strict": true,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,

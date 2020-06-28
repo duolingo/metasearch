@@ -24,7 +24,8 @@
     "@types/xml2js": "0.4.5",
     "normalize.css": "8.0.1",
     "sass": "1.26.8",
-    "typescript": "3.9.5"
+    "typescript": "3.9.5",
+    "uglify-js": "3.10.0"
   },
   "dependencies": {
     "aws-sdk": "2.706.0",

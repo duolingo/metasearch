@@ -9,9 +9,9 @@ all: build serve
 # Compile assets. Intended use case: Docker build step
 .PHONY: build
 build: _ts
-	cp src/ui/ui.js* dist/
+	node_modules/.bin/uglifyjs -c -m -o dist/ui.js src/ui/ui.js
 	echo 'Compiling Sass...'
-	node_modules/.bin/sass -s compressed src/ui/styles.scss dist/styles.css
+	node_modules/.bin/sass --no-source-map -s compressed src/ui/styles.scss dist/styles.css
 
 # Get a Google OAuth refresh token
 .PHONY: oauth
