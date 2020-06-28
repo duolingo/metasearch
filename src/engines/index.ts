@@ -31,15 +31,25 @@ export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
  * be not just stale but also incorrect in the case that different parameter
  * values were provided to the current call and the cached call.
  */
-export const rateLimit = <R, F extends () => R>(
+export const rateLimit = <R, F extends () => Promise<R>>(
   fn: F,
   intervalHours: number,
 ): F => {
-  let lastResult = fn();
+  // Wrap the provided function to cache its result
+  let lastResult: R | undefined;
+  const resultCachingFn = async () => {
+    lastResult = await fn();
+    return lastResult;
+  };
+
+  // Call provided function both immediately and on an interval
+  let lastPromise = resultCachingFn();
   setInterval(() => {
-    lastResult = fn();
+    lastPromise = resultCachingFn();
   }, intervalHours * 60 * 60 * 1000);
-  return (() => lastResult) as F;
+
+  // Prefer returning the last resolved promise, falling back to a pending one
+  return (() => (lastResult ? Promise.resolve(lastResult) : lastPromise)) as F;
 };
 
 const engines: Engine[] = [
