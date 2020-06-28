@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as he from "he";
 
-import { escapeQuotes } from "./index";
+import { escapeQuotes } from "../util";
 
 let client: AxiosInstance | undefined;
 

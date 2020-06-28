@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 let getClient: (() => Promise<AxiosInstance>) | undefined;
 let orgId: string | undefined;

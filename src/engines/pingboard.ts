@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 interface Employee {
   email: string;

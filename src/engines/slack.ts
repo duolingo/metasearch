@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 interface Channel {
   id: string;

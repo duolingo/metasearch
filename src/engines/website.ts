@@ -1,8 +1,7 @@
 import axios from "axios";
 import * as xml2js from "xml2js";
 
-import { sanitizeHtml } from "../util";
-import { rateLimit } from "./index";
+import { rateLimit, sanitizeHtml } from "../util";
 
 interface Page {
   content: string;

@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 interface KitClient {
   kitName: string;

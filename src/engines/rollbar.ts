@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 let getProjects: (() => Promise<Set<string>>) | undefined;
 let org: string | undefined;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as he from "he";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 interface Job {
   absolute_url: string;

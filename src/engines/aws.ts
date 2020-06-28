@@ -1,6 +1,6 @@
 import * as RGT from "aws-sdk/clients/resourcegroupstaggingapi";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 /** AWS console host */
 const HOST = "console.aws.amazon.com";

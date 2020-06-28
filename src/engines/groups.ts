@@ -2,7 +2,7 @@ import * as fs from "fs";
 
 import { admin_directory_v1, google } from "googleapis";
 
-import { rateLimit } from "./index";
+import { rateLimit } from "../util";
 
 let domain: string | undefined;
 let getGroups:
