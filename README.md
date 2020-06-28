@@ -7,7 +7,7 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Dropbox](https://www.dropbox.com/) files and folders
 - [Figma](https://www.figma.com/) files, projects, and teams
 - [GitHub](https://github.com/) repo names and descriptions
-- [Google Drive](https://www.google.com/drive/) docs, spreadsheets, slides, etc.
+- [Google Drive](https://www.google.com/drive/) docs, spreadsheets, etc.
 - [Google Groups](https://groups.google.com/) groups
 - [Greenhouse](https://www.greenhouse.io/) job posts
 - [Guru](https://www.getguru.com/) cards
@@ -23,27 +23,19 @@ Metasearch is a tool for searching many content sources in parallel:
 - [Zoom](https://zoom.us/) rooms
 - Arbitrary websites via sitemaps
 
-## Quick start guide
+## Setup
 
-### With Docker
+### Using Docker
 
-1. Download [`config.yaml`](https://github.com/duolingo/metasearch/raw/master/config.yaml) and customize its contents
-1. In the local directory that contains `config.yaml`, run:
-   ```shell
-   docker run --rm -v "$PWD:/data" duolingo/metasearch
-   ```
-   - If your `config.yaml` references the host's environment variables, pass them through to the container with flags like `-e ZOOM_KEY`
-1. Access Metasearch at http://localhost:3000
-   - Optional: Map it to a different port with a flag like `-p 0.0.0.0:4242:3000`
+1. Download and customize [`config.yaml`](https://github.com/duolingo/metasearch/raw/master/config.yaml)
+1. In the local directory that contains `config.yaml`, run `docker run -v "$PWD:/data" duolingo/metasearch`
 
-### Without Docker
+### Using Git, Make, and Node.js
 
-1. Install Node.js v14.4.0
-   - Optional: Use a manager like [nodenv](https://github.com/nodenv/nodenv)
-1. Clone this repo
-1. Customize the contents of `config.yaml`
+1. Clone this repo and customize its `config.yaml`
 1. Run `make`
-1. Access Metasearch at http://localhost:3000
+
+Metasearch runs at http://localhost:3000.
 
 ---
 

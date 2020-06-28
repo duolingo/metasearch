@@ -1,6 +1,9 @@
-# Metasearch config file. Anywhere in this file, you can reference environment
-# variables using placeholders such as ${FOOBAR} that Metasearch will expand at
-# runtime.
+# Metasearch config file.
+#
+# Anywhere in this file, you can reference environment variables using
+# placeholders such as ${FOOBAR} that Metasearch will expand at runtime (if
+# using Docker, remember to pass the host's env vars through to the container
+# via `docker run` flags such as `-e ZOOM_KEY`).
 
 
 ###############################################################################
