@@ -31,8 +31,6 @@ oauth: _ts
 # Install NPM dependencies and compile TypeScript
 .PHONY: _ts
 _ts:
-	[[ "$$(node --version 2>&1)" = "v$$(cat .node-version)" ]] \
-		|| { echo "Please install Node.js v$$(cat .node-version)"; exit 1; }
 	echo 'Installing NPM dependencies...'
 	npm ci
 	echo 'Compiling TypeScript...'
