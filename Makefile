@@ -4,7 +4,17 @@ SHELL = /usr/bin/env bash
 
 # Build and serve. Intended use case: local development
 .PHONY: all
-all: build serve
+all: build
+	# This command is duplicated in the Dockerfile as its ENTRYPOINT. Ideally we'd
+	# factor it out into a separate Make target that we could use as ENTRYPOINT,
+	# but that causes server shutdown (e.g. via `docker stop`) to fail:
+	#
+	#     make: *** wait: No child processes.  Stop.
+	#     make: *** [Makefile:10: serve] Error 2
+	#
+	# Possibly related to this:
+	# https://medium.com/@becintec/building-graceful-node-applications-in-docker-4d2cd4d5d392
+	NODE_ENV=production node src/index.js
 
 # Compile assets. Intended use case: Docker build step
 .PHONY: build
@@ -17,11 +27,6 @@ build: _ts
 .PHONY: oauth
 oauth: _ts
 	node src/oauth.js
-
-# Serve pre-built JS. Intended use case: Docker entry point
-.PHONY: serve
-serve:
-	NODE_ENV=production node src/index.js
 
 # Install NPM dependencies and compile TypeScript
 .PHONY: _ts

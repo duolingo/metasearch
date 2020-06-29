@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import * as compression from "compression";
 import * as ejs from "ejs";
 import * as express from "express";
+import { createHttpTerminator } from "http-terminator";
 import { safeLoad } from "js-yaml";
 
 import engines from "./engines";
@@ -171,5 +172,15 @@ import { sanitizeHtml } from "./util";
   });
 
   // Start server
-  app.listen(port, () => console.log(`Serving at http://localhost:${port}`));
+  const httpTerminator = createHttpTerminator({
+    server: app.listen(port, () => {
+      console.log(`Serving Metasearch at http://localhost:${port}`);
+    }),
+  });
+  process.on("SIGTERM", async () => {
+    console.log("Gracefully shutting down...");
+    await httpTerminator.terminate();
+    console.log("Closed all open connections. Bye!");
+    process.exit(0);
+  });
 })();

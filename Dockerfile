@@ -6,4 +6,6 @@ COPY . .
 
 RUN make build
 
-ENTRYPOINT ["make", "serve"]
+ENV NODE_ENV production
+
+ENTRYPOINT ["node", "src/index.js"]
