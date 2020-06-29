@@ -57,9 +57,6 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
         .map(engine => {
           const numResults = resultGroups.find(rg => rg.engineId === engine.id)
             ?.results.length;
-          const verticalPadding = `calc(clamp(4px, (((100vh - 3.5 * var(--padding-standard) - 116px) / ${
-            Object.keys(ENGINES).length
-          }) - 17.25px) / 2, 10px))`;
           return (
             <li
               className={numResults ? "has-results" : undefined}
@@ -80,10 +77,6 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
                   top: $resultGroup.offsetTop,
                 });
               }}
-              style={{
-                paddingBottom: verticalPadding,
-                paddingTop: verticalPadding,
-              }}
               title={
                 numResults === undefined
                   ? "Searching..."
@@ -92,10 +85,12 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
                   : "No results found"
               }
             >
-              {engine.name}
-              {numResults === undefined ? null : (
-                <span className="num-results">{numResults}</span>
-              )}
+              <div className="engine-wrap">
+                {engine.name}
+                {numResults === undefined ? null : (
+                  <span className="num-results">{numResults}</span>
+                )}
+              </div>
             </li>
           );
         })}

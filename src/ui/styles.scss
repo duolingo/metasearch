@@ -138,10 +138,24 @@ a {
   padding: 0 var(--padding-standard);
   user-select: none;
 
+  ul {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 30px);
+  }
+
   li {
     color: var(--gray);
-    padding-left: var(--engine-padding-left);
-    padding-right: 8px;
+    flex-grow: 1;
+    max-height: 37px;
+    min-height: 24px;
+    padding: 0 8px 0 var(--engine-padding-left);
+  }
+
+  .engine-wrap {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .has-results {
