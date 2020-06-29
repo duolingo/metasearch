@@ -34,7 +34,7 @@ engines:
     # Confluence server URL origin
     origin: https://example.atlassian.net
     # Atlassian API token
-    token: 8NTHnTHE94xt6E6l6ig5fUbN
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4
     # Atlassian user who owns the API token
     user: admin@example.com
 
@@ -47,7 +47,7 @@ engines:
     # folders)
     folder: untitled (2)
     # Dropbox API token
-    token: vqTsOkuz0bAE_znMjyUfeHLkXUa6gj5mG5BS4pjS2pem9tMahbXpS0Hd725GY-oJ
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
 
   # Google Drive documents
   drive:
@@ -70,17 +70,17 @@ engines:
     # the CLI's instructions.
     #
     # For example: make oauth < /path/to/credentials.json
-    token: 5DRP6HbKpPwO41oFjr0RHxqldF6V9LTrMY/VW0GpfCYVuRX1aA4pjS7f/ECOWRz7ff2O4FfdL3zD7inAhZMcqC4O16G8xEhMXQ24Gyl
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
 
   # Figma files, projects, and teams
   figma:
     # Organization ID, the number that appears in the URL when viewing your
     # Figma organization's home page: https://www.figma.com/files/<org_id>
-    organization: 735245445471726247
+    organization: 123456789012345678
     # Figma password. If your account doesn't have a password yet (e.g. because
     # you sign into Figma via Google), you can add one to your account by going
     # through Figma's "Forgot password?" flow.
-    password: ex4mp1ep4ssw0rd
+    password: Ex4mp1eEx4mp1e
     # Figma user account
     user: admin@example.com
 
@@ -89,7 +89,7 @@ engines:
     # GitHub organization
     organization: example
     # GitHub personal access token
-    token: b701f041284869e7ff1d5b71e65d27119c869aba
+    token: abcdef0123456789abcdef0123456789abcdef01
 
   # Greenhouse job posts
   greenhouse:
@@ -103,12 +103,12 @@ engines:
     # Domain of groups to search
     domain: example.com
     # (See `drive` engine config for an explanation of this property)
-    token: 5DRP6HbKpPwO41oFjr0RHxqldF6V9LTrMY/VW0GpfCYVuRX1aA4pjS7f/ECOWRz7ff2O4FfdL3zD7inAhZMcqC4O16G8xEhMXQ24Gyl
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
 
   # Guru cards
   guru:
     # API user token
-    token: 313be9f0-a3a8-4850-9db8-3b56640ccc4f
+    token: 12345678-90ab-cdef-1234-567890abcdef
     # Token owner
     user: admin@example.com
 
@@ -129,7 +129,7 @@ engines:
     # Jira server URL origin
     origin: https://example.atlassian.net
     # Atlassian API token
-    token: 8NTHnTHE94xt6E6l6ig5fUbN
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4
     # Atlassian user who owns the API token
     user: admin@example.com
 
@@ -139,30 +139,30 @@ engines:
     # your kit URL may or may not include `?kit_token` depending on when it was
     # created in Lingo
     kits:
-      - https://www.lingoapp.com/space/1234/k/34AFA130-49FC-43E1-8BA0-5F8849FE5FDE?kit_token=H5hlmjNV8vE6a9iJfpjrmX0e-4KMcN70EwjY6eNntVA
-      - https://www.lingoapp.com/1234/k/Icons-RWEr24?kit_token=ydZEKijeJNeH7XO4LkI6RLzPbo9O0QkxY7k3aMYkaIu
-      - https://www.lingoapp.com/1234/k/Illustrations-uGyoMP
+      - https://www.lingoapp.com/space/1234/k/34AFA130-49FC-43E1-8BA0-5F8849FE5FDE?kit_token=Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
+      - https://www.lingoapp.com/1234/k/Icons-RWEr24?kit_token=Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
+      - https://www.lingoapp.com/1234/k/Illustrations-Ex4mp1
 
   # PagerDuty schedules and services
   pagerduty:
     # PagerDuty API token
-    token: tViu3EFqBHVYfPtLDBV5
+    token: Ex4mp1eEx4mp1eEx4mp1
 
   # Pingboard employees
   pingboard:
     # Pingboard non-admin API key ID
-    key: 023343997345d7430113dfd3012f5bc1e56502f36a31d0aed168c8fc7c38cf1d
+    key: 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
     # Pingboard organization name (appears before `.pingboard.com` in your account's URLs)
     organization: example
     # Pingboard non-admin API secret
-    secret: ea033aedc8fe535944f59abcd4bbca8f9f7f92ae04c485d471ae729ab77e62ac
+    secret: 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
 
   # Rollbar projects
   rollbar:
     # Rollbar organization
     organization: example
     # Account access token with `read` scope
-    token: 7919bf2527e27afa20884baed5236db1
+    token: 1234567890abcdef1234567890abcdef
 
   # Slack messages and channels
   slack:
@@ -171,12 +171,12 @@ engines:
     # Slack organization name (appears before `.slack.com` in your account's URLs)
     organization: example
     # Slack OAuth token that has the scopes `channels:read` and `search:read`
-    token: xoxp-9317820445-5055344098406-9716974264728-bc5986b6a3963c57fd3d1c8528e7e7a6
+    token: xoxp-1234567890-1234567890123-1234567890123-1234567890abcdef1234567890abcdef
 
   # TalentLMS courses
   talentlms:
     # TalentLMS API key
-    key: wbrSRlXBGmAs2WTvOsx0HxIL0iHWBn
+    key: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx
     # TalentLMS organization name (appears before `.talentlms.com` in your account's URLs)
     organization: example
 
@@ -192,9 +192,9 @@ engines:
   # Zoom room names
   zoom:
     # Zoom API key used for JWT authentication
-    key: iLGl0DWeD4xeWeQWzGi4Ju
+    key: Ex4mp1eEx4mp1eEx4mp1eE
     # Zoom API secret used for JWT authentication
-    secret: KbJ9Axxi9Md5BfeeGBuXaAofkRlqQoQ3Eff1
+    secret: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
 
 
 ###############################################################################
