@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
+import { stripStopWords } from "../util";
+
 let client: AxiosInstance | undefined;
 
 const engine: Engine = {
@@ -15,44 +17,46 @@ const engine: Engine = {
   search: async q => {
     // Return both exact matches and lenient matches in that order
     q = q.replace(/"/g, "");
-    const [exactMatches, lenientMatches] = await Promise.all(
-      [`"${q}"`, q].map(async searchTerms => {
-        if (!client) {
-          throw Error("Engine not initialized");
-        }
+    const [exactMatches, lenientMatches = []] = await Promise.all(
+      [`"${q}"`, stripStopWords(q)]
+        .filter(searchTerms => searchTerms)
+        .map(async searchTerms => {
+          if (!client) {
+            throw Error("Engine not initialized");
+          }
 
-        // https://developer.getguru.com/docs/listing-cards
-        interface User {
-          email: string;
-          firstName: string;
-          lastName: string;
-        }
-        const data: {
-          boards: { id: string; title: string }[];
-          collection: { id: string; name: string };
-          content: string;
-          lastModifiedBy: User;
-          lastVerifiedBy: User;
-          owner: User;
-          preferredPhrase: string;
-          slug: string;
-          verificationState: "NEEDS_VERIFICATION" | "TRUSTED";
-        }[] = (
-          await client.get("/search/query", {
-            params: {
-              // By default, Guru splits the query on whitespace and returns all
-              // results that contain *any* of those pieces. This is often extremely
-              // noisy and generally not what people want or expect, so we wrap the
-              // user's query in double-quotes in order to request only matches for
-              // the entire string.
-              searchTerms,
-              sortField: "popularity",
-              sortOrder: "desc",
-            },
-          })
-        ).data;
-        return data;
-      }),
+          // https://developer.getguru.com/docs/listing-cards
+          interface User {
+            email: string;
+            firstName: string;
+            lastName: string;
+          }
+          const data: {
+            boards: { id: string; title: string }[];
+            collection: { id: string; name: string };
+            content: string;
+            lastModifiedBy: User;
+            lastVerifiedBy: User;
+            owner: User;
+            preferredPhrase: string;
+            slug: string;
+            verificationState: "NEEDS_VERIFICATION" | "TRUSTED";
+          }[] = (
+            await client.get("/search/query", {
+              params: {
+                // By default, Guru splits the query on whitespace and returns all
+                // results that contain *any* of those pieces. This is often extremely
+                // noisy and generally not what people want or expect, so we wrap the
+                // user's query in double-quotes in order to request only matches for
+                // the entire string.
+                searchTerms,
+                sortField: "popularity",
+                sortOrder: "desc",
+              },
+            })
+          ).data;
+          return data;
+        }),
     );
 
     const exactMatchSlugs = new Set(exactMatches.map(m => m.slug));

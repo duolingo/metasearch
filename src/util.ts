@@ -1,4 +1,32 @@
+import * as fs from "fs";
+
 import * as sanitize from "sanitize-html";
+
+const STOP_WORDS_REGEX = new RegExp(
+  `\\b(${Array.from(
+    new Set(
+      fs
+        .readFileSync("src/stopwords.txt", "utf8")
+        .split("\n")
+        .map(w =>
+          w
+            .replace(/#.*/, "")
+            .trim()
+            .toLowerCase(),
+        )
+        .filter(w => w),
+    ),
+  )
+    .sort()
+    .join("|")})\\b`,
+  "gi",
+);
+
+export const stripStopWords = (s: string) =>
+  s
+    .replace(STOP_WORDS_REGEX, "")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const SANITIZATION_OPTIONS: sanitize.IOptions = {
   allowedTags: [

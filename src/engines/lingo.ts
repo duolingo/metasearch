@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
-import { rateLimit } from "../util";
+import { rateLimit, stripStopWords } from "../util";
 
 interface KitClient {
   kitName: string;
@@ -163,6 +163,11 @@ const engine: Engine = {
   search: async q => {
     if (!getClients) {
       throw Error("Engine not initialized");
+    }
+
+    q = stripStopWords(q);
+    if (!q) {
+      return [];
     }
 
     const clients = await getClients();
