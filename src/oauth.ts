@@ -23,7 +23,7 @@ const REDIRECT_URI = `http://localhost:${PORT}/`;
 // https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
 const {
   web: { client_id, client_secret, redirect_uris },
-} = JSON.parse(fs.readFileSync(0).toString());
+} = JSON.parse(fs.readFileSync(0, "utf8"));
 if (!redirect_uris.includes(REDIRECT_URI)) {
   console.log(`Please add ${REDIRECT_URI} to authorized redirect URIs first.`);
   process.exit(1);

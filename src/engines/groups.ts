@@ -23,7 +23,7 @@ const engine: Engine = {
     // https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
     const {
       web: { client_id, client_secret },
-    } = JSON.parse(fs.readFileSync(credentials).toString());
+    } = JSON.parse(fs.readFileSync(credentials, "utf8"));
     const auth = new google.auth.OAuth2(client_id, client_secret);
     auth.setCredentials({ refresh_token: token });
 
