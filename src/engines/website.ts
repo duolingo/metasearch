@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as xml2js from "xml2js";
 
-import { rateLimit, sanitizeHtml } from "../util";
+import { fuzzyIncludes, rateLimit, sanitizeHtml } from "../util";
 
 interface Page {
   content: string;
@@ -60,7 +60,9 @@ const engine: Engine = {
     }
 
     return Array.from(await getPages())
-      .filter(p => [p.content, p.title].some(s => s.includes(q.toLowerCase())))
+      .filter(
+        p => p.content.includes(q.toLowerCase()) || fuzzyIncludes(p.title, q),
+      )
       .sort((a, b) => (a.url > b.url ? 1 : -1))
       .map(p => ({
         snippet: p.lastmod,

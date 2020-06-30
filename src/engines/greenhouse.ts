@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as he from "he";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Job {
   absolute_url: string;
@@ -47,12 +47,16 @@ const engine: Engine = {
     }
 
     return Array.from(await getJobs())
-      .filter(j =>
-        [
-          j.title,
-          j.content.replace(/<.+?>/g, " ").replace(/\s+/g, " "),
-          ...j.departments.map(d => d.name),
-        ].some(s => s.toLowerCase().includes(q.toLowerCase())),
+      .filter(
+        j =>
+          [j.title, ...j.departments.map(d => d.name)].some(s =>
+            fuzzyIncludes(s, q),
+          ) ||
+          j.content
+            .replace(/<.+?>/g, " ")
+            .replace(/\s+/g, " ")
+            .toLowerCase()
+            .includes(q.toLowerCase()),
       )
       .map(j => ({
         snippet: j.content,

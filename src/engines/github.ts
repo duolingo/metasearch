@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Repo {
   description: null | string;
@@ -80,8 +80,7 @@ const engine: Engine = {
         r =>
           !r.isArchived &&
           !r.isFork &&
-          (r.description?.toLowerCase().includes(q.toLowerCase()) ||
-            r.name.toLowerCase().includes(q.toLowerCase())),
+          [r.description, r.name].some(s => fuzzyIncludes(s, q)),
       )
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({

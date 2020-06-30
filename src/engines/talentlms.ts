@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Course {
   description: string;
@@ -39,9 +39,7 @@ const engine: Engine = {
       .filter(
         c =>
           c.status === "active" &&
-          [c.description, c.name].some(s =>
-            s.toLowerCase().includes(q.toLowerCase()),
-          ),
+          [c.description, c.name].some(s => fuzzyIncludes(s, q)),
       )
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(c => ({

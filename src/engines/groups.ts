@@ -2,7 +2,7 @@ import * as fs from "fs";
 
 import { admin_directory_v1, google } from "googleapis";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 let domain: string | undefined;
 let getGroups:
@@ -44,9 +44,7 @@ const engine: Engine = {
 
     return Array.from(await getGroups())
       .filter(g =>
-        [g.email, g.name, g.description].some(s =>
-          s?.toLowerCase().includes(q.toLowerCase()),
-        ),
+        [g.email, g.name, g.description].some(s => fuzzyIncludes(s, q)),
       )
       .sort((a, b) => ((a.email ?? "") > (b.email ?? "") ? 1 : -1))
       .map(g => ({

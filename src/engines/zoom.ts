@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as jsonwebtoken from "jsonwebtoken";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Room {
   id: string;
@@ -43,7 +43,7 @@ const engine: Engine = {
     }
 
     return Array.from(await getRooms())
-      .filter(r => r.name.toLowerCase().includes(q.toLowerCase()))
+      .filter(r => fuzzyIncludes(r.name, q))
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(r => ({
         snippet: `Current status: ${r.status}`,

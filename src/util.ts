@@ -50,6 +50,15 @@ export const sanitizeHtml = (s: string) => sanitize(s, SANITIZATION_OPTIONS);
 /** Replaces all `"` with `\"`. */
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
+/** Converts "Don't stop believin'" to "dontstopbelievin". */
+const fuzzify = (s: string) => s.replace(/\W/g, "").toLowerCase();
+
+/** Like String.prototype.includes, but ignores casing and punctuation. */
+export const fuzzyIncludes = (
+  haystack: null | string | undefined,
+  needle: string,
+) => fuzzify(haystack ?? "").includes(fuzzify(needle));
+
 /**
  * Calls the provided function every N hours and returns a wrapper function
  * that itself returns the cached result of the provided function's most

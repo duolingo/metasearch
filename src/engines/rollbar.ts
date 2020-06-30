@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 let getProjects: (() => Promise<Set<string>>) | undefined;
 let org: string | undefined;
@@ -28,7 +28,7 @@ const engine: Engine = {
     }
 
     return Array.from(await getProjects())
-      .filter(n => n.toLowerCase().includes(q.toLowerCase()))
+      .filter(n => fuzzyIncludes(n, q))
       .sort()
       .map(n => ({ title: n, url: `https://rollbar.com/${org}/${n}/` }));
   },

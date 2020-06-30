@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Model {
   description: null | string;
@@ -48,11 +48,7 @@ const engine: Engine = {
 
     return (await Promise.all([getSchedules(), getServices()]))
       .flatMap(s => Array.from(s))
-      .filter(m =>
-        [m.name, m.description].some(s =>
-          (s ?? "").toLowerCase().includes(q.toLowerCase()),
-        ),
-      )
+      .filter(m => [m.name, m.description].some(s => fuzzyIncludes(s, q)))
       .map(m => ({
         snippet: m.description ?? undefined,
         title: `${m.name} ${m.type}`,

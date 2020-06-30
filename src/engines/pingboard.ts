@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Employee {
   email: string;
@@ -59,7 +59,7 @@ const engine: Engine = {
       .filter(u =>
         [...Object.values(u), `${u.first_name} ${u.last_name}`]
           .filter((v): v is string => typeof v === "string")
-          .some(v => v.toLowerCase().includes(q.toLowerCase())),
+          .some(v => fuzzyIncludes(v, q)),
       )
       .sort((a, b) => (a.first_name > b.first_name ? 1 : -1))
       .map(u => ({

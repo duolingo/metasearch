@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 const JOB_FIELDS = ["description", "name", "url"] as const;
 
@@ -30,11 +30,7 @@ const engine: Engine = {
     }
 
     return Array.from(await getJobs())
-      .filter(j =>
-        [j.name, j.description].some(s =>
-          s.toLowerCase().includes(q.toLowerCase()),
-        ),
-      )
+      .filter(j => [j.name, j.description].some(s => fuzzyIncludes(s, q)))
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(j => ({
         snippet: j.description.length ? j.description : undefined,

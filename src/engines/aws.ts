@@ -1,6 +1,6 @@
 import * as RGT from "aws-sdk/clients/resourcegroupstaggingapi";
 
-import { rateLimit } from "../util";
+import { fuzzyIncludes, rateLimit } from "../util";
 
 /** AWS console host */
 const HOST = "console.aws.amazon.com";
@@ -168,7 +168,7 @@ const engine: Engine = {
     }
 
     return Array.from(await getResources())
-      .filter(r => r.snippet?.toLowerCase().includes(q.toLowerCase()))
+      .filter(r => fuzzyIncludes(r.snippet, q))
       .sort((a, b) => ((a.snippet ?? "") > (b.snippet ?? "") ? 1 : -1));
   },
 };
