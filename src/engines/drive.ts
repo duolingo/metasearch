@@ -50,7 +50,7 @@ const engine: Engine = {
       // https://developers.google.com/drive/api/v3/search-files#search_the_corpora
       corpora: "domain",
       fields: "files(description, id, kind, mimeType, name, owners)",
-      q: `fullText contains '${q}'`,
+      q: `fullText contains '${q.replace(/'/, "\\'")}'`,
       spaces: "drive",
     });
     return (
