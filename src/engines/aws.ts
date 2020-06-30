@@ -139,10 +139,10 @@ const engine: Engine = {
             const resourceIdPieces = arnPieces.slice(5);
             return {
               snippet: [
-                `ARN: ${r.ResourceARN}`,
+                `ARN = ${r.ResourceARN}`,
                 ...(r.Tags ?? [])
                   .sort((a, b) => (a.Key > b.Key ? 1 : -1))
-                  .map(r => `${r.Key}: ${r.Value}`),
+                  .map(r => `${r.Key} = ${r.Value}`),
               ].join("<br>"),
               title: resourceIdPieces.join(":"),
               url: `https://${serviceToUrl(arnPieces[2])({
