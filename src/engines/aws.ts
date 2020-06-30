@@ -5,6 +5,41 @@ import { fuzzyIncludes, rateLimit } from "../util";
 /** AWS console host */
 const HOST = "console.aws.amazon.com";
 
+/**
+ * Mapping of ARN service names to friendly product names.
+ *
+ * TODO: Handle more AWS services
+ */
+const SERVICE_NAMES: Record<string, string> = {
+  acm: "Certificate Manager",
+  cloudformation: "CloudFormation",
+  cloudfront: "CloudFront",
+  cloudtrail: "CloudTrail",
+  cloudwatch: "CloudWatch",
+  datapipeline: "Data Pipeline",
+  dynamodb: "DynamoDB",
+  ec2: "EC2",
+  elasticache: "ElastiCache",
+  elasticbeanstalk: "Elastic Beanstalk",
+  elasticloadbalancing: "ELB",
+  elasticmapreduce: "EMR",
+  es: "Elasticsearch",
+  events: "CloudWatch",
+  firehose: "Firehose",
+  kinesis: "Kinesis",
+  kms: "KMS",
+  lambda: "Lambda",
+  rds: "RDS",
+  redshift: "Redshift",
+  "resource-groups": "Resource Groups",
+  route53: "Route 53",
+  s3: "S3",
+  secretsmanager: "Secrets Manager",
+  sns: "SNS",
+  sqs: "SQS",
+  states: "Step Functions",
+};
+
 /** TODO: Handle more AWS services */
 const RESOURCE_NAME_TO_URL: Record<
   string,
@@ -137,6 +172,7 @@ const engine: Engine = {
              */
             const arnPieces = r.ResourceARN.split(":");
             const resourceIdPieces = arnPieces.slice(5);
+            const serviceName = SERVICE_NAMES[arnPieces[2]];
             return {
               snippet: [
                 `ARN = ${r.ResourceARN}`,
@@ -144,7 +180,9 @@ const engine: Engine = {
                   .sort((a, b) => (a.Key > b.Key ? 1 : -1))
                   .map(r => `${r.Key} = ${r.Value}`),
               ].join("<br>"),
-              title: resourceIdPieces.join(":"),
+              title:
+                (serviceName ? `${serviceName}: ` : "") +
+                resourceIdPieces.join(":"),
               url: `https://${serviceToUrl(arnPieces[2])({
                 arn: r.ResourceARN,
                 id: resourceIdPieces,
