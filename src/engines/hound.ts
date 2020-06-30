@@ -35,7 +35,15 @@ const engine: Engine = {
           }[];
         }
       >;
-    } = (await client.get("/search", { params: { q, repos: "*" } })).data;
+    } = (
+      await client.get("/search", {
+        params: {
+          i: 1,
+          q: `${q}|${q.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")}`,
+          repos: "*",
+        },
+      })
+    ).data;
     return Object.entries(data.Results || {})
       .map(([repo, result]) =>
         result.Matches.map(({ Filename, Matches }) =>
