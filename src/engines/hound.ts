@@ -49,7 +49,7 @@ const engine: Engine = {
         result.Matches.map(({ Filename, Matches }) =>
           Matches.map(({ Line, LineNumber }) => ({
             snippet:
-              Line.length > 10000
+              Line.length > 1000
                 ? "(Line too long to display)"
                 : `<code>${he.encode(Line)}</code>`,
             title: `${repo}/${Filename}#L${LineNumber}`,
