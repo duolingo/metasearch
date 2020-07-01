@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
+import * as marked from "marked";
 
-import { fuzzyIncludes, rateLimit } from "../util";
+import { escapeQuotes, fuzzyIncludes, rateLimit } from "../util";
 
 interface Repo {
   description: null | string;
@@ -9,16 +10,18 @@ interface Repo {
   name: string;
 }
 
+let client: AxiosInstance | undefined;
 let getRepos: (() => Promise<Set<Repo>>) | undefined;
 let org: string | undefined;
 
 const engine: Engine = {
   id: "github",
   init: ({ organization, token }: { organization: string; token: string }) => {
-    const client = axios.create({
+    const axiosClient = axios.create({
       baseURL: "https://api.github.com",
       headers: { Authorization: `bearer ${token}` },
     });
+    client = axiosClient;
 
     getRepos = rateLimit(async () => {
       let cursor: string | undefined;
@@ -37,7 +40,7 @@ const engine: Engine = {
             };
           };
         } = (
-          await client.post(
+          await axiosClient.post(
             "/graphql",
             JSON.stringify({
               query: `query {
@@ -71,24 +74,74 @@ const engine: Engine = {
   },
   name: "GitHub",
   search: async q => {
-    if (!(getRepos && org)) {
+    if (!(client && getRepos && org)) {
       throw Error("Engine not initialized");
     }
 
-    return Array.from(await getRepos())
-      .filter(
-        r =>
-          !r.isArchived &&
-          !r.isFork &&
-          [r.description, r.name].some(s => fuzzyIncludes(s, q)),
-      )
-      .sort((a, b) => (a.name > b.name ? 1 : -1))
-      .map(r => ({
-        // Strip emojis
-        snippet: r.description?.replace(/ *:[a-z-]+: */g, "") || undefined,
-        title: `${org}/${r.name}`,
-        url: `https://github.com/${org}/${r.name}`,
-      }));
+    return (
+      await Promise.all([
+        // Search repo names and descriptions
+        (async () => {
+          if (!(getRepos && org)) {
+            throw Error("Engine not initialized");
+          }
+
+          return Array.from(await getRepos())
+            .filter(
+              r =>
+                !r.isArchived &&
+                !r.isFork &&
+                [r.description, r.name].some(s => fuzzyIncludes(s, q)),
+            )
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
+            .map(r => ({
+              // Strip emojis
+              snippet:
+                r.description?.replace(/ *:[a-z-]+: */g, "") || undefined,
+              title: `Repo ${org}/${r.name}`,
+              url: `https://github.com/${org}/${r.name}`,
+            }));
+        })(),
+        // Search issues and pull requests
+        (async () => {
+          if (!(client && org)) {
+            throw Error("Engine not initialized");
+          }
+
+          const data: {
+            items: {
+              body: string;
+              /** e.g. "2020-06-29T21:46:58Z" */
+              created_at: string;
+              html_url: string;
+              number: number;
+              pull_request?: object;
+              title: string;
+              user: { login: string };
+            }[];
+          } = (
+            await client.get("/search/issues", {
+              params: {
+                q: /\b(is|author|org):\w/.test(q)
+                  ? /\borg:\w/.test(q)
+                    ? q
+                    : `org:${org} ${q}`
+                  : `org:${org} "${escapeQuotes(q)}"`,
+              },
+            })
+          ).data;
+          return data.items.map(item => ({
+            snippet: item.body
+              ? `<blockquote>${marked(item.body)}</blockquote>`
+              : undefined,
+            title: `${item.pull_request ? "PR" : "Issue"} in ${
+              item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]
+            }: ${item.title}`,
+            url: item.html_url,
+          }));
+        })(),
+      ])
+    ).flat();
   },
 };
 
