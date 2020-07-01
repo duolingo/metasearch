@@ -110,7 +110,7 @@ const engine: Engine = {
 
           const data: {
             items: {
-              body: string;
+              body: null | string;
               /** e.g. "2020-06-29T21:46:58Z" */
               created_at: string;
               html_url: string;
