@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import * as marked from "marked";
 
 import { stripStopWords } from "../util";
 
@@ -64,8 +65,10 @@ const engine: Engine = {
       ...exactMatches,
       ...lenientMatches.filter(m => !exactMatchSlugs.has(m.slug)),
     ].map(c => ({
-      // Strip Guru's HTML formatting attributes
-      snippet: c.content.replace(/ (class|data-[\w-]+|style|width)=".*?"/g, ""),
+      snippet: c.content.includes("ghq-card")
+        ? // Strip Guru's HTML formatting attributes
+          c.content.replace(/ (class|data-[\w-]+|style|width)=".*?"/g, "")
+        : marked(c.content),
       title: c.collection
         ? `${c.collection.name} > ${c.preferredPhrase}`
         : c.preferredPhrase,
