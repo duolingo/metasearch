@@ -2,92 +2,95 @@ import * as fs from "fs";
 
 import * as sanitize from "sanitize-html";
 
-const STOP_WORDS_REGEX = new RegExp(
-  `\\b(${Array.from(
-    new Set([
-      "[a-z]",
-      "\\d{1,2}",
-      ...fs
-        .readFileSync("src/stopwords.txt", "utf8")
-        .split("\n")
-        .map(w =>
-          w
-            .replace(/#.*/, "")
-            .trim()
-            .toLowerCase(),
-        )
-        .filter(w => w),
-    ]),
-  )
-    .sort()
-    .join("|")})\\b`,
-  "gi",
-);
+export const stripStopWords = (() => {
+  const STOP_WORDS_REGEX = new RegExp(
+    `\\b(${Array.from(
+      new Set([
+        "[a-z]",
+        "\\d{1,2}",
+        ...fs
+          .readFileSync("src/stopwords.txt", "utf8")
+          .split("\n")
+          .map(w =>
+            w
+              .replace(/#.*/, "")
+              .trim()
+              .toLowerCase(),
+          )
+          .filter(w => w),
+      ]),
+    )
+      .sort()
+      .join("|")})\\b`,
+    "gi",
+  );
 
-export const stripStopWords = (s: string) =>
-  s
-    .replace(STOP_WORDS_REGEX, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-const SANITIZATION_OPTIONS: sanitize.IOptions = {
-  allowedTags: [
-    "a",
-    "abbr",
-    "b",
-    "blockquote",
-    "br",
-    "caption",
-    "code",
-    "div",
-    "em",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "hr",
-    "i",
-    "img",
-    "li",
-    "nl",
-    "ol",
-    "p",
-    "pre",
-    "span",
-    "strike",
-    "strong",
-    "table",
-    "tbody",
-    "td",
-    "th",
-    "thead",
-    "tr",
-    "u",
-    "ul",
-  ],
-  // Strip images that either require authentication or are referenced with
-  // relative paths
-  exclusiveFilter: ({ attribs: { src }, tag }) =>
-    tag === "img" &&
-    (!/^https?:/.test(src) || /(atlassian\.net|getguru\.com)/.test(src)),
-};
+  return (s: string) =>
+    s
+      .replace(STOP_WORDS_REGEX, "")
+      .replace(/\s+/g, " ")
+      .trim();
+})();
 
 /** Removes dangerous HTML tags to prevent XSS. */
-export const sanitizeHtml = (s: string) => sanitize(s, SANITIZATION_OPTIONS);
+export const sanitizeHtml = (() => {
+  const SANITIZATION_OPTIONS: sanitize.IOptions = {
+    allowedTags: [
+      "a",
+      "abbr",
+      "b",
+      "blockquote",
+      "br",
+      "caption",
+      "code",
+      "div",
+      "em",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "hr",
+      "i",
+      "img",
+      "li",
+      "nl",
+      "ol",
+      "p",
+      "pre",
+      "span",
+      "strike",
+      "strong",
+      "table",
+      "tbody",
+      "td",
+      "th",
+      "thead",
+      "tr",
+      "u",
+      "ul",
+    ],
+    // Strip images that either require authentication or are referenced with
+    // relative paths
+    exclusiveFilter: ({ attribs: { src }, tag }) =>
+      tag === "img" &&
+      (!/^https?:/.test(src) || /(atlassian\.net|getguru\.com)/.test(src)),
+  };
+
+  return (s: string) => sanitize(s, SANITIZATION_OPTIONS);
+})();
 
 /** Replaces all `"` with `\"`. */
 export const escapeQuotes = (s: string) => s.replace(/"/g, '\\"');
 
-/** Converts "Don't stop believin'" to "dontstopbelievin". */
-const fuzzify = (s: string) => s.replace(/\W/g, "").toLowerCase();
-
 /** Like String.prototype.includes, but ignores casing and punctuation. */
-export const fuzzyIncludes = (
-  haystack: null | string | undefined,
-  needle: string,
-) => fuzzify(haystack ?? "").includes(fuzzify(needle));
+export const fuzzyIncludes = (() => {
+  const fuzzify = (s: string) => s.replace(/\W/g, "").toLowerCase();
+
+  return (haystack: null | string | undefined, needle: string) =>
+    fuzzify(haystack ?? "").includes(fuzzify(needle));
+})();
 
 /**
  * Calls the provided function every N hours and returns a wrapper function
