@@ -49,7 +49,13 @@ const Header = ({
   </div>
 );
 
-const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
+const Sidebar = ({
+  hiddenEngines,
+  resultGroups,
+}: {
+  hiddenEngines: string[];
+  resultGroups: ResultGroup[];
+}) => (
   <div className="sidebar">
     <ul>
       {Object.values(ENGINES)
@@ -59,7 +65,11 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
             ?.results.length;
           return (
             <li
-              className={numResults ? "has-results" : undefined}
+              className={
+                numResults && !hiddenEngines.includes(engine.id)
+                  ? "has-results"
+                  : undefined
+              }
               key={engine.id}
               onClick={() => {
                 if (!numResults) {
@@ -98,38 +108,66 @@ const Sidebar = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
   </div>
 );
 
-const Results = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
+const Results = ({
+  hiddenEngines,
+  onToggle,
+  resultGroups,
+}: {
+  hiddenEngines: string[];
+  onToggle: (engineId: string) => void;
+  resultGroups: ResultGroup[];
+}) => (
   <div className="results">
     {resultGroups
       .filter(rg => rg.results.length)
-      .map(({ elapsedMs, engineId, results }) => (
-        <div
-          className="result-group"
-          data-engine-results={engineId}
-          key={engineId}
-        >
-          <h2>{ENGINES[engineId].name}</h2>
-          <span className="stats">
-            {results.length} result{results.length === 1 ? "" : "s"} (
-            {(elapsedMs / 1000).toFixed(2)} seconds)
-          </span>
-          {results.map((result, i) => (
-            <div className="result" key={i}>
-              <a
-                className="title"
-                dangerouslySetInnerHTML={{ __html: result.title }}
-                href={result.url}
-              />
-              {result.snippet ? (
-                <div
-                  className="snippet"
-                  dangerouslySetInnerHTML={{ __html: result.snippet }}
+      .map(({ elapsedMs, engineId, results }) => {
+        const showResults = !hiddenEngines.includes(engineId);
+        return (
+          <div
+            className="result-group"
+            data-engine-results={engineId}
+            key={engineId}
+          >
+            <h2
+              className={showResults ? undefined : "hide-results"}
+              onClick={() => onToggle(engineId)}
+              title="Toggle results"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -256 1792 1792"
+              >
+                <path
+                  d="M1426.44 407.864q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45q19-19 45-19h896q26 0 45 19t19 45z"
+                  fill="currentColor"
                 />
-              ) : null}
-            </div>
-          ))}
-        </div>
-      ))}
+              </svg>
+              {ENGINES[engineId].name}
+            </h2>
+            <span className="stats">
+              {results.length} result{results.length === 1 ? "" : "s"} (
+              {(elapsedMs / 1000).toFixed(2)} seconds)
+            </span>
+            {showResults
+              ? results.map((result, i) => (
+                  <div className="result" key={i}>
+                    <a
+                      className="title"
+                      dangerouslySetInnerHTML={{ __html: result.title }}
+                      href={result.url}
+                    />
+                    {result.snippet ? (
+                      <div
+                        className="snippet"
+                        dangerouslySetInnerHTML={{ __html: result.snippet }}
+                      />
+                    ) : null}
+                  </div>
+                ))
+              : null}
+          </div>
+        );
+      })}
   </div>
 );
 
@@ -202,10 +240,26 @@ const handleSearch = async (
   );
 };
 
+/** Helper for interacting with localStorage */
+const STORAGE_MANAGER = (() => {
+  type Data = Partial<{
+    hiddenEngines: string[];
+  }>;
+  let cachedData: Data = JSON.parse(window.localStorage.metasearch || "{}");
+  return {
+    get: () => cachedData,
+    set: (data: Data) => {
+      cachedData = data;
+      window.localStorage.metasearch = JSON.stringify(data);
+    },
+  };
+})();
+
 const getUrlQ = () =>
   new URLSearchParams(window.location.search).get("q") ?? "";
 
 const App = () => {
+  const [localData, setLocalData] = useState(STORAGE_MANAGER.get());
   const [q, setQ] = useState<string>("");
   const [resultGroups, dispatch] = useReducer(
     (state: ResultGroup[], action: ResultGroup | undefined) =>
@@ -224,6 +278,10 @@ const App = () => {
     window.addEventListener("popstate", runUrlQ);
   }, []);
 
+  useEffect(() => {
+    STORAGE_MANAGER.set(localData);
+  }, [localData]);
+
   return (
     <>
       <div
@@ -241,8 +299,23 @@ const App = () => {
         onSearch={q => handleSearch(dispatch, q, !!getUrlQ().trim())}
         q={q}
       />
-      <Sidebar resultGroups={resultGroups} />
-      <Results resultGroups={resultGroups} />
+      <Sidebar
+        hiddenEngines={localData.hiddenEngines || []}
+        resultGroups={resultGroups}
+      />
+      <Results
+        hiddenEngines={localData.hiddenEngines || []}
+        onToggle={engineId => {
+          const hiddenEngines = localData.hiddenEngines || [];
+          setLocalData({
+            ...localData,
+            hiddenEngines: hiddenEngines.includes(engineId)
+              ? hiddenEngines.filter(id => id !== engineId)
+              : [...hiddenEngines, engineId].sort(),
+          });
+        }}
+        resultGroups={resultGroups}
+      />
       <div
         className="footer"
         dangerouslySetInnerHTML={FOOTER ? { __html: FOOTER } : undefined}
