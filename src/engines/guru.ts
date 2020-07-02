@@ -17,9 +17,9 @@ const engine: Engine = {
   name: "Guru",
   search: async q => {
     // Return both exact matches and lenient matches in that order
-    q = q.replace(/"/g, "");
+    const isExactQ = /^"[^"]+"$/.test(q);
     const [exactMatches, lenientMatches = []] = await Promise.all(
-      [`"${q}"`, stripStopWords(q)]
+      (isExactQ ? [q] : [`"${q.replace(/"/g, "")}"`, stripStopWords(q)])
         .filter(searchTerms => searchTerms)
         .map(async searchTerms => {
           if (!client) {
