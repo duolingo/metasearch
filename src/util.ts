@@ -4,8 +4,10 @@ import * as sanitize from "sanitize-html";
 
 const STOP_WORDS_REGEX = new RegExp(
   `\\b(${Array.from(
-    new Set(
-      fs
+    new Set([
+      "[a-z]",
+      "\\d{1,2}",
+      ...fs
         .readFileSync("src/stopwords.txt", "utf8")
         .split("\n")
         .map(w =>
@@ -15,7 +17,7 @@ const STOP_WORDS_REGEX = new RegExp(
             .toLowerCase(),
         )
         .filter(w => w),
-    ),
+    ]),
   )
     .sort()
     .join("|")})\\b`,
