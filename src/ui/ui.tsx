@@ -149,12 +149,6 @@ const getResults = memoize(
     await (await fetch(`/api/search?${querify({ engine: id, q })}`)).json(),
 );
 
-const PUNCTUATION = ":;.,-–—‒_(){}[]!'\"+=".split("");
-const PUNCTUATION_REGEX = new RegExp(
-  PUNCTUATION.map(c => `\\${c}`).join("|"),
-  "g",
-);
-
 const handleSearch = async (
   dispatch: React.Dispatch<ResultGroup | undefined>,
   q: string,
@@ -178,11 +172,19 @@ const handleSearch = async (
   dispatch(undefined);
 
   // Get results
-  const exactQ = q.match(/^"([^"]+)"$/)?.[1];
+  const highlightRegex = new RegExp(
+    q
+      .replace(/\W|_/g, "")
+      .split("")
+      .join("\\W*"),
+    "gi",
+  );
   await Promise.all(
     Object.values(ENGINES).map(async engine => {
       const start = Date.now();
       const results = await getResults(engine.id, q);
+
+      // Highlight query
       for (const result of results) {
         for (const property of ["title", "snippet"] as const) {
           const value = result[property];
@@ -190,16 +192,11 @@ const handleSearch = async (
             continue;
           }
           const node = new DOMParser().parseFromString(value, "text/html").body;
-          new window.Mark(node).mark(
-            exactQ ? exactQ : q.replace(PUNCTUATION_REGEX, ""),
-            {
-              ignorePunctuation: PUNCTUATION,
-              separateWordSearch: !exactQ,
-            },
-          );
+          new window.Mark(node).markRegExp(highlightRegex);
           result[property] = node.innerHTML;
         }
       }
+
       dispatch({ elapsedMs: Date.now() - start, engineId: engine.id, results });
     }),
   );
