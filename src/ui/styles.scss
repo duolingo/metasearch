@@ -12,6 +12,7 @@
   --search-box-height: 50px;
   --search-box-padding-left: calc(var(--padding-standard) - 3px);
   --placeholder-opacity: 1;
+  --sorter-display: initial;
   --sidebar-width: 250px;
   --engine-padding-left: 12px;
   --toggler-display: initial;
@@ -26,6 +27,7 @@
     --search-box-height: 40px;
     --search-box-padding-left: 15px;
     --placeholder-opacity: 0;
+    --sorter-display: none;
     --sidebar-width: 180px;
     --toggler-display: none;
     --footer-display: none;
@@ -94,7 +96,7 @@ mark {
 
 #root {
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-columns: var(--sidebar-width) 1fr auto;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
@@ -139,6 +141,23 @@ mark {
   padding: 0;
   vertical-align: top;
   width: var(--search-box-height);
+}
+
+.sorter {
+  display: var(--sorter-display);
+  grid-area: 1 / 3 / 2 / 4;
+  padding: calc(var(--padding-standard) + 17px) var(--padding-standard) var(--padding-standard) 0;
+
+  & > * {
+    &::after {
+      content: "";
+      margin: 7px;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+  }
 }
 
 .sidebar {
@@ -195,7 +214,7 @@ mark {
 }
 
 .results {
-  grid-area: 2 / 2 / 4 / 3;
+  grid-area: 2 / 2 / 4 / 4;
   overflow-wrap: anywhere;
   overflow-y: auto;
   padding: 0 calc(2 * var(--padding-standard)) 0 var(--padding-standard);

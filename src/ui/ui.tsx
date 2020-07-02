@@ -49,6 +49,45 @@ const Header = ({
   </div>
 );
 
+type SortMode = "az" | "best" | "recent";
+const SORT_MODES: Record<
+  SortMode,
+  { name: string; sortFn: (a: Result, b: Result) => number }
+> = {
+  az: { name: "A-Z", sortFn: (a, b) => (a.title > b.title ? 1 : -1) },
+  best: {
+    name: "Best",
+    sortFn: (a, b) =>
+      (a.relevance ?? Infinity) > (b.relevance ?? Infinity) ? 1 : -1,
+  },
+  recent: {
+    name: "Recent",
+    sortFn: (a, b) => ((a.modified ?? 0) < (b.modified ?? 0) ? 1 : -1),
+  },
+};
+
+const Sorter = ({
+  onSort,
+  sortMode,
+}: {
+  onSort: (sort: SortMode) => void;
+  sortMode: SortMode;
+}) => {
+  return (
+    <div className="sorter">
+      {["best", "recent", "az"].map((id: SortMode) =>
+        sortMode === id ? (
+          <strong>{SORT_MODES[id].name}</strong>
+        ) : (
+          <a href="javascript:;" onClick={() => onSort(id)}>
+            {SORT_MODES[id].name}
+          </a>
+        ),
+      )}
+    </div>
+  );
+};
+
 const Sidebar = ({
   hiddenEngines,
   resultGroups,
@@ -125,10 +164,12 @@ const Results = ({
   hiddenEngines,
   onToggle,
   resultGroups,
+  sortMode,
 }: {
   hiddenEngines: string[];
   onToggle: (engineId: string) => void;
   resultGroups: ResultGroup[];
+  sortMode: SortMode;
 }) => (
   <div className="results">
     {resultGroups
@@ -162,7 +203,7 @@ const Results = ({
               {(elapsedMs / 1000).toFixed(2)} seconds)
             </span>
             {showResults
-              ? results.map((result, i) => (
+              ? results.sort(SORT_MODES[sortMode].sortFn).map((result, i) => (
                   <div className="result" key={i}>
                     <div>
                       <a
@@ -252,7 +293,9 @@ const handleSearch = async (
       }
 
       // Highlight query
-      for (const result of results) {
+      for (let i = 0; i < results.length; ++i) {
+        const result = results[i];
+        result.relevance = i;
         for (const property of ["title", "snippet"] as const) {
           const value = result[property];
           if (!value) {
@@ -273,6 +316,7 @@ const handleSearch = async (
 const STORAGE_MANAGER = (() => {
   type Data = Partial<{
     hiddenEngines: string[];
+    sortMode: SortMode;
   }>;
   let cachedData: Data = JSON.parse(window.localStorage.metasearch || "{}");
   return {
@@ -311,6 +355,7 @@ const App = () => {
     STORAGE_MANAGER.set(localData);
   }, [localData]);
 
+  const sortMode: SortMode = localData.sortMode || "best";
   return (
     <>
       <div
@@ -328,6 +373,12 @@ const App = () => {
         onSearch={q => handleSearch(dispatch, q, !!getUrlQ().trim())}
         q={q}
       />
+      {resultGroups.length ? (
+        <Sorter
+          onSort={sortMode => setLocalData({ ...localData, sortMode })}
+          sortMode={sortMode}
+        />
+      ) : null}
       <Sidebar
         hiddenEngines={localData.hiddenEngines || []}
         resultGroups={resultGroups}
@@ -344,6 +395,7 @@ const App = () => {
           });
         }}
         resultGroups={resultGroups}
+        sortMode={sortMode}
       />
       <div
         className="footer"

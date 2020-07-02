@@ -12,6 +12,8 @@ interface Engine {
 interface Result {
   /** Last modification date as Unix timestamp in seconds. */
   modified?: number;
+  /** Most relevant = 0, least = Infinity. Read/written by frontend only. */
+  relevance?: number;
   snippet?: string;
   title: string;
   url: string;
