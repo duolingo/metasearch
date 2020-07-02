@@ -242,8 +242,14 @@ const handleSearch = async (
   );
   await Promise.all(
     Object.values(ENGINES).map(async engine => {
+      // Fetch results
       const start = Date.now();
       const results = await getResults(engine.id, q);
+
+      // Abort if no longer viewing this query
+      if (getUrlQ() !== q) {
+        return;
+      }
 
       // Highlight query
       for (const result of results) {
