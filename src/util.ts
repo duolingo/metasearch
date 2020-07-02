@@ -115,7 +115,15 @@ export const rateLimit = <R, F extends () => Promise<R>>(
   // Wrap the provided function to cache its result
   let lastResult: R | undefined;
   const resultCachingFn = async () => {
-    lastResult = await fn();
+    try {
+      lastResult = await fn();
+    } catch (ex) {
+      if (lastResult) {
+        console.log(ex);
+      } else {
+        throw ex;
+      }
+    }
     return lastResult;
   };
 
