@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as marked from "marked";
 
-import { stripStopWords } from "../util";
+import { getUnixTime, stripStopWords } from "../util";
 
 let client: AxiosInstance | undefined;
 
@@ -36,6 +36,8 @@ const engine: Engine = {
             boards: { id: string; title: string }[];
             collection: { id: string; name: string };
             content: string;
+            /** e.g. "2020-06-01T18:20:29.407+0000" */
+            lastModified: string;
             lastModifiedBy: User;
             lastVerifiedBy: User;
             owner: User;
@@ -65,6 +67,7 @@ const engine: Engine = {
       ...exactMatches,
       ...lenientMatches.filter(m => !exactMatchSlugs.has(m.slug)),
     ].map(c => ({
+      modified: getUnixTime(c.lastModified),
       snippet: c.content.includes("ghq-card")
         ? // Strip Guru's HTML formatting attributes
           c.content.replace(/ (class|data-[\w-]+|style|width)=".*?"/g, "")

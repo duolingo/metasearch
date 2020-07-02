@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as marked from "marked";
 
-import { escapeQuotes, fuzzyIncludes, rateLimit } from "../util";
+import { escapeQuotes, fuzzyIncludes, getUnixTime, rateLimit } from "../util";
 
 interface Repo {
   description: null | string;
@@ -114,12 +114,12 @@ const engine: Engine = {
             const data: {
               items: {
                 body: null | string;
-                /** e.g. "2020-06-29T21:46:58Z" */
-                created_at: string;
                 html_url: string;
                 number: number;
                 pull_request?: object;
                 title: string;
+                /** e.g. "2020-06-29T21:46:58Z" */
+                updated_at: string;
                 user: { login: string };
               }[];
             } = (
@@ -135,6 +135,7 @@ const engine: Engine = {
               })
             ).data;
             return data.items.map(item => ({
+              modified: getUnixTime(item.updated_at),
               snippet: item.body
                 ? `<blockquote>${marked(item.body)}</blockquote>`
                 : undefined,

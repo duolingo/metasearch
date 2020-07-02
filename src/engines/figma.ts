@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import { rateLimit } from "../util";
+import { getUnixTime, rateLimit } from "../util";
 
 let getClient: (() => Promise<AxiosInstance>) | undefined;
 let orgId: string | undefined;
@@ -50,6 +50,8 @@ const engine: Engine = {
       creator: { handle: string };
       name: string;
       thumbnail_url: string;
+      /** e.g. "2020-06-30T14:05:30.746Z" */
+      updated_at: string;
       url: string;
     }
 
@@ -75,6 +77,7 @@ const engine: Engine = {
     const MODEL_TYPES: Model<unknown>[] = [
       {
         getResult: async ({ model }: { model: File }, client) => ({
+          modified: getUnixTime(model.updated_at),
           snippet: `File created by ${
             model.creator.handle
           }<br>${await getThumbnail(client, model)}`,
@@ -87,15 +90,19 @@ const engine: Engine = {
         getResult: async (
           {
             file_count,
+            files_last_touched_at,
             model,
             recent_files,
           }: {
             file_count: number;
+            /** e.g. "2020-06-30T14:05:30.746Z" */
+            files_last_touched_at: string;
             model: { id: string; name: string };
             recent_files: File[];
           },
           client,
         ) => ({
+          modified: getUnixTime(files_last_touched_at),
           snippet: `Project containing ${
             file_count === 1 ? "1 file" : `${file_count} files`
           }<br>${(
@@ -110,12 +117,16 @@ const engine: Engine = {
       },
       {
         getResult: ({
+          files_last_touched_at,
           member_count,
           model,
         }: {
+          /** e.g. "2020-06-30T14:05:30.746Z" */
+          files_last_touched_at: string;
           member_count: number;
           model: { id: string; name: string };
         }) => ({
+          modified: getUnixTime(files_last_touched_at),
           snippet: `Team with ${
             member_count === 1 ? "1 member" : `${member_count} members`
           }`,

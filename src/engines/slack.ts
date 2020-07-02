@@ -109,6 +109,8 @@ const engine: Engine = {
                 };
                 permalink: string;
                 text: string | undefined;
+                /** e.g. "1508284197.000015" */
+                ts: string;
                 user: null | string;
                 username: string;
               }[];
@@ -141,6 +143,7 @@ const engine: Engine = {
                 m.text?.trim().length,
             )
             .map(m => ({
+              modified: parseInt(m.ts.split(".")[0], 10),
               snippet: m.text ? linkify(m.text) : undefined,
               title: `Message by @${m.username} in #${m.channel.name}`,
               url: m.permalink,

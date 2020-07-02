@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
+import { getUnixTime } from "../util";
+
 let client: AxiosInstance | undefined;
 let excludeRegex: RegExp | undefined;
 let searchPath: string | undefined;
@@ -41,6 +43,8 @@ const engine: Engine = {
             ".tag": "folder";
             name: string;
             path_display: string;
+            /** e.g. "2019-08-19T17:07:41Z" */
+            server_modified: string;
           };
         };
       }[];
@@ -56,6 +60,7 @@ const engine: Engine = {
       .map(m => m.metadata.metadata)
       .filter(metadata => !excludeRegex?.test(metadata.path_display))
       .map(metadata => ({
+        modified: getUnixTime(metadata.server_modified),
         snippet: `${metadata[".tag"].charAt(0).toUpperCase()}${metadata[
           ".tag"
         ].slice(1)} in ${metadata.path_display

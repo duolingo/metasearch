@@ -93,6 +93,13 @@ export const fuzzyIncludes = (() => {
 })();
 
 /**
+ * Converts a date string such as "2020-06-30T21:06:25.166Z" to a Unix
+ * timestamp in seconds.
+ */
+export const getUnixTime = (s: string) =>
+  Math.round(new Date(s).getTime() / 1000);
+
+/**
  * Calls the provided function every N hours and returns a wrapper function
  * that itself returns the cached result of the provided function's most
  * recent invocation.

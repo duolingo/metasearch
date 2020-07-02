@@ -1,11 +1,11 @@
 import axios from "axios";
 import * as xml2js from "xml2js";
 
-import { fuzzyIncludes, rateLimit, sanitizeHtml } from "../util";
+import { fuzzyIncludes, getUnixTime, rateLimit, sanitizeHtml } from "../util";
 
 interface Page {
   content: string;
-  lastmod?: string;
+  modified?: number;
   title: string;
   url: string;
 }
@@ -15,13 +15,6 @@ let getPages: (() => Promise<Set<Page>>) | undefined;
 const engine: Engine = {
   id: "website",
   init: ({ sitemaps }: { sitemaps: string[] }) => {
-    const dateFormatter = new Intl.DateTimeFormat("en-US", {
-      day: "numeric",
-      month: "long",
-      timeZone: "America/New_York",
-      year: "numeric",
-    });
-
     const getPage = async (sitemap: string) => {
       const xml: string = (await axios.get(sitemap)).data;
       const parsedXml: {
@@ -38,9 +31,7 @@ const engine: Engine = {
                     .replace(/<.+?>/g, " ")
                     .replace(/\s+/g, " ")
                     .toLowerCase(),
-                  lastmod: date
-                    ? dateFormatter.format(new Date(date))
-                    : undefined,
+                  modified: date ? getUnixTime(date) : undefined,
                   // Sanitization unescapes XML entities
                   title: sanitizeHtml(
                     html.match(/<title>(.+?)<\/title>/)?.[1] || url,
@@ -74,7 +65,7 @@ const engine: Engine = {
       )
       .sort((a, b) => (a.url > b.url ? 1 : -1))
       .map(p => ({
-        snippet: p.lastmod,
+        modified: p.modified,
         title: p.title,
         url: p.url,
       }));

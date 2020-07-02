@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { escapeQuotes } from "../util";
+import { escapeQuotes, getUnixTime } from "../util";
 
 let client: AxiosInstance | undefined;
 let origin: string | undefined;
@@ -31,7 +31,11 @@ const engine: Engine = {
     // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
     const data: {
       issues: {
-        fields: { summary: string };
+        fields: {
+          summary: string;
+          /** e.g. "2017-11-20T11:50:25.653-0500" */
+          updated: string;
+        };
         key: string;
         renderedFields: { description: string };
       }[];
@@ -41,6 +45,7 @@ const engine: Engine = {
       })
     ).data;
     return data.issues.map(issue => ({
+      modified: getUnixTime(issue.fields.updated),
       snippet: issue.renderedFields.description,
       title: `${issue.key}: ${issue.fields.summary}`,
       url: `${origin}/browse/${issue.key}`,

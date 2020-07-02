@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as he from "he";
 
-import { escapeQuotes } from "../util";
+import { escapeQuotes, getUnixTime } from "../util";
 
 let client: AxiosInstance | undefined;
 
@@ -34,6 +34,8 @@ const engine: Engine = {
           type: "blogpost" | "page";
         };
         excerpt: string;
+        /** e.g. "2020-06-30T19:04:37.644Z" */
+        lastModified: string;
         title: string;
         url: string;
       }[];
@@ -51,6 +53,7 @@ const engine: Engine = {
         r => r.content?.status === "current" && r.content?.type === "page",
       )
       .map(r => ({
+        modified: getUnixTime(r.lastModified),
         snippet: normalize(r.excerpt),
         title: normalize(r.title),
         url: `${data._links.base}${r.url}`,

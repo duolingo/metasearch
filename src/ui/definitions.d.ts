@@ -10,6 +10,8 @@ interface Engine {
 }
 
 interface Result {
+  /** Last modification date as Unix timestamp in seconds. */
+  modified?: number;
   snippet?: string;
   title: string;
   url: string;

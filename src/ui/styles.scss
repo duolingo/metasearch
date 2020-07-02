@@ -245,6 +245,15 @@ h2 {
   font-weight: bold;
 }
 
+.modified {
+  color: var(--gray);
+
+  &::before {
+    content: "-";
+    margin: 7px;
+  }
+}
+
 .snippet {
   color: var(--gray);
 

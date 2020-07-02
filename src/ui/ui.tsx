@@ -108,6 +108,23 @@ const Sidebar = ({
   </div>
 );
 
+/** Converts 1593668572 to "Jul 2" */
+const formatDate = (() => {
+  const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    month: "short",
+    timeZone: "America/New_York",
+    year: "numeric",
+  });
+  const THIS_YEAR = `, ${new Date().getFullYear()}`;
+
+  return (unixTimestampSeconds: number) =>
+    DATE_FORMATTER.format(new Date(unixTimestampSeconds * 1000)).replace(
+      THIS_YEAR,
+      "",
+    );
+})();
+
 const Results = ({
   hiddenEngines,
   onToggle,
@@ -151,11 +168,18 @@ const Results = ({
             {showResults
               ? results.map((result, i) => (
                   <div className="result" key={i}>
-                    <a
-                      className="title"
-                      dangerouslySetInnerHTML={{ __html: result.title }}
-                      href={result.url}
-                    />
+                    <div>
+                      <a
+                        className="title"
+                        dangerouslySetInnerHTML={{ __html: result.title }}
+                        href={result.url}
+                      />
+                      {result.modified ? (
+                        <span className="modified">
+                          {formatDate(result.modified)}
+                        </span>
+                      ) : null}
+                    </div>
                     {result.snippet ? (
                       <div
                         className="snippet"
