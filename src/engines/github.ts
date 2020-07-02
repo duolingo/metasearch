@@ -108,37 +108,42 @@ const engine: Engine = {
             throw Error("Engine not initialized");
           }
 
-          const data: {
-            items: {
-              body: null | string;
-              /** e.g. "2020-06-29T21:46:58Z" */
-              created_at: string;
-              html_url: string;
-              number: number;
-              pull_request?: object;
-              title: string;
-              user: { login: string };
-            }[];
-          } = (
-            await client.get("/search/issues", {
-              params: {
-                q: /\b(is|author|org):\w/.test(q)
-                  ? /\borg:\w/.test(q)
-                    ? q
-                    : `org:${org} ${q}`
-                  : `org:${org} "${escapeQuotes(q)}"`,
-              },
-            })
-          ).data;
-          return data.items.map(item => ({
-            snippet: item.body
-              ? `<blockquote>${marked(item.body)}</blockquote>`
-              : undefined,
-            title: `${item.pull_request ? "PR" : "Issue"} in ${
-              item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]
-            }: ${item.title}`,
-            url: item.html_url,
-          }));
+          try {
+            // https://developer.github.com/v3/search/#search-issues-and-pull-requests
+            const data: {
+              items: {
+                body: null | string;
+                /** e.g. "2020-06-29T21:46:58Z" */
+                created_at: string;
+                html_url: string;
+                number: number;
+                pull_request?: object;
+                title: string;
+                user: { login: string };
+              }[];
+            } = (
+              await client.get("/search/issues", {
+                params: {
+                  q: /\b(is|author|org):\w/.test(q)
+                    ? /\borg:\w/.test(q)
+                      ? q
+                      : `org:${org} ${q}`
+                    : `org:${org} "${escapeQuotes(q)}"`,
+                },
+              })
+            ).data;
+            return data.items.map(item => ({
+              snippet: item.body
+                ? `<blockquote>${marked(item.body)}</blockquote>`
+                : undefined,
+              title: `${item.pull_request ? "PR" : "Issue"} in ${
+                item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]
+              }: ${item.title}`,
+              url: item.html_url,
+            }));
+          } catch {
+            return [];
+          }
         })(),
       ])
     ).flat();
