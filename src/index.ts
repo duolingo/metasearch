@@ -112,7 +112,6 @@ import { sanitizeHtml } from "./util";
         FOOTER: config.footer,
         TRACKING_ID: config.trackingId,
       },
-      v: JSON.parse(fs.readFileSync("package.json", "utf8")).version,
     }),
     "utf8",
   );
