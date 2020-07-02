@@ -115,9 +115,11 @@ const Results = ({ resultGroups }: { resultGroups: ResultGroup[] }) => (
           </span>
           {results.map((result, i) => (
             <div className="result" key={i}>
-              <a className="title" href={result.url}>
-                {result.title}
-              </a>
+              <a
+                className="title"
+                dangerouslySetInnerHTML={{ __html: result.title }}
+                href={result.url}
+              />
               {result.snippet ? (
                 <div
                   className="snippet"
@@ -147,6 +149,12 @@ const getResults = memoize(
     await (await fetch(`/api/search?${querify({ engine: id, q })}`)).json(),
 );
 
+const PUNCTUATION = ":;.,-–—‒_(){}[]!'\"+=".split("");
+const PUNCTUATION_REGEX = new RegExp(
+  PUNCTUATION.map(c => `\\${c}`).join("|"),
+  "g",
+);
+
 const handleSearch = async (
   dispatch: React.Dispatch<ResultGroup | undefined>,
   q: string,
@@ -170,10 +178,28 @@ const handleSearch = async (
   dispatch(undefined);
 
   // Get results
+  const exactQ = q.match(/^"([^"]+)"$/)?.[1];
   await Promise.all(
     Object.values(ENGINES).map(async engine => {
       const start = Date.now();
       const results = await getResults(engine.id, q);
+      for (const result of results) {
+        for (const property of ["title", "snippet"] as const) {
+          const value = result[property];
+          if (!value) {
+            continue;
+          }
+          const node = new DOMParser().parseFromString(value, "text/html").body;
+          new window.Mark(node).mark(
+            exactQ ? exactQ : q.replace(PUNCTUATION_REGEX, ""),
+            {
+              ignorePunctuation: PUNCTUATION,
+              separateWordSearch: !exactQ,
+            },
+          );
+          result[property] = node.innerHTML;
+        }
+      }
       dispatch({ elapsedMs: Date.now() - start, engineId: engine.id, results });
     }),
   );

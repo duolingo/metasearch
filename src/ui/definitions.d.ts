@@ -17,6 +17,8 @@ interface Result {
 
 interface Window {
   gtag?: (action: string, id: string, data: object) => void;
+  /** Mark.js */
+  Mark: any;
   metasearch: {
     ENGINES: Record<string, Engine>;
     FOOTER?: string;

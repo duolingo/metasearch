@@ -4,3 +4,4 @@
 *.woff2
 /dist/*.html
 /node_modules/
+!/dist/*.min.js

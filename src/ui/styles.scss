@@ -83,6 +83,14 @@ a {
   text-decoration: none;
 }
 
+mark {
+  background: #ffffba;
+  border-radius: 3px;
+  color: inherit;
+  font-family: inherit;
+  padding: 0px 3px;
+}
+
 #root {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;

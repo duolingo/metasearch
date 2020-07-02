@@ -2,6 +2,7 @@
 !/.node-version
 !/config-example.yaml
 !/dist/favicon.png
+!/dist/mark.min.js
 !/dist/react-dom.production.min.js
 !/dist/react.production.min.js
 !/Makefile
