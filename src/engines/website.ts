@@ -27,25 +27,34 @@ const engine: Engine = {
       const parsedXml: {
         urlset: { url: { lastmod?: string[]; loc: string[] }[] };
       } = await xml2js.parseStringPromise(xml);
-      return Promise.all(
-        parsedXml.urlset.url.map<Promise<Page>>(
-          async ({ lastmod: [date] = [], loc: [url] }) => {
-            const html: string = (await axios.get(url)).data;
-            return {
-              content: sanitizeHtml(html)
-                .replace(/<.+?>/g, " ")
-                .replace(/\s+/g, " ")
-                .toLowerCase(),
-              lastmod: date ? dateFormatter.format(new Date(date)) : undefined,
-              // Sanitization unescapes XML entities
-              title: sanitizeHtml(
-                html.match(/<title>(.+?)<\/title>/)?.[1] || url,
-              ),
-              url,
-            };
-          },
-        ),
-      );
+      return (
+        await Promise.all(
+          parsedXml.urlset.url.map<Promise<Page | undefined>>(
+            async ({ lastmod: [date] = [], loc: [url] }) => {
+              try {
+                const html: string = (await axios.get(url)).data;
+                return {
+                  content: sanitizeHtml(html)
+                    .replace(/<.+?>/g, " ")
+                    .replace(/\s+/g, " ")
+                    .toLowerCase(),
+                  lastmod: date
+                    ? dateFormatter.format(new Date(date))
+                    : undefined,
+                  // Sanitization unescapes XML entities
+                  title: sanitizeHtml(
+                    html.match(/<title>(.+?)<\/title>/)?.[1] || url,
+                  ),
+                  url,
+                };
+              } catch {
+                console.log(`Failed to scrape ${url}`);
+                return undefined;
+              }
+            },
+          ),
+        )
+      ).filter((p): p is Page => !!p);
     };
 
     getPages = rateLimit(
