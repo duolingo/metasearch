@@ -145,7 +145,7 @@ const engine: Engine = {
             .map(m => ({
               modified: parseInt(m.ts.split(".")[0], 10),
               snippet: m.text ? linkify(m.text) : undefined,
-              title: `Message by @${m.username} in #${m.channel.name}`,
+              title: `Message in #${m.channel.name} by @${m.username}`,
               url: m.permalink,
             }));
         })(),
