@@ -26,4 +26,6 @@ interface Window {
     FOOTER?: string;
     TRACKING_ID?: string;
   };
+  /** timeago.js */
+  timeago: any;
 }

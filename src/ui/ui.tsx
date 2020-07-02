@@ -108,21 +108,17 @@ const Sidebar = ({
   </div>
 );
 
-/** Converts 1593668572 to "Jul 2" */
+/** Converts 1593668572 to "July 2, 2020" */
 const formatDate = (() => {
   const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
     day: "numeric",
-    month: "short",
+    month: "long",
     timeZone: "America/New_York",
     year: "numeric",
   });
-  const THIS_YEAR = `, ${new Date().getFullYear()}`;
 
   return (unixTimestampSeconds: number) =>
-    DATE_FORMATTER.format(new Date(unixTimestampSeconds * 1000)).replace(
-      THIS_YEAR,
-      "",
-    );
+    DATE_FORMATTER.format(new Date(unixTimestampSeconds * 1000));
 })();
 
 const Results = ({
@@ -175,8 +171,11 @@ const Results = ({
                         href={result.url}
                       />
                       {result.modified ? (
-                        <span className="modified">
-                          {formatDate(result.modified)}
+                        <span
+                          className="modified"
+                          title={formatDate(result.modified)}
+                        >
+                          {window.timeago.format(result.modified * 1000)}
                         </span>
                       ) : null}
                     </div>
