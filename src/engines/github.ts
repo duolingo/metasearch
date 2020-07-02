@@ -109,6 +109,7 @@ const engine: Engine = {
           }
 
           try {
+            // TODO: Paginate
             // https://developer.github.com/v3/search/#search-issues-and-pull-requests
             const data: {
               items: {
@@ -124,6 +125,7 @@ const engine: Engine = {
             } = (
               await client.get("/search/issues", {
                 params: {
+                  per_page: 100,
                   q: /\b(is|author|org):\w/.test(q)
                     ? /\borg:\w/.test(q)
                       ? q
