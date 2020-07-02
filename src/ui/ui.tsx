@@ -176,7 +176,7 @@ const handleSearch = async (
     q
       .replace(/\W|_/g, "")
       .split("")
-      .join("\\W*"),
+      .join("(\\W|_)*"),
     "gi",
   );
   await Promise.all(
