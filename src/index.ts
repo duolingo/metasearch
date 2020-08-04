@@ -129,13 +129,13 @@ import { sanitizeHtml } from "./util";
     const engine = engineMap[engineId];
     if (!engine) {
       res.status(400);
-      res.send(JSON.stringify({ error: `Unknown engine: ${engineId}` }));
+      res.json({ error: `Unknown engine: ${engineId}` });
       return;
     }
 
     // Query engine
     try {
-      res.send(
+      res.json(
         (await engine.search(q)).map(result => ({
           ...result,
           snippet: result.snippet
@@ -149,7 +149,7 @@ import { sanitizeHtml } from "./util";
       );
     } catch (ex) {
       // TODO: Instead return 500 and show error UI
-      res.send(JSON.stringify([]));
+      res.json([]);
 
       // If Axios error, keep only the useful parts
       if (ex.isAxiosError) {
