@@ -12,8 +12,17 @@ import { sanitizeHtml } from "./util";
 
 (async () => {
   // Set up exception handler
-  const exceptionHandler = (ex: Error) => {
+  const exceptionHandler = (ex: any) => {
     console.error(`\x1b[31m${ex.message}\x1b[0m`);
+    if (ex.isAxiosError) {
+      const {
+        request: { method, path },
+        response: { data, headers, status },
+      } = ex;
+      console.error(`${status} ${method} ${path}:
+${JSON.stringify(headers)}
+${JSON.stringify(data)}`);
+    }
     process.exit(1);
   };
   process.on("uncaughtException", exceptionHandler);
