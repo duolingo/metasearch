@@ -168,10 +168,9 @@ ${JSON.stringify(data)}`);
           response: { data = undefined, status = undefined } = {},
         } = ex as AxiosError;
         console.error(
-          `${status ??
-            code} ${method?.toUpperCase()} ${baseURL}${url}: ${JSON.stringify(
-            data,
-          )}`,
+          `${
+            status ?? code
+          } ${method?.toUpperCase()} ${baseURL}${url}: ${JSON.stringify(data)}`,
         );
       } else {
         console.error(ex);

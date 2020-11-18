@@ -99,24 +99,26 @@ const engine: Engine = {
           // https://api.slack.com/methods/search.messages
           const getPage = (
             zeroIndexedPage: number,
-          ): Promise<AxiosResponse<{
-            messages: {
-              matches: {
-                channel: {
-                  is_channel: boolean;
-                  is_private: boolean;
-                  name: string;
-                };
-                permalink: string;
-                text: string | undefined;
-                /** e.g. "1508284197.000015" */
-                ts: string;
-                user: null | string;
-                username: string;
-              }[];
-              paging: { pages: number };
-            };
-          }>> =>
+          ): Promise<
+            AxiosResponse<{
+              messages: {
+                matches: {
+                  channel: {
+                    is_channel: boolean;
+                    is_private: boolean;
+                    name: string;
+                  };
+                  permalink: string;
+                  text: string | undefined;
+                  /** e.g. "1508284197.000015" */
+                  ts: string;
+                  user: null | string;
+                  username: string;
+                }[];
+                paging: { pages: number };
+              };
+            }>
+          > =>
             axiosClient.get("/search.messages", {
               params: { count: PAGE_SIZE, page: zeroIndexedPage + 1, query: q },
             });

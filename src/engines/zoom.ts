@@ -49,8 +49,9 @@ const engine: Engine = {
         snippet: `Current status: ${r.status}`,
         title: r.name,
         // If room name contains a join link, set it as the URL
-        url: `https://${r.name.match(/\w+\.zoom\.us\/j\/\d{10,}/)?.[0] ??
-          "zoom.us/"}`,
+        url: `https://${
+          r.name.match(/\w+\.zoom\.us\/j\/\d{10,}/)?.[0] ?? "zoom.us/"
+        }`,
       }));
   },
 };
