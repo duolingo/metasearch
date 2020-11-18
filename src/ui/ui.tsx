@@ -275,10 +275,7 @@ const handleSearch = async (
 
   // Get results
   const highlightRegex = new RegExp(
-    q
-      .replace(/\W|_/g, "")
-      .split("")
-      .join("(\\W|_)*"),
+    q.replace(/\W|_/g, "").split("").join("(\\W|_)*"),
     "gi",
   );
   await Promise.all(

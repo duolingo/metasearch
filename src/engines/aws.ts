@@ -193,8 +193,9 @@ const engine: Engine = {
         );
       } while (token);
       console.log(
-        `Scraped ${resources.length} AWS resources in ${(Date.now() - start) /
-          1000}s`,
+        `Scraped ${resources.length} AWS resources in ${
+          (Date.now() - start) / 1000
+        }s`,
       );
       return new Set(resources);
     }, 4);

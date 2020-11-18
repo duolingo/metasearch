@@ -11,12 +11,7 @@ export const stripStopWords = (() => {
         ...fs
           .readFileSync("src/stopwords.txt", "utf8")
           .split("\n")
-          .map(w =>
-            w
-              .replace(/#.*/, "")
-              .trim()
-              .toLowerCase(),
-          )
+          .map(w => w.replace(/#.*/, "").trim().toLowerCase())
           .filter(w => w),
       ]),
     )
@@ -26,10 +21,7 @@ export const stripStopWords = (() => {
   );
 
   return (s: string) =>
-    s
-      .replace(STOP_WORDS_REGEX, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    s.replace(STOP_WORDS_REGEX, "").replace(/\s+/g, " ").trim();
 })();
 
 /** Removes dangerous HTML tags to prevent XSS. */
