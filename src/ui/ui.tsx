@@ -258,7 +258,7 @@ const handleSearch = async (
 ) => {
   // Normalize and validate query
   q = q.trim().replace(/\s+/, " ");
-  if (!/\w/.test(q)) {
+  if (!/\S/.test(q)) {
     return;
   }
 
