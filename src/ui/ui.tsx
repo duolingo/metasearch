@@ -315,12 +315,25 @@ const STORAGE_MANAGER = (() => {
     hiddenEngines: string[];
     sortMode: SortMode;
   }>;
-  let cachedData: Data = JSON.parse(window.localStorage.metasearch || "{}");
+  let cachedData: Data;
+  try {
+    cachedData = JSON.parse(window.localStorage.metasearch || "{}");
+  } catch {
+    console.log("Failed to read from localStorage");
+    cachedData = {};
+  }
   return {
     get: () => cachedData,
     set: (data: Data) => {
+      const shouldWrite = cachedData !== data;
       cachedData = data;
-      window.localStorage.metasearch = JSON.stringify(data);
+      if (shouldWrite) {
+        try {
+          window.localStorage.metasearch = JSON.stringify(data);
+        } catch {
+          console.log("Failed to write to localStorage");
+        }
+      }
     },
   };
 })();
