@@ -7,7 +7,7 @@ let origin: string | undefined;
 
 // https://confluence.atlassian.com/jiracoreserver073/search-syntax-for-text-fields-861257223.html#Searchsyntaxfortextfields-escapingSpecialcharacters
 const sanitize = (s: string) =>
-  escapeQuotes(s.replace(/[+\-&|!(){}[\]^~*?\\:]/g, ""))
+  escapeQuotes(s.replace(/[+&|!(){}[\]^~*?\\:]/g, ""))
     .replace(/\s+/, " ")
     .trim();
 
