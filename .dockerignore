@@ -1,0 +1,15 @@
+*
+
+# Ideally all of these would be `!/` instead of just `!` but Docker Hub has a
+# bug where the former silently fails :(
+# https://github.com/docker/hub-feedback/issues/511#issuecomment-504777737
+!.node-version
+!config-example.yaml
+!dist/favicon.png
+!dist/mark.min.js
+!dist/*.min.js
+!Makefile
+!package-lock.json
+!package.json
+!src/
+!tsconfig.json
