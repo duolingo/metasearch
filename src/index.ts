@@ -184,10 +184,12 @@ ${JSON.stringify(data)}`);
       console.log(`Serving Metasearch at http://localhost:${port}`);
     }),
   });
-  process.on("SIGTERM", async () => {
-    console.log("Gracefully shutting down...");
-    await httpTerminator.terminate();
-    console.log("Closed all open connections. Bye!");
-    process.exit(0);
-  });
+  ["SIGINT", "SIGTERM"].forEach(signal =>
+    process.on(signal, async () => {
+      console.log("Gracefully shutting down...");
+      await httpTerminator.terminate();
+      console.log("Closed all open connections. Bye!");
+      process.exit(0);
+    }),
+  );
 })();
