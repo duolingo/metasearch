@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/duolingo/metasearch.git"
   },
-  "version": "0.0.1",
+  "version": "1.0.0",
   "devDependencies": {
     "@types/compression": "1.7.0",
     "@types/ejs": "3.0.4",
