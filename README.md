@@ -1,6 +1,10 @@
 # Metasearch
 
-Metasearch is a tool for searching many content sources in parallel:
+Metasearch is a tool for searching many other tools in parallel:
+
+![Metasearch screenshot](.github/screenshot.png)
+
+The full list of supported data sources:
 
 - [AWS](https://aws.amazon.com/) tagged resources
 - [Confluence](https://www.atlassian.com/software/confluence) pages
