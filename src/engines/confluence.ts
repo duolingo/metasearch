@@ -45,6 +45,7 @@ const engine: Engine = {
           cql: `(type = page) AND (text ~ "${escapeQuotes(
             q,
           )}") OR (title ~ "${escapeQuotes(q)}")`,
+          limit: 1000,
         },
       })
     ).data;
