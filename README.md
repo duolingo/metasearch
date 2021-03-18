@@ -32,7 +32,7 @@ The full list of supported data sources:
 ### Using Docker
 
 1. Download and customize [`config.yaml`](https://github.com/duolingo/metasearch/raw/master/config.yaml)
-1. In the local directory that contains `config.yaml`, run `docker run -v "$PWD:/data" duolingo/metasearch`
+1. In the local directory that contains `config.yaml`, run `docker run -p 3000:3000 -v "$PWD:/data" duolingo/metasearch`
 
 ### Using Git, Make, and Node.js
 
