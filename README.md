@@ -41,6 +41,10 @@ The full list of supported data sources:
 
 Metasearch runs at http://localhost:3000.
 
+## Contributing
+
+Want to search something like SharePoint or MediaWiki that isn't currently supported? This repo is only around 3000 lines of TypeScript, and adding support for a new data source requires fewer than 100 lines on average. Feel free to open a PR!
+
 ---
 
 _Duolingo is hiring! Apply at https://www.duolingo.com/careers_
