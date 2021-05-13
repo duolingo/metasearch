@@ -19,6 +19,7 @@ import trello from "./trello";
 import talentlms from "./talentlms";
 import website from "./website";
 import zoom from "./zoom";
+import notion from "./notion"
 
 const engines: Engine[] = [
   aws,
@@ -42,5 +43,6 @@ const engines: Engine[] = [
   trello,
   website,
   zoom,
+  notion
 ];
 export default engines;
