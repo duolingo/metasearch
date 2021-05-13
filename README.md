@@ -24,6 +24,7 @@ The full list of supported data sources:
 - [Rollbar](https://rollbar.com/) projects
 - [Slack](https://slack.com/) messages and channels
 - [TalentLMS](https://www.talentlms.com/) courses
+- [Trello](https://trello.com/en-US) boards, cards, members and workspaces
 - [Zoom](https://zoom.us/) rooms
 - Arbitrary websites via sitemaps
 
