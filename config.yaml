@@ -180,6 +180,13 @@ engines:
     # TalentLMS organization name (appears before `.talentlms.com` in your account's URLs)
     organization: example
 
+  # Trello actions, boards, cards, members, and organizations
+  trello:
+    # API key
+    key: 12345678901234567890123456789012
+    # API token
+    token: 1234567890123456789012345678901234567890123456789012345678901234
+
   # Arbitrary website content
   website:
     # XML sitemaps to scrape. Metasearch will download and search the HTML
