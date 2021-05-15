@@ -35,6 +35,7 @@ const engines: Engine[] = [
   jenkins,
   jira,
   lingo,
+  notion,
   pagerduty,
   pingboard,
   rollbar,
@@ -43,6 +44,5 @@ const engines: Engine[] = [
   trello,
   website,
   zoom,
-  notion,
 ];
 export default engines;
