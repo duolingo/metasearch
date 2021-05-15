@@ -26,6 +26,7 @@ The full list of supported data sources:
 - [TalentLMS](https://www.talentlms.com/) courses
 - [Trello](https://trello.com/en-US) boards, cards, members and workspaces
 - [Zoom](https://zoom.us/) rooms
+- [Notion](https://notion.so) pages
 - Arbitrary websites via sitemaps
 
 ## Setup

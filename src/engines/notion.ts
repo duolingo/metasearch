@@ -3,18 +3,25 @@ import { getUnixTime } from "../util";
 
 let axiosClient: AxiosInstance | undefined;
 let notionWorkspace: string;
-// ,{}, {
-//         data: {
-//           query: q,
-//           sort: {
-//             direction: "ascending",
-//             timestamp: "last_edited_time",
-//           },
-//           filter: {
-//             object: 'page'
-//           }
-//         },
-//       })
+
+type RichText = {
+  plain_text: string;
+} & {
+  [propertyName: string]: string;
+};
+interface Page {
+  object: "page";
+  id: string;
+  last_edited_time: string;
+  properties: {
+    Name?: {
+      type: "title";
+      title: RichText[];
+    };
+    title?: RichText[];
+  } & { [propertyName: string]: string };
+}
+
 const engine: Engine = {
   id: "notion",
   init: ({ token, workspace }: { token: string; workspace: string }) => {
@@ -35,55 +42,34 @@ const engine: Engine = {
       throw Error("Engine not initialized");
     }
 
-    console.log("query for ", q);
-
-    // const config = {
-    //   data: {
-    //     query: q,
-    //     sort: {
-    //       direction: "ascending",
-    //       timestamp: "last_edited_time",
-    //     },
-    //     filter: {
-    //       object: "page",
-    //     },
-    //   },
-    // };
-    const response = (
+    return (
       await axiosClient.post("/search", {
         query: q,
         sort: {
           direction: "ascending",
           timestamp: "last_edited_time",
         },
-        // filter: {
-        //   object: "page",
-        // },
+        filter: {
+          value: "page",
+          property: "object",
+        },
       })
-    ).data;
-
-    console.log("notion response is... ", response);
-    const values = response.results
-      .map((result: any) => {
-        const type: "database" | "page" = result.object;
-        const title = result?.properties?.Name?.title[0]?.plain_text;
-        if (result.object === "page" && title) {
-          console.log("title is", title);
+    ).data.results
+      .map((result: Page) => {
+        const title = result.properties.Name
+          ? result.properties.Name.title[0]
+          : result.properties.title && result.properties.title[0];
+        if (title) {
           return {
             modified: getUnixTime(result.last_edited_time),
-            snippet: result.object,
-            title: title,
-            url:
-              type === "page"
-                ? `notion://notion.so/${notionWorkspace}/${formatTitle(
-                    title
-                  )}-${formatId(result.id)}`
-                : "",
+            title: title.plain_text,
+            url: `notion://notion.so/${notionWorkspace}/${formatTitle(
+              title.plain_text
+            )}-${formatId(result.id)}`,
           };
         }
       })
-      .filter((o: any) => o !== undefined);
-    return values;
+      .filter((p: Page | undefined) => p !== undefined);
   },
 };
 
