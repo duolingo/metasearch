@@ -19,6 +19,7 @@ The full list of supported data sources:
 - [Jenkins](https://www.jenkins.io/) job names
 - [Jira](https://www.atlassian.com/software/jira) issues
 - [Lingo](https://www.lingoapp.com/) assets
+- [Notion](https://notion.so) pages
 - [PagerDuty](https://www.pagerduty.com/) schedules and services
 - [Pingboard](https://pingboard.com/) employees
 - [Rollbar](https://rollbar.com/) projects
@@ -26,7 +27,6 @@ The full list of supported data sources:
 - [TalentLMS](https://www.talentlms.com/) courses
 - [Trello](https://trello.com/en-US) boards, cards, members and workspaces
 - [Zoom](https://zoom.us/) rooms
-- [Notion](https://notion.so) pages
 - Arbitrary websites via sitemaps
 
 ## Setup

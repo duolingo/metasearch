@@ -11,15 +11,15 @@ import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
 import lingo from "./lingo";
+import notion from "./notion";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
 import rollbar from "./rollbar";
 import slack from "./slack";
-import trello from "./trello";
 import talentlms from "./talentlms";
+import trello from "./trello";
 import website from "./website";
 import zoom from "./zoom";
-import notion from "./notion"
 
 const engines: Engine[] = [
   aws,
@@ -43,6 +43,6 @@ const engines: Engine[] = [
   trello,
   website,
   zoom,
-  notion
+  notion,
 ];
 export default engines;

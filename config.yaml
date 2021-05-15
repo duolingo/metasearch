@@ -143,6 +143,16 @@ engines:
       - https://www.lingoapp.com/1234/k/Icons-RWEr24?kit_token=Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
       - https://www.lingoapp.com/1234/k/Illustrations-Ex4mp1
 
+  # Notion page titles
+  notion:
+    # Create an internal integration at https://www.notion.so/my-integrations
+    # and paste the token below. Make sure to share the notion pages with this
+    # integration for them to be searchable.
+    token: secret_Ex4mp1eEx4mp1eEx4mp1eEEx4mp1eEx4mp1eEx4mp1eE
+    # ID of the space where you want to search pages, see URL of any page in
+    # workspace (notion.so/happy/).
+    workspace: happy
+
   # PagerDuty schedules and services
   pagerduty:
     # PagerDuty API token
@@ -202,14 +212,6 @@ engines:
     key: Ex4mp1eEx4mp1eEx4mp1eE
     # Zoom API secret used for JWT authentication
     secret: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
-
-  # Notion page titles
-  notion: 
-    # Create an internal integration at https://www.notion.so/my-integrations, and paste the token below.
-    # Make sure to share the notion pages with this integration for them to be searchable.
-    token: secret_Ex4mp1eEx4mp1eEx4mp1eEEx4mp1eEx4mp1eEx4mp1eE
-    # Id of the space where you want to search pages, see url of any page in workspace(notion.so/happy/).
-    workspace: happy
 
 
 ###############################################################################

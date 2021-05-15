@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+
 import { getUnixTime } from "../util";
 
 let axiosClient: AxiosInstance | undefined;
@@ -37,7 +38,7 @@ const engine: Engine = {
     });
   },
   name: "Notion",
-  search: async (q) => {
+  search: async q => {
     if (!axiosClient) {
       throw Error("Engine not initialized");
     }
@@ -64,7 +65,7 @@ const engine: Engine = {
             modified: getUnixTime(result.last_edited_time),
             title: title.plain_text,
             url: `notion://notion.so/${notionWorkspace}/${formatTitle(
-              title.plain_text
+              title.plain_text,
             )}-${formatId(result.id)}`,
           };
         }
