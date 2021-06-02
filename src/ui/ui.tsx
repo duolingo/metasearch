@@ -66,32 +66,34 @@ const SORT_MODES: Record<
   },
 };
 
-const Sorter = ({
+const Settings = ({
+  enableSorting,
   onSort,
   onToggleTheme,
   sortMode,
 }: {
+  enableSorting: boolean;
   onSort: (sort: SortMode) => void;
   onToggleTheme: () => void;
   sortMode: SortMode;
-}) => {
-  return (
-    <div className="sorter">
-      {["best", "recent", "az"].map((id: SortMode) =>
-        sortMode === id ? (
-          <span>{SORT_MODES[id].name}</span>
-        ) : (
-          <a href="javascript:;" onClick={() => onSort(id)}>
-            {SORT_MODES[id].name}
-          </a>
-        ),
-      )}
-      <a href="javascript:;" onClick={onToggleTheme} title="Toggle dark theme">
-        <img src="/theme.png" />
-      </a>
-    </div>
-  );
-};
+}) => (
+  <div className="sorter">
+    {enableSorting
+      ? ["best", "recent", "az"].map((id: SortMode) =>
+          sortMode === id ? (
+            <span>{SORT_MODES[id].name}</span>
+          ) : (
+            <a href="javascript:;" onClick={() => onSort(id)}>
+              {SORT_MODES[id].name}
+            </a>
+          ),
+        )
+      : null}
+    <a href="javascript:;" onClick={onToggleTheme} title="Toggle dark theme">
+      <img src="/theme.png" />
+    </a>
+  </div>
+);
 
 const Sidebar = ({
   hiddenEngines,
@@ -389,15 +391,14 @@ const App = () => {
         onSearch={q => handleSearch(dispatch, q, !!getUrlQ().trim())}
         q={q}
       />
-      {resultGroups.length ? (
-        <Sorter
-          onSort={sortMode => setLocalData({ ...localData, sortMode })}
-          onToggleTheme={() =>
-            setLocalData({ ...localData, dark: !localData.dark })
-          }
-          sortMode={sortMode}
-        />
-      ) : null}
+      <Settings
+        enableSorting={resultGroups.length > 0}
+        onSort={sortMode => setLocalData({ ...localData, sortMode })}
+        onToggleTheme={() =>
+          setLocalData({ ...localData, dark: !localData.dark })
+        }
+        sortMode={sortMode}
+      />
       <Sidebar
         hiddenEngines={localData.hiddenEngines || []}
         resultGroups={resultGroups}
