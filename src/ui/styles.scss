@@ -10,6 +10,7 @@
   --bg-color: white;
   --border-color: #e5e5e5;
   --highlight-color: #ffffba;
+  --no-results-color: #d5d5d5;
   --primary-text-color: #3c3c3c;
   --secondary-text-color: #888;
   --sidebar-hover-color: var(--bluish-white);
@@ -47,6 +48,7 @@
   --bg-color: #151c24;
   --border-color: #374251;
   --highlight-color: var(--border-color);
+  --no-results-color: var(--border-color);
   --primary-text-color: var(--bluish-white);
   --secondary-text-color: #7f91aa;
   --sidebar-hover-color: var(--border-color);
@@ -206,7 +208,6 @@ mark {
   li {
     color: var(--secondary-text-color);
     flex-grow: 1;
-    font-weight: bold;
     max-height: 37px;
     min-height: 24px;
     padding: 0 8px 0 var(--engine-padding-left);
@@ -223,6 +224,7 @@ mark {
     border-radius: var(--radius-standard);
     color: inherit;
     cursor: pointer;
+    font-weight: bold;
 
     &:hover {
       background: var(--sidebar-hover-color);
@@ -234,7 +236,7 @@ mark {
   }
 
   span {
-    background: #d5d5d5;
+    background: var(--no-results-color);
     border-radius: 15px;
     color: var(--bg-color);
     float: right;
