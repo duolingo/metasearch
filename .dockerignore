@@ -5,9 +5,9 @@
 # https://github.com/docker/hub-feedback/issues/511#issuecomment-504777737
 !.node-version
 !config-example.yaml
-!dist/favicon.png
 !dist/mark.min.js
 !dist/*.min.js
+!dist/*.png
 !Makefile
 !package-lock.json
 !package.json
