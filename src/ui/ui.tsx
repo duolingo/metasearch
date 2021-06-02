@@ -68,22 +68,27 @@ const SORT_MODES: Record<
 
 const Sorter = ({
   onSort,
+  onToggleTheme,
   sortMode,
 }: {
   onSort: (sort: SortMode) => void;
+  onToggleTheme: () => void;
   sortMode: SortMode;
 }) => {
   return (
     <div className="sorter">
       {["best", "recent", "az"].map((id: SortMode) =>
         sortMode === id ? (
-          <strong>{SORT_MODES[id].name}</strong>
+          <span>{SORT_MODES[id].name}</span>
         ) : (
           <a href="javascript:;" onClick={() => onSort(id)}>
             {SORT_MODES[id].name}
           </a>
         ),
       )}
+      <a href="javascript:;" onClick={onToggleTheme} title="Toggle dark theme">
+        <img src="/theme.png" />
+      </a>
     </div>
   );
 };
@@ -312,6 +317,7 @@ const handleSearch = async (
 /** Helper for interacting with localStorage */
 const STORAGE_MANAGER = (() => {
   type Data = Partial<{
+    dark: boolean;
     hiddenEngines: string[];
     sortMode: SortMode;
   }>;
@@ -367,7 +373,7 @@ const App = () => {
 
   const sortMode: SortMode = localData.sortMode || "best";
   return (
-    <>
+    <div className={`theme${localData.dark ? " dark" : ""}`}>
       <div
         className="logo"
         onClick={() => {
@@ -386,6 +392,9 @@ const App = () => {
       {resultGroups.length ? (
         <Sorter
           onSort={sortMode => setLocalData({ ...localData, sortMode })}
+          onToggleTheme={() =>
+            setLocalData({ ...localData, dark: !localData.dark })
+          }
           sortMode={sortMode}
         />
       ) : null}
@@ -411,7 +420,7 @@ const App = () => {
         className="footer"
         dangerouslySetInnerHTML={FOOTER ? { __html: FOOTER } : undefined}
       />
-    </>
+    </div>
   );
 };
 
