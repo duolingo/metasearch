@@ -62,7 +62,7 @@ const engine: Engine = {
       .filter(u =>
         [
           ...Object.values(u),
-          ...Object.values(u.custom_fields),
+          ...Object.values(u.custom_fields ?? {}),
           ...u.interests,
           ...u.skills,
           `${u.first_name} ${u.last_name}`,
