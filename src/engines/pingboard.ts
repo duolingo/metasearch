@@ -3,12 +3,15 @@ import axios from "axios";
 import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Employee {
+  custom_fields?: Record<string, any>;
   email: string;
   first_name: string;
   id: string;
+  interests: string[];
   job_title: string;
   last_name: string;
   nickname: string;
+  skills: string[];
 }
 
 let getEmployees: (() => Promise<Set<Employee>>) | undefined;
@@ -57,7 +60,13 @@ const engine: Engine = {
 
     return Array.from(await getEmployees())
       .filter(u =>
-        [...Object.values(u), `${u.first_name} ${u.last_name}`]
+        [
+          ...Object.values(u),
+          ...Object.values(u.custom_fields),
+          ...u.interests,
+          ...u.skills,
+          `${u.first_name} ${u.last_name}`,
+        ]
           .filter((v): v is string => typeof v === "string")
           .some(v => fuzzyIncludes(v, q)),
       )
