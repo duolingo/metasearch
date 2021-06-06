@@ -41,7 +41,7 @@
     "js-yaml": "3.14.0",
     "jsonwebtoken": "8.5.1",
     "marked": "1.1.0",
-    "sanitize-html": "1.27.0",
+    "sanitize-html": "2.3.2",
     "xml2js": "0.4.23"
   }
 }
