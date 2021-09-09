@@ -16,9 +16,9 @@ let org: string | undefined;
 
 const engine: Engine = {
   id: "github",
-  init: ({ organization, token }: { organization: string; token: string }) => {
+  init: ({ organization, token, url = "https://api.github.com" }: { organization: string; token: string; url: string }) => {
     const axiosClient = axios.create({
-      baseURL: "https://api.github.com",
+      baseURL: url,
       headers: { Authorization: `bearer ${token}` },
     });
     client = axiosClient;
