@@ -88,10 +88,10 @@ engines:
   github:
     # GitHub organization
     organization: example
+    # GitHub API origin (optional, defaults to https://api.github.com)
+    origin: https://api.github.com
     # GitHub personal access token
     token: abcdef0123456789abcdef0123456789abcdef01
-    # GitHub base URL
-    url: https://api.github.com
 
   # Greenhouse job posts
   greenhouse:
