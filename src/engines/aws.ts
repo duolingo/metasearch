@@ -147,51 +147,57 @@ let getResources: (() => Promise<Set<Result>>) | undefined;
 
 const engine: Engine = {
   id: "aws",
-  init: ({ region }: { region: string }) => {
+  init: ({ region: regions }: { region: string }) => {
     getResources = rateLimit(async () => {
-      let token: string | undefined;
       const resources: Result[] = [];
       const start = Date.now();
-      do {
-        const { PaginationToken, ResourceTagMappingList = [] } = await new RGT({
-          region,
-        })
-          .getResources({ PaginationToken: token, ResourcesPerPage: 100 })
-          .promise();
-        token = PaginationToken;
-        resources.push(
-          ...ResourceTagMappingList.map(r => {
-            if (!r.ResourceARN) {
-              throw Error("Missing ARN");
-            }
+      await Promise.all(
+        regions.split(",").map(async region => {
+          const client = new RGT({ region });
+          let token: string | undefined;
+          do {
+            const {
+              PaginationToken,
+              ResourceTagMappingList = [],
+            } = await client
+              .getResources({ PaginationToken: token, ResourcesPerPage: 100 })
+              .promise();
+            token = PaginationToken;
+            resources.push(
+              ...ResourceTagMappingList.map(r => {
+                if (!r.ResourceARN) {
+                  throw Error("Missing ARN");
+                }
 
-            /**
-             * ["arn", "aws", service, region, accountId, ...resourceName]
-             *
-             * https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
-             */
-            const arnPieces = r.ResourceARN.split(":");
-            const resourceIdPieces = arnPieces.slice(5);
-            const serviceName = SERVICE_NAMES[arnPieces[2]];
-            return {
-              snippet: [
-                `ARN = ${r.ResourceARN}`,
-                ...(r.Tags ?? [])
-                  .sort((a, b) => (a.Key > b.Key ? 1 : -1))
-                  .map(r => `${r.Key} = ${r.Value}`),
-              ].join("<br>"),
-              title:
-                (serviceName ? `${serviceName}: ` : "") +
-                resourceIdPieces.join(":"),
-              url: `https://${serviceToUrl(arnPieces[2])({
-                arn: r.ResourceARN,
-                id: resourceIdPieces,
-                region: `?region=${region}`,
-              })}`,
-            };
-          }),
-        );
-      } while (token);
+                /**
+                 * ["arn", "aws", service, region, accountId, ...resourceName]
+                 *
+                 * https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+                 */
+                const arnPieces = r.ResourceARN.split(":");
+                const resourceIdPieces = arnPieces.slice(5);
+                const serviceName = SERVICE_NAMES[arnPieces[2]];
+                return {
+                  snippet: [
+                    `ARN = ${r.ResourceARN}`,
+                    ...(r.Tags ?? [])
+                      .sort((a, b) => (a.Key > b.Key ? 1 : -1))
+                      .map(r => `${r.Key} = ${r.Value}`),
+                  ].join("<br>"),
+                  title:
+                    (serviceName ? `${serviceName}: ` : "") +
+                    resourceIdPieces.join(":"),
+                  url: `https://${serviceToUrl(arnPieces[2])({
+                    arn: r.ResourceARN,
+                    id: resourceIdPieces,
+                    region: `?region=${region}`,
+                  })}`,
+                };
+              }),
+            );
+          } while (token);
+        }),
+      );
       console.log(
         `Scraped ${resources.length} AWS resources in ${
           (Date.now() - start) / 1000

@@ -26,7 +26,7 @@ engines:
   # ~/.aws. You should mount the host's .aws folder into the container if
   # running Metasearch in Docker, e.g. -v "$HOME/.aws:/root/.aws"
   aws:
-    # AWS region
+    # Comma-separated AWS regions
     region: us-east-1
 
   # Confluence pages
