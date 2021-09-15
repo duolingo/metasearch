@@ -34,4 +34,4 @@ _ts:
 	echo 'Installing NPM dependencies...'
 	npm ci
 	echo 'Compiling TypeScript...'
-	node_modules/.bin/tsc
+	NODE_OPTIONS=--max_old_space_size=4096 node_modules/.bin/tsc
