@@ -88,7 +88,7 @@ export const fuzzyIncludes = (() => {
 })();
 
 /**
- * Trim the result to at most `MAX_ROWS` lines. This method is used to
+ * Trims the result to at most `MAX_ROWS` lines. This method is used to
  * restrict the length of a search result snippet, so that the UI stays clear.
  * The method tries to trim the lines in a way such that at least the first
  * match to the query stays visible.
