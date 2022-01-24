@@ -11,34 +11,35 @@ interface Team {
 }
 
 interface Channel {
+  display_name: string;
   id: string;
   name: string;
-  display_name: string;
 }
 
 interface User {
-  id: string;
-  nickname: string;
-  first_name: string;
-  last_name: string;
   email: string;
+  first_name: string;
+  id: string;
+  last_name: string;
+  nickname: string;
 }
 
 let getChannels: (() => Promise<Set<Channel>>) | undefined;
 let getUsers: (() => Promise<Set<User>>) | undefined;
 
-let getTitle = async (channelId: string, userId: string) : Promise<string> => {
-
+let getTitle = async (channelId: string, userId: string): Promise<string> => {
   if (!(getChannels && getUsers)) {
     throw Error("Engine not initialized");
   }
 
-  const channel = Array.from(await getChannels()).find(channel => channel.id == channelId);
+  const channel = Array.from(await getChannels()).find(
+    channel => channel.id == channelId,
+  );
   const user = Array.from(await getUsers()).find(user => user.id == userId);
 
   const channelName = channel ? channel.display_name : channelId;
   let userName = userId;
-  
+
   if (user) {
     if (user.nickname != "") {
       userName = user.nickname;
@@ -50,7 +51,7 @@ let getTitle = async (channelId: string, userId: string) : Promise<string> => {
   }
 
   return `${channelName} - ${userName}`;
-}
+};
 
 let ori: string | undefined;
 let teamId: string | undefined;
@@ -74,11 +75,9 @@ const engine: Engine = {
     client = axiosClient;
 
     getChannels = rateLimit(async () => {
-
       // https://api.mattermost.com/#operation/GetTeamByName
-      const currentTeam: Team = (
-        await axiosClient.get(`/teams/name/${team}`)
-      ).data;
+      const currentTeam: Team = (await axiosClient.get(`/teams/name/${team}`))
+        .data;
 
       teamId = currentTeam.id;
 
@@ -96,9 +95,9 @@ const engine: Engine = {
       let page = 0;
       const users = new Set<User>();
 
-      while(true) {
+      while (true) {
         const data: User[] = (
-          await axiosClient.get(`/users`, {params: {page: page}})
+          await axiosClient.get(`/users`, { params: { page: page } })
         ).data;
 
         if (!data || data.length == 0) {
@@ -113,7 +112,6 @@ const engine: Engine = {
 
     teamName = team;
     ori = origin;
-
   },
   name: "Mattermost",
   search: async q => {
@@ -123,31 +121,34 @@ const engine: Engine = {
 
     // https://api.mattermost.com/#operation/SearchPosts
     const data: {
-      order: string[],
-      posts: Record<string, { 
-        id: string,
-        user_id: string;
-        channel_id: string;
-        message: string;
-        update_at: string;
-      }>;
+      order: string[];
+      posts: Record<
+        string,
+        {
+          channel_id: string;
+          id: string;
+          message: string;
+          update_at: string;
+          user_id: string;
+        }
+      >;
     } = (
       await client.post(`/teams/${teamId}/posts/search`, {
-        terms: q
+        terms: q,
       })
     ).data;
 
     return await Promise.all(
       data.order
-      .map(postId => data.posts[postId])
-      .map(async post => {
-        return {
-          modified: getUnixTime(post.update_at),
-          snippet: `<blockquote>${marked(post.message)}</blockquote>`,
-          title: await getTitle(post.channel_id, post.user_id),
-          url: `${ori}/${teamName}/pl/${post.id}`,
-        }
-      })
+        .map(postId => data.posts[postId])
+        .map(async post => {
+          return {
+            modified: getUnixTime(post.update_at),
+            snippet: `<blockquote>${marked(post.message)}</blockquote>`,
+            title: await getTitle(post.channel_id, post.user_id),
+            url: `${ori}/${teamName}/pl/${post.id}`,
+          };
+        }),
     );
   },
 };
