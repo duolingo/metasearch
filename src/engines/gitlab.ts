@@ -22,32 +22,30 @@ const engine: Engine = {
   },
   name: "GitLab",
   search: async q => {
-    if (!(client)) {
+    if (!client) {
       throw Error("Engine not initialized");
     }
 
     // https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
     const data: {
-      title: string,
-      description: string,
-      web_url: string,
-      updated_at: string
+      description: string;
+      title: string;
+      updated_at: string;
+      web_url: string;
     }[] = (
       await client.get("/merge_requests", {
-        params: {
-          search: q,
-          scope: 'all'
-        }
+        params: { scope: "all", search: q },
       })
     ).data;
 
-    return data
-      .map(mr => ({
-        modified: getUnixTime(mr.updated_at),
-        snippet: `<blockquote>${marked(trimLines(mr.description, q))}</blockquote>`,
-        title: mr.title,
-        url: mr.web_url,
-      }));
+    return data.map(mr => ({
+      modified: getUnixTime(mr.updated_at),
+      snippet: `<blockquote>${marked(
+        trimLines(mr.description, q),
+      )}</blockquote>`,
+      title: mr.title,
+      url: mr.web_url,
+    }));
   },
 };
 
