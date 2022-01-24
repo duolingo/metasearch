@@ -88,6 +88,42 @@ export const fuzzyIncludes = (() => {
 })();
 
 /**
+ * Trim the result to at most 'max_rows' lines. This method is used
+ * to restrict the length of a search result snippet, so that the ui stays clear.
+ * The method tries to trim the lines in a way such that at least the first match
+ * to the query stays visible.
+ */
+export const trimLines = (result: string, q: string) :string => {
+
+  const max_rows = 8;
+  const half_rows = max_rows / 2;
+
+  let lines = result.split('\n');
+
+  if (lines.length > max_rows) {
+
+    let matchIdx = lines.findIndex(line => fuzzyIncludes(line, q));
+    let startIdx = 0;
+
+    if (matchIdx > half_rows) {
+      startIdx = matchIdx - half_rows;
+    }
+
+    let endIdx = matchIdx + half_rows;
+
+    if (endIdx > lines.length) {
+      endIdx = lines.length;
+      startIdx = Math.max(0, endIdx - max_rows);
+    }
+
+    return lines.slice(startIdx, endIdx).join('\n');
+
+  } else {
+    return result;
+  }
+}
+
+/**
  * Converts a date string such as "2020-06-30T21:06:25.166Z" to a Unix
  * timestamp in seconds.
  */

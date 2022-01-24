@@ -11,11 +11,12 @@ The full list of supported data sources:
 - [Dropbox](https://www.dropbox.com/) files and folders
 - [Figma](https://www.figma.com/) files, projects, and teams
 - [GitHub](https://github.com/) PRs, issues, and repo metadata
+- [GitLab](https://gitlab.com/) merge-requests
 - [Google Drive](https://www.google.com/drive/) docs, spreadsheets, etc.
 - [Google Groups](https://groups.google.com/) groups
 - [Greenhouse](https://www.greenhouse.io/) job posts
 - [Guru](https://www.getguru.com/) cards
-- [Hound](https://github.com/hound-search/hound)-indexed code
+- [Hound](https://github.com/hound-search/hound) indexed code
 - [Jenkins](https://www.jenkins.io/) job names
 - [Jira](https://www.atlassian.com/software/jira) issues
 - [Lingo](https://www.lingoapp.com/) assets
