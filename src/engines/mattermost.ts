@@ -24,30 +24,30 @@ interface User {
   nickname: string;
 }
 
-let getChannels: (() => Promise<Set<Channel>>) | undefined;
-let getUsers: (() => Promise<Set<User>>) | undefined;
+let getChannels: (() => Promise<Channel[]>) | undefined;
+let getUsers: (() => Promise<User[]>) | undefined;
 
 let getTitle = async (channelId: string, userId: string): Promise<string> => {
   if (!(getChannels && getUsers)) {
     throw Error("Engine not initialized");
   }
 
-  const channel = Array.from(await getChannels()).find(
-    channel => channel.id == channelId,
+  const channel = (await getChannels()).find(
+    channel => channel.id === channelId,
   );
-  const user = Array.from(await getUsers()).find(user => user.id == userId);
+  const user = (await getUsers()).find(user => user.id === userId);
 
-  const channelName = channel ? channel.display_name : channelId;
-  let userName = userId;
+  const channelName = channel?.display_name ?? channelId;
 
-  if (user) {
-    if (user.nickname != "") {
-      userName = user.nickname;
-    } else if (user.first_name != "" || user.last_name != "") {
-      userName = `${user.first_name} ${user.last_name}`.trim();
-    } else {
-      userName = user.email;
-    }
+  let userName: string;
+  if (!user) {
+    userName = userId;
+  } else if (user.nickname !== "") {
+    userName = user.nickname;
+  } else if (user.first_name !== "" || user.last_name !== "") {
+    userName = `${user.first_name} ${user.last_name}`.trim();
+  } else {
+    userName = user.email;
   }
 
   return `${channelName} - ${userName}`;
@@ -86,25 +86,25 @@ const engine: Engine = {
         await axiosClient.get(`/teams/${teamId}/channels`)
       ).data;
 
-      return new Set(data);
+      return data;
     }, 10);
 
     getUsers = rateLimit(async () => {
       // https://api.mattermost.com/#operation/GetUsers
 
       let page = 0;
-      const users = new Set<User>();
+      const users: User[] = [];
 
       while (true) {
         const data: User[] = (
           await axiosClient.get(`/users`, { params: { page: page } })
         ).data;
 
-        if (!data || data.length == 0) {
+        if (!data?.length) {
           break;
         }
 
-        data.forEach(user => users.add(user));
+        data.forEach(user => users.push(user));
         page += 1;
       }
       return users;
@@ -132,23 +132,18 @@ const engine: Engine = {
           user_id: string;
         }
       >;
-    } = (
-      await client.post(`/teams/${teamId}/posts/search`, {
-        terms: q,
-      })
-    ).data;
+    } = (await client.post(`/teams/${teamId}/posts/search`, { terms: q })).data;
 
     return await Promise.all(
-      data.order
-        .map(postId => data.posts[postId])
-        .map(async post => {
-          return {
-            modified: getUnixTime(post.update_at),
-            snippet: `<blockquote>${marked(post.message)}</blockquote>`,
-            title: await getTitle(post.channel_id, post.user_id),
-            url: `${ori}/${teamName}/pl/${post.id}`,
-          };
-        }),
+      data.order.map(async postId => {
+        const post = data.posts[postId];
+        return {
+          modified: getUnixTime(post.update_at),
+          snippet: `<blockquote>${marked(post.message)}</blockquote>`,
+          title: await getTitle(post.channel_id, post.user_id),
+          url: `${ori}/${teamName}/pl/${post.id}`,
+        };
+      }),
     );
   },
 };
