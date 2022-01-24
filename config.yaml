@@ -93,6 +93,13 @@ engines:
     # GitHub personal access token
     token: abcdef0123456789abcdef0123456789abcdef01
 
+  # GitLab Merge Requests
+  gitlab:
+    # GitLab API origin (optional, defaults to https://gitlab.com)
+    origin: https://gitlab.com
+    # GitLab personal access token
+    token: abcdef0123456789abcdef0123456789abcdef01
+
   # Greenhouse job posts
   greenhouse:
     # Board token
