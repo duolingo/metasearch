@@ -12,6 +12,7 @@ import hound from "./hound";
 import jenkins from "./jenkins";
 import jira from "./jira";
 import lingo from "./lingo";
+import mattermost from "./mattermost";
 import notion from "./notion";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
@@ -37,6 +38,7 @@ const engines: Engine[] = [
   jenkins,
   jira,
   lingo,
+  mattermost,
   notion,
   pagerduty,
   pingboard,
