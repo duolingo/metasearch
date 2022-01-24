@@ -88,36 +88,32 @@ export const fuzzyIncludes = (() => {
 })();
 
 /**
- * Trim the result to at most 'max_rows' lines. This method is used to
+ * Trim the result to at most `MAX_ROWS` lines. This method is used to
  * restrict the length of a search result snippet, so that the UI stays clear.
  * The method tries to trim the lines in a way such that at least the first
  * match to the query stays visible.
  */
 export const trimLines = (result: string, q: string): string => {
-  const maxRows = 8;
-  const halfRows = maxRows / 2;
+  const MAX_ROWS = 8;
+  const halfRows = MAX_ROWS / 2;
 
-  let lines = result.split("\n");
-
-  if (lines.length > maxRows) {
-    let matchIdx = lines.findIndex(line => fuzzyIncludes(line, q));
-    let startIdx = 0;
-
-    if (matchIdx > halfRows) {
-      startIdx = matchIdx - halfRows;
-    }
-
-    let endIdx = matchIdx + halfRows;
-
-    if (endIdx > lines.length) {
-      endIdx = lines.length;
-      startIdx = Math.max(0, endIdx - maxRows);
-    }
-
-    return lines.slice(startIdx, endIdx).join("\n");
-  } else {
+  result = result.trim();
+  const lines = result.split("\n");
+  if (lines.length <= MAX_ROWS) {
     return result;
   }
+
+  const matchIdx = lines.findIndex(line => fuzzyIncludes(line, q));
+  let startIdx = Math.max(0, matchIdx - halfRows);
+  let endIdx = Math.min(lines.length, matchIdx + halfRows);
+
+  if (startIdx === 0) {
+    endIdx = MAX_ROWS;
+  } else if (endIdx === lines.length) {
+    startIdx = lines.length - MAX_ROWS;
+  }
+
+  return lines.slice(startIdx, endIdx).join("\n");
 };
 
 /**
