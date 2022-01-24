@@ -145,6 +145,14 @@ engines:
       - https://www.lingoapp.com/1234/k/Icons-RWEr24?kit_token=Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
       - https://www.lingoapp.com/1234/k/Illustrations-Ex4mp1
 
+  # Mattermost posts
+  mattermost:
+    origin: https://my-mattermost-server.com
+    team: team-name
+    # Create a bot and use the token here.
+    # In order to search non-public channels, add the bot as a member to the channel
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eE
+
   # Notion page titles
   notion:
     # Create an internal integration at https://www.notion.so/my-integrations

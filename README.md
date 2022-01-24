@@ -19,6 +19,7 @@ The full list of supported data sources:
 - [Jenkins](https://www.jenkins.io/) job names
 - [Jira](https://www.atlassian.com/software/jira) issues
 - [Lingo](https://www.lingoapp.com/) assets
+- [Mattermost](https://mattermost.com/) posts
 - [Notion](https://www.notion.so/) pages
 - [PagerDuty](https://www.pagerduty.com/) schedules and services
 - [Pingboard](https://pingboard.com/) employees
