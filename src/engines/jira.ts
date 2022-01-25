@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { escapeQuotes, getUnixTime } from "../util";
+import { escapeQuotes, getUnixTime, trimLines } from "../util";
 
 let client: AxiosInstance | undefined;
 let origin: string | undefined;
@@ -46,7 +46,7 @@ const engine: Engine = {
     ).data;
     return data.issues.map(issue => ({
       modified: getUnixTime(issue.fields.updated),
-      snippet: issue.renderedFields.description,
+      snippet: trimLines(issue.renderedFields.description, q),
       title: `${issue.key}: ${issue.fields.summary}`,
       url: `${origin}/browse/${issue.key}`,
     }));
