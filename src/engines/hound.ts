@@ -17,7 +17,7 @@ const engine: Engine = {
   }: {
     name: string | undefined;
     codeHost: string | undefined;
-    organization: string;
+    organization: string | undefined;
     origin: string;
   }) => {
     client = axios.create({ baseURL: `${origin}/api/v1` });
