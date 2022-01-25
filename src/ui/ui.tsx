@@ -250,7 +250,6 @@ const Results = ({
                         className="title"
                         dangerouslySetInnerHTML={{ __html: result.title }}
                         href={result.url}
-                        target="_blank"
                       />
                       {result.modified ? (
                         <span
