@@ -36,7 +36,14 @@ The full list of supported data sources:
 ### Using Docker
 
 1. Download and customize [`config.yaml`](https://github.com/duolingo/metasearch/raw/master/config.yaml)
-1. In the local directory that contains `config.yaml`, run `docker run -p 3000:3000 -v "$PWD:/data" duolingo/metasearch`
+2. In the local directory that contains `config.yaml`, run `docker run -p 3000:3000 -v "$PWD:/data" duolingo/metasearch`
+
+#### Theming
+
+1. In order to customize the theme, place the [`theme`](https://github.com/duolingo/metasearch/tree/master/dist/theme)
+directory in a local folder
+2. Customize the contents of the theme folder
+3. mount the `theme` folder in the docker container: `docker run -p 3000:3000 -v "$PWD:/code/dist/theme" ...`
 
 ### Using Git, Make, and Node.js
 

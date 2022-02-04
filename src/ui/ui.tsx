@@ -90,7 +90,7 @@ const Settings = ({
         )
       : null}
     <a href="javascript:;" onClick={onToggleTheme} title="Toggle dark theme">
-      <img src="/theme.png" />
+      <img src="/theme/theme.png" />
     </a>
   </div>
 );
