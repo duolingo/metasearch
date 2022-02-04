@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   viewBox="0 0 299.94001 300"
+   width="2500"
+   height="2500"
+   version="1.1"
+   sodipodi:docname="figma.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     width="2500px"
+     inkscape:zoom="0.2876"
+     inkscape:cx="832.75382"
+     inkscape:cy="1250"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <style
+     type="text/css"
+     id="style2">.st0{fill:#0acf83}.st1{fill:#a259ff}.st2{fill:#f24e1e}.st3{fill:#ff7262}.st4{fill:#1abcfe}</style>
+  <title
+     id="title4">Figma.logo</title>
+  <desc
+     id="desc6">Created using Figma</desc>
+  <path
+     id="path0_fill"
+     class="st0"
+     d="m 105.6876,287.00503 c 24.84623,0 45.01129,-20.16505 45.01129,-45.01128 v -45.0113 H 105.6876 c -24.846229,0 -45.011286,20.16506 -45.011286,45.0113 0,24.84623 20.165057,45.01128 45.011286,45.01128 z"
+     style="stroke-width:0.900226" />
+  <path
+     id="path1_fill"
+     class="st1"
+     d="m 60.676314,151.97117 c 0,-24.84623 20.165057,-45.01128 45.011286,-45.01128 h 45.01129 v 90.02256 H 105.6876 c -24.846229,0 -45.011286,-20.16505 -45.011286,-45.01128 z"
+     style="stroke-width:0.900226" />
+  <path
+     id="path1_fill_1_"
+     class="st2"
+     d="m 60.676314,61.948594 c 0,-24.846231 20.165057,-45.011288 45.011286,-45.011288 h 45.01129 V 106.95989 H 105.6876 c -24.846229,0 -45.011286,-20.165064 -45.011286,-45.011296 z"
+     style="stroke-width:0.900226" />
+  <path
+     id="path2_fill"
+     class="st3"
+     d="m 150.69889,16.937306 h 45.01129 c 24.84623,0 45.01128,20.165057 45.01128,45.011288 0,24.846232 -20.16505,45.011296 -45.01128,45.011296 h -45.01129 z"
+     style="stroke-width:0.900226" />
+  <path
+     id="path3_fill"
+     class="st4"
+     d="m 240.72146,151.97117 c 0,24.84623 -20.16505,45.01128 -45.01128,45.01128 -24.84623,0 -45.01129,-20.16505 -45.01129,-45.01128 0,-24.84623 20.16506,-45.01128 45.01129,-45.01128 24.84623,0 45.01128,20.16505 45.01128,45.01128 z"
+     style="stroke-width:0.900226" />
+  <metadata
+     id="metadata833">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Figma.logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
