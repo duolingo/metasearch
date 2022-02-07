@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 import { fuzzyIncludes, rateLimit } from "../util";
 
@@ -10,8 +10,22 @@ let getJobs: (() => Promise<Set<Job>>) | undefined;
 
 const engine: Engine = {
   id: "jenkins",
-  init: ({ origin }: { origin: string }) => {
-    const client = axios.create({ baseURL: origin });
+  init: ({
+    origin,
+    token,
+    user,
+  }: {
+    origin: string;
+    token?: string;
+    user?: string;
+  }) => {
+    const config: AxiosRequestConfig = { baseURL: origin };
+    // Include basic auth headers if token and user are set
+    // https://www.jenkins.io/doc/book/system-administration/authenticating-scripted-clients/
+    if (token && user) {
+      config.auth = { password: token, username: user };
+    }
+    const client = axios.create(config);
 
     getJobs = rateLimit(async () => {
       // https://stackoverflow.com/a/25685928

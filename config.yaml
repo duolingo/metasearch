@@ -132,6 +132,10 @@ engines:
   jenkins:
     # Jenkins server URL origin
     origin: https://jenkins.example.com
+    # Jenkins API token (optional, requires user)
+    token: 0123456789abcdefg0123456789abcdefg
+    # Jenkins user who owns the API token (optional, requires token)
+    user: username
 
   # Jira issue titles and descriptions
   jira:
