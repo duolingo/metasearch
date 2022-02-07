@@ -19,16 +19,11 @@ const engine: Engine = {
     token?: string;
     user?: string;
   }) => {
-    let config: AxiosRequestConfig = {
-      baseURL: origin,
-    }
+    const config: AxiosRequestConfig = { baseURL: origin };
     // Include basic auth headers if token and user are set
     // https://www.jenkins.io/doc/book/system-administration/authenticating-scripted-clients/
     if (token && user) {
-      config.auth = {
-        username: user,
-        password: token,
-      }
+      config.auth = { password: token, username: user };
     }
     const client = axios.create(config);
 
