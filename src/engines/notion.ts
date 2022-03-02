@@ -19,7 +19,10 @@ interface Page {
       type: "title";
       title: RichText[];
     };
-    title?: RichText[];
+    title?: {
+      type: "title";
+      title: RichText[];
+    };
   } & { [propertyName: string]: string };
 }
 
@@ -57,9 +60,8 @@ const engine: Engine = {
       })
     ).data.results
       .map((result: Page) => {
-        const title = result.properties.Name
-          ? result.properties.Name.title[0]
-          : result.properties.title && result.properties.title[0];
+        const title =
+          result.properties.Name?.title[0] ?? result.properties.title?.title[0];
         if (title) {
           return {
             modified: getUnixTime(result.last_edited_time),
