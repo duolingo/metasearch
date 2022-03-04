@@ -1,21 +1,20 @@
 // Generate a Microsoft Graph refresh token (lasts for 90 days).
 // https://docs.microsoft.com/en-us/azure/active-directory/develop/refresh-tokens#refresh-token-lifetime
 
-import * as fs from "fs";
 import * as express from "express";
 import * as msal from "@azure/msal-node";
 
-// Create OAuth client
-const { clientId, authority, clientSecret } = JSON.parse(
-  fs.readFileSync(0, "utf8"),
-);
+if (!process.env.ID || !process.env.SECRET) {
+  console.log("Please provide environmental variables ID AND SECRET for Microsoft Graph OAuth");
+  process.exit(0);
+}
 
 // MSAL config
 const msalConfig = {
   auth: {
-    clientId,
-    authority,
-    clientSecret,
+    clientId: process.env.ID,
+    authority: "https://login.microsoftonline.com/common/",
+    clientSecret: process.env.SECRET,
   },
 };
 
@@ -23,7 +22,7 @@ const msalConfig = {
 const msalClient = new msal.ConfidentialClientApplication(msalConfig);
 
 const SCOPES = ["user.read", "calendars.readwrite", "mailboxsettings.read"];
-const PORT = 3001;
+const PORT = 3000;
 const REDIRECT_URI = `http://localhost:${PORT}`;
 
 const app = express();
@@ -67,7 +66,3 @@ app.listen(PORT, async () => {
 
   console.log(`Go here and grant permission (Microsoft): ${authUrl}`);
 });
-
-export default {
-  SCOPES,
-};

@@ -1,5 +1,3 @@
-import * as fs from "fs";
-
 import * as graph from "@microsoft/microsoft-graph-client";
 import * as msal from "@azure/msal-node";
 import "isomorphic-fetch";
@@ -38,16 +36,13 @@ interface Event {
 
 const engine: Engine = {
   id: "outlookcalendar",
-  init: ({ credentials, token }: { credentials: string; token: string }) => {
-    const { clientId, authority, clientSecret } = JSON.parse(
-      fs.readFileSync(credentials, "utf8"),
-    );
+  init: ({ clientId, clientSecret, token }: { clientId: string; clientSecret: string; token: string }) => {
 
     // Instantiate msal application object
     const msalClient = new msal.ConfidentialClientApplication({
       auth: {
         clientId,
-        authority,
+        authority: "https://login.microsoftonline.com/common/",
         clientSecret,
       },
     });
