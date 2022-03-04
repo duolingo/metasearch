@@ -72,6 +72,35 @@ engines:
     # For example: make oauth < /path/to/credentials.json
     token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
 
+  # Outlook Calendar Events
+  outlookcalendar:
+    # Path to Microsoft Graph API OAuth credentials. It is not possible to download a file
+    # like this one from the Azure console directly, but you can copy/paste the values into
+    # a JSON file that follows the structure:
+    #
+    # {
+    # "clientId": <clientId>,
+    # "authority": "https://login.microsoftonline.com/common/",
+    # "clientSecret": <clientSecret>
+    # }
+    #
+    # To get these values for your API, register a new application at 
+    #
+    # https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+    # 
+    # Make sure you select "Web application" as the platform and add `http://localhost:3001/` 
+    # as an authorized redirect URI.
+    # You may choose to support organizational directory and personal Microsoft accounts (https://youtu.be/qOmeSDUNg_Q)
+    credentials: /path/to/credentials.microsoft.json
+    # Microsoft Graph API refresh token (lasts 90 days). 
+    # Similar to the example above, you can obtain this by piping the aforementioned
+    # credentials file into this repo's `make oauth_microsoft` command and then following
+    # the CLI's instructions.
+    #
+    # To illustrate: make oauth_microsoft < /path/to/credentials.microsoft.json
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
+
+
   # Figma files, projects, and teams
   figma:
     # Organization ID, the number that appears in the URL when viewing your
