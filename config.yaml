@@ -175,12 +175,15 @@ engines:
     workspace: happy
 
   # Outlook Calendar Events
-  outlookcalendar:
-    # Step 1: Register new application on Microsoft Azure (https://youtu.be/qOmeSDUNg_Q):
+  outlookCalendar:
+    # Step 1: Register a new application on Microsoft Azure
+    # (https://youtu.be/qOmeSDUNg_Q):
     clientId: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
     clientSecret: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp
-    # Step 2: Microsoft Graph API refresh token (lasts 90 days):
-    # Similar to the example above, you can obtain this token by piping the ID and SECRET as environmental variables into this repo's `make oauth_microsoft` command and then following CLI's instructions.
+    # Step 2: Microsoft Graph API refresh token (lasts 90 days): Similar to the
+    # `drive` engine's config, you can obtain this token by providing the
+    # values above to this repo's `make oauth_microsoft` command as ID and
+    # SECRET environment variables and then following the CLI's instructions.
     #
     # To illustrate: ID=*** SECRET=*** make oauth_microsoft
     token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp1eEx4mp

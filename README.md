@@ -22,6 +22,7 @@ The full list of supported data sources:
 - [Lingo](https://www.lingoapp.com/) assets
 - [Mattermost](https://mattermost.com/) posts
 - [Notion](https://www.notion.so/) pages
+- [Outlook Calendar](https://office.live.com/start/Calendar.aspx) events
 - [PagerDuty](https://www.pagerduty.com/) schedules and services
 - [Pingboard](https://pingboard.com/) employees
 - [Rollbar](https://rollbar.com/) projects
