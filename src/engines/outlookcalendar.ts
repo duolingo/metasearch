@@ -90,7 +90,7 @@ const engine: Engine = {
     const today = new Date();
     const events = await auth
       .api("/me/calendarview")
-      // Add the begin and end of the calendar window (20 year window, past and future)
+      // Add the begin and end of the calendar window (5 year window, past and future)
       .query({
         endDateTime: dateFns.addDays(today, 912).toDateString(),
         startDateTime: dateFns.addDays(today, -912).toDateString(),
