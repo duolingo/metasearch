@@ -14,7 +14,7 @@ import jira from "./jira";
 import lingo from "./lingo";
 import mattermost from "./mattermost";
 import notion from "./notion";
-import outlookcalendar from "./outlookcalendar";
+import outlookCalendar from "./outlookCalendar";
 import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
 import rollbar from "./rollbar";
@@ -41,7 +41,7 @@ const engines: Engine[] = [
   lingo,
   mattermost,
   notion,
-  outlookcalendar,
+  outlookCalendar,
   pagerduty,
   pingboard,
   rollbar,

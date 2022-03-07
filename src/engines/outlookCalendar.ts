@@ -1,8 +1,7 @@
 import * as msal from "@azure/msal-node";
 import * as graph from "@microsoft/microsoft-graph-client";
-import "isomorphic-fetch"; // required by @microsoft/microsoft-graph-client
 import * as dateFns from "date-fns";
-
+import "isomorphic-fetch"; // required by @microsoft/microsoft-graph-client
 
 import { getUnixTime } from "../util";
 
@@ -36,7 +35,7 @@ interface Event {
 }
 
 const engine: Engine = {
-  id: "outlookcalendar",
+  id: "outlookCalendar",
   init: ({
     clientId,
     clientSecret,
@@ -70,8 +69,8 @@ const engine: Engine = {
           });
 
           if (auth_result) {
-            // First param to callback is the error,
-            // Set to null in success case
+            // First param to callback is the error, set to null in the success
+            // case
             done(null, auth_result.accessToken);
           }
         } catch (err) {
@@ -90,7 +89,8 @@ const engine: Engine = {
     const today = new Date();
     const events = await auth
       .api("/me/calendarview")
-      // Add the begin and end of the calendar window (5 year window, past and future)
+      // Add the start and end of the calendar window (5 year window, past and
+      // future)
       .query({
         endDateTime: dateFns.addDays(today, 912).toDateString(),
         startDateTime: dateFns.addDays(today, -912).toDateString(),
