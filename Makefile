@@ -28,6 +28,11 @@ build: _ts
 oauth: _ts
 	node src/oauth.js
 
+# Get a Microsoft Graph OAuth refresh token
+.PHONY: oauth_microsoft
+oauth_microsoft: _ts
+	node src/oauth.microsoft.js
+
 # Install NPM dependencies and compile TypeScript
 .PHONY: _ts
 _ts:
