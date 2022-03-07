@@ -1,7 +1,8 @@
 import * as msal from "@azure/msal-node";
 import * as graph from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch"; // required by @microsoft/microsoft-graph-client
 import * as dateFns from "date-fns";
-import "isomorphic-fetch";
+
 
 import { getUnixTime } from "../util";
 
