@@ -14,6 +14,7 @@
   --primary-text-color: #3c3c3c;
   --secondary-text-color: #888;
   --sidebar-hover-color: var(--bluish-white);
+  --spinner-color: black;
 
   // @media-dependent variables
   --padding-standard: 30px;
@@ -52,6 +53,7 @@
   --primary-text-color: var(--bluish-white);
   --secondary-text-color: #7f91aa;
   --sidebar-hover-color: var(--border-color);
+  --spinner-color: white;
 }
 
 @font-face {
@@ -232,6 +234,32 @@ mark {
 
     span {
       background: var(--blue);
+    }
+  }
+
+  .is-hidden {
+    filter: grayscale(100%);
+    cursor: pointer;
+  }
+
+  .spinner-color {
+    fill: var(--spinner-color)
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    background: none;
+    padding: 0;
+  }
+
+  @keyframes spin {
+    from {
+      transform:rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
     }
   }
 

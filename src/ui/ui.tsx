@@ -96,60 +96,93 @@ const Settings = ({
 );
 
 const Sidebar = ({
+  visible,
   hiddenEngines,
+  onToggle,
   resultGroups,
 }: {
+  visible: boolean;
   hiddenEngines: string[];
+  onToggle: (engineId: string) => void;
   resultGroups: ResultGroup[];
 }) => (
   <div className="sidebar">
     <ul>
-      {Object.values(ENGINES)
-        .sort((a, b) => (a.name > b.name ? 1 : -1))
-        .map(engine => {
-          const numResults = resultGroups.find(rg => rg.engineId === engine.id)
-            ?.results.length;
-          return (
-            <li
-              className={
-                numResults && !hiddenEngines.includes(engine.id)
-                  ? "has-results"
-                  : undefined
-              }
-              key={engine.id}
-              onClick={() => {
-                if (!numResults) {
-                  return;
+      {visible &&
+        Object.values(ENGINES)
+          .sort((a, b) => (a.name > b.name ? 1 : -1))
+          .map((engine) => {
+            const numResults = resultGroups.find(
+              (rg) => rg.engineId === engine.id
+            )?.results.length;
+            return (
+              <li
+                className={
+                  numResults && !hiddenEngines.includes(engine.id)
+                    ? "has-results"
+                    : "is-hidden"
                 }
-                const $results = document.querySelector(".results");
-                const $resultGroup: HTMLDivElement | null = document.querySelector(
-                  `[data-engine-results=${engine.id}]`,
-                );
-                if (!($results && $resultGroup)) {
-                  return;
+                key={engine.id}
+                onClick={() => {
+                  if (!numResults) {
+                    return;
+                  }
+                  const $results = document.querySelector(".results");
+                  const $resultGroup: HTMLDivElement | null =
+                    document.querySelector(
+                      `[data-engine-results=${engine.id}]`
+                    );
+                  if (!($results && $resultGroup)) {
+                    return;
+                  }
+
+                  const engineHidden = hiddenEngines.includes(engine.id);
+                  const needsScroll =
+                    $results.scrollTop != $resultGroup.offsetTop;
+
+                  if (engineHidden || !needsScroll) {
+                    onToggle(engine.id);
+                  }
+
+                  if (needsScroll) {
+                    $results.scrollTo({
+                      behavior: "smooth",
+                      top: $resultGroup.offsetTop,
+                    });
+                  }
+                }}
+                title={
+                  numResults === undefined
+                    ? "Searching..."
+                    : numResults
+                    ? "Jump to results"
+                    : "No results found"
                 }
-                $results.scrollTo({
-                  behavior: "smooth",
-                  top: $resultGroup.offsetTop,
-                });
-              }}
-              title={
-                numResults === undefined
-                  ? "Searching..."
-                  : numResults
-                  ? "Jump to results"
-                  : "No results found"
-              }
-            >
-              <div className="engine-wrap">
-                {engine.name}
-                {numResults === undefined ? null : (
-                  <span className="num-results">{numResults}</span>
-                )}
-              </div>
-            </li>
-          );
-        })}
+              >
+                <div className="engine-wrap">
+                  {engine.name}
+                  {numResults === undefined ? (
+                    <span className="spinner">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                      >
+                        <g className="spinner-color">
+                          <path
+                            d="M8 15c-3.86 0-7-3.141-7-7 0-3.86 3.14-7 7-7 3.859 0 7 3.14 7 7 0 3.859-3.141 7-7 7zM8 3C5.243 3 3 5.243 3 8s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
+                            opacity=".3"
+                          />
+                          <path d="M14 9a1 1 0 0 1-1-1c0-2.757-2.243-5-5-5a1 1 0 0 1 0-2c3.859 0 7 3.14 7 7a1 1 0 0 1-1 1z" />
+                        </g>
+                      </svg>
+                    </span>
+                  ) : (
+                    <span className="num-results">{numResults}</span>
+                  )}
+                </div>
+              </li>
+            );
+          })}
     </ul>
   </div>
 );
@@ -400,7 +433,17 @@ const App = () => {
         sortMode={sortMode}
       />
       <Sidebar
+        visible={resultGroups.length > 0}
         hiddenEngines={localData.hiddenEngines || []}
+        onToggle={engineId => {
+          const hiddenEngines = localData.hiddenEngines || [];
+          setLocalData({
+            ...localData,
+            hiddenEngines: hiddenEngines.includes(engineId)
+              ? hiddenEngines.filter(id => id !== engineId)
+              : [...hiddenEngines, engineId].sort(),
+          });
+        }}
         resultGroups={resultGroups}
       />
       <Results
