@@ -156,12 +156,10 @@ const engine: Engine = {
           const client = new RGT({ region });
           let token: string | undefined;
           do {
-            const {
-              PaginationToken,
-              ResourceTagMappingList = [],
-            } = await client
-              .getResources({ PaginationToken: token, ResourcesPerPage: 100 })
-              .promise();
+            const { PaginationToken, ResourceTagMappingList = [] } =
+              await client
+                .getResources({ PaginationToken: token, ResourcesPerPage: 100 })
+                .promise();
             token = PaginationToken;
             resources.push(
               ...ResourceTagMappingList.map(r => {

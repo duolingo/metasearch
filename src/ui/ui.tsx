@@ -122,9 +122,8 @@ const Sidebar = ({
                   return;
                 }
                 const $results = document.querySelector(".results");
-                const $resultGroup: HTMLDivElement | null = document.querySelector(
-                  `[data-engine-results=${engine.id}]`,
-                );
+                const $resultGroup: HTMLDivElement | null =
+                  document.querySelector(`[data-engine-results=${engine.id}]`);
                 if (!($results && $resultGroup)) {
                   return;
                 }
@@ -244,13 +243,13 @@ const Results = ({
 
 const memoize = <F extends Function>(fn: F) => {
   let cache: Record<string, any> = {};
-  return (((...args: any[]) => {
+  return ((...args: any[]) => {
     const cacheKey = JSON.stringify(args);
     if (!(cacheKey in cache)) {
       cache[cacheKey] = fn(...args);
     }
     return cache[cacheKey];
-  }) as unknown) as F;
+  }) as unknown as F;
 };
 
 const getResults = memoize(

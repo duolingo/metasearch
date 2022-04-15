@@ -72,9 +72,11 @@ const engine: Engine = {
           const channels = Array.from(await getChannels()).sort((a, b) =>
             a.name > b.name ? 1 : -1,
           );
-          return ([c => c.name, c => c.purpose.value, c => c.topic.value] as ((
-            c: Channel,
-          ) => string)[]).flatMap(fn =>
+          return (
+            [c => c.name, c => c.purpose.value, c => c.topic.value] as ((
+              c: Channel,
+            ) => string)[]
+          ).flatMap(fn =>
             channels
               .filter(c => !c.is_archived && fuzzyIncludes(fn(c), q))
               .map(({ id, name, purpose, topic }) => ({
