@@ -3,6 +3,7 @@ import axios from "axios";
 import { fuzzyIncludes, rateLimit } from "../util";
 
 interface Employee {
+  avatar_urls: null | { medium: string };
   custom_fields?: Record<string, any>;
   email: string;
   first_name: string;
@@ -72,7 +73,9 @@ const engine: Engine = {
       )
       .sort((a, b) => (a.first_name > b.first_name ? 1 : -1))
       .map(u => ({
-        snippet: `${u.email} - ${u.job_title}`,
+        snippet: `${u.email} - ${u.job_title}${
+          u.avatar_urls ? `<br><img src="${u.avatar_urls.medium}" />` : ""
+        }`,
         title: `${u.nickname?.length ? u.nickname : u.first_name} ${
           u.last_name
         }`,
