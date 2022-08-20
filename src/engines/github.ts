@@ -40,7 +40,7 @@ const engine: Engine = {
           data,
         }: {
           data?: {
-            organization: {
+            repositoryOwner: {
               repositories: {
                 edges: { node: Repo }[];
                 pageInfo: { endCursor: string; hasNextPage: boolean };
@@ -52,7 +52,7 @@ const engine: Engine = {
             "/graphql",
             JSON.stringify({
               query: `query {
-      organization(login: "${organization}") { repositories(first: 100${
+      repositoryOwner(login: "${organization}") { repositories(first: 100${
                 cursor ? `, after: "${cursor}"` : ""
               }) {
           edges { node { description isArchived isFork name } }
@@ -66,7 +66,7 @@ const engine: Engine = {
           break;
         }
 
-        const { edges, pageInfo } = data.organization.repositories;
+        const { edges, pageInfo } = data.repositoryOwner.repositories;
         edges.map(e => e.node).forEach(r => repos.add(r));
 
         if (pageInfo.hasNextPage) {
