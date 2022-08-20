@@ -40,7 +40,7 @@ ${JSON.stringify(data)}`);
 
     // Locate user-provided config file
     const dockerizedConfig = `${DOCKER_MOUNT}/${CONFIG_FILENAME}`;
-    const configFile = fs.existsSync("/.dockerenv")
+    const configFile = fs.existsSync("/.dockerenv") || fs.existsSync("/run/.containerenv")
       ? dockerizedConfig
       : CONFIG_FILENAME;
     if (!fs.existsSync(configFile)) {
