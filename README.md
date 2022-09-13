@@ -27,6 +27,7 @@ The full list of supported data sources:
 - [Pingboard](https://pingboard.com/) employees
 - [Rollbar](https://rollbar.com/) projects
 - [Slack](https://slack.com/) messages and channels
+- [Stack Overflow for Teams](https://stackoverflow.co/teams/) questions
 - [TalentLMS](https://www.talentlms.com/) courses
 - [Trello](https://trello.com/en-US) boards, cards, members and workspaces
 - [Zoom](https://zoom.us/) rooms

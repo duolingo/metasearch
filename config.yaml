@@ -218,6 +218,15 @@ engines:
     # Slack OAuth token that has the scopes `channels:read` and `search:read`
     token: xoxp-1234567890-1234567890123-1234567890123-1234567890abcdef1234567890abcdef
 
+  # Stack Overflow for Teams questions
+  stackoverflow:
+    # Last fragment of "Team URL" (https://stackoverflow.com/c/example) found at
+    # Admin settings > Name & URL > Team URL
+    team: example
+    # OAuth access token. See instructions here for how to obtain:
+    # https://stackoverflow.help/en/articles/4385859-stack-overflow-for-teams-api
+    token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx
+
   # TalentLMS courses
   talentlms:
     # TalentLMS API key

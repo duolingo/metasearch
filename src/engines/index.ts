@@ -19,6 +19,7 @@ import pagerduty from "./pagerduty";
 import pingboard from "./pingboard";
 import rollbar from "./rollbar";
 import slack from "./slack";
+import stackoverflow from "./stackoverflow";
 import talentlms from "./talentlms";
 import trello from "./trello";
 import website from "./website";
@@ -46,6 +47,7 @@ const engines: Engine[] = [
   pingboard,
   rollbar,
   slack,
+  stackoverflow,
   talentlms,
   trello,
   website,
