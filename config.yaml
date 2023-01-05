@@ -223,7 +223,7 @@ engines:
     # Last fragment of "Team URL" (https://stackoverflow.com/c/example) found at
     # Admin settings > Name & URL > Team URL
     team: example
-    # OAuth access token. See instructions here for how to obtain:
+    # Personal access token. See instructions here for how to obtain:
     # https://stackoverflow.help/en/articles/4385859-stack-overflow-for-teams-api
     token: Ex4mp1eEx4mp1eEx4mp1eEx4mp1eEx
 

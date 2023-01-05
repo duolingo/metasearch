@@ -9,14 +9,10 @@ const engine: Engine = {
   init: ({ team, token }: { team: string; token: string }) => {
     // https://stackoverflow.help/en/articles/4385859-stack-overflow-for-teams-api
     client = axios.create({
-      baseURL: "https://api.stackexchange.com/2.3",
+      baseURL: "https://api.stackoverflowteams.com/2.3",
       headers: { "X-API-Access-Token": token },
     });
-    params = {
-      key: "aZqXxdPFukYIECFmS20DKg((", // https://stackapps.com/apps/oauth/view/24303
-      site: "stackoverflow",
-      team: `stackoverflow.com/c/${team}`,
-    };
+    params = { team };
   },
   name: "Stack Overflow",
   search: async q => {
