@@ -136,8 +136,8 @@ const Sidebar = ({
                 numResults === undefined
                   ? "Searching..."
                   : numResults
-                  ? "Jump to results"
-                  : "No results found"
+                    ? "Jump to results"
+                    : "No results found"
               }
             >
               <div className="engine-wrap">

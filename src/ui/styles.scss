@@ -80,7 +80,9 @@
   // using web-safe Arial.
   font-family: Metasearch, Arial, sans-serif;
   outline: none;
-  transition: background-color 0.4s, color 0.4s;
+  transition:
+    background-color 0.4s,
+    color 0.4s;
 }
 
 ::placeholder {

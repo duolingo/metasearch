@@ -53,8 +53,8 @@ const engine: Engine = {
             JSON.stringify({
               query: `query {
       organization(login: "${organization}") { repositories(first: 100${
-                cursor ? `, after: "${cursor}"` : ""
-              }) {
+        cursor ? `, after: "${cursor}"` : ""
+      }) {
           edges { node { description isArchived isFork name } }
           pageInfo { endCursor hasNextPage }
       } } }`,
@@ -147,9 +147,11 @@ const engine: Engine = {
               snippet: item.body
                 ? `<blockquote>${marked(item.body)}</blockquote>`
                 : undefined,
-              title: `${item.pull_request ? "PR" : "Issue"} in ${
-                item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]
-              }: ${item.title}`,
+              title: `${
+                item.pull_request ? "PR" : "Issue"
+              } in ${item.html_url.match(
+                /github\.com\/([^\/]+\/[^\/]+)\//,
+              )?.[1]}: ${item.title}`,
               url: item.html_url,
             }));
           } catch {

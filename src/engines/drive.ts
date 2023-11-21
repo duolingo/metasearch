@@ -28,7 +28,7 @@ const getMimeInfo = (
       name: "Spreadsheet",
       urlFragment: "spreadsheets",
     },
-  }[mimeType ?? ""] ?? { name: "File", urlFragment: "file" });
+  })[mimeType ?? ""] ?? { name: "File", urlFragment: "file" };
 
 const engine: Engine = {
   id: "drive",

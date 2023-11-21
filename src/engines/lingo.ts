@@ -206,8 +206,8 @@ const engine: Engine = {
                 snippet: item.asset.colors?.length
                   ? hsb2rgb(item.asset.colors[0])
                   : item.asset.thumbnails
-                  ? `<a href="${url}"><img src="${item.asset.thumbnails["292"]}"></a>`
-                  : undefined,
+                    ? `<a href="${url}"><img src="${item.asset.thumbnails["292"]}"></a>`
+                    : undefined,
                 title: `${kitName} > ${s.section.name} > ${item.asset.name}`,
                 url,
               };
