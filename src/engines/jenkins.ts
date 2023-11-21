@@ -4,7 +4,7 @@ import { fuzzyIncludes, rateLimit } from "../util";
 
 const JOB_FIELDS = ["description", "name", "url"] as const;
 
-type Job = Record<typeof JOB_FIELDS[number], string>;
+type Job = Record<(typeof JOB_FIELDS)[number], string>;
 
 let getJobs: (() => Promise<Set<Job>>) | undefined;
 
