@@ -58,6 +58,14 @@ engines:
     #
     # https://console.developers.google.com/apis/credentials
     # https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
+    # https://developers.google.com/drive/api/reference/rest/v3/files/list
+    #
+    # a corpora of `allDrives` can be used to search all drives including shared ones,
+    # if you use this, you will also need to update the values of
+    # `includeItemsFromAllDrives` and `supportsAllDrives` to true
+    corpora: "domain"
+    includeItemsFromAllDrives: false
+    supportsAllDrives: false
     #
     # Note that if you run Metasearch using Docker, you need to make the host's
     # credentials file accessible from inside the container. One way to do so is

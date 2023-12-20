@@ -6,6 +6,9 @@ import { OAuth2Client } from "google-auth-library";
 import { getUnixTime } from "../util";
 
 let auth: OAuth2Client | undefined;
+let corporaSetting: string;
+let includeItemsFromAllDrivesSetting: boolean;
+let supportsAllDrivesSetting: boolean;
 
 // https://developers.google.com/drive/api/v3/mime-types
 const getMimeInfo = (
@@ -32,13 +35,16 @@ const getMimeInfo = (
 
 const engine: Engine = {
   id: "drive",
-  init: ({ credentials, token }: { credentials: string; token: string }) => {
+  init: ({ credentials, token, corpora = "domain", includeItemsFromAllDrives = false, supportsAllDrives = false }: { credentials: string; token: string, corpora: string, includeItemsFromAllDrives: boolean, supportsAllDrives: boolean }) => {
     // https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
     const {
       web: { client_id, client_secret },
     } = JSON.parse(fs.readFileSync(credentials, "utf8"));
     auth = new google.auth.OAuth2(client_id, client_secret);
     auth.setCredentials({ refresh_token: token });
+    corporaSetting = corpora;
+    includeItemsFromAllDrivesSetting = includeItemsFromAllDrives;
+    supportsAllDrivesSetting = supportsAllDrives;
   },
   name: "Google Drive",
   search: async q => {
@@ -50,10 +56,12 @@ const engine: Engine = {
     const data = await drive.files.list({
       // Searches "Visible to anyone in..."
       // https://developers.google.com/drive/api/v3/search-files#search_the_corpora
-      corpora: "domain",
+      corpora: corporaSetting,
       fields: "files(description,id,kind,mimeType,modifiedTime,name,owners)",
       q: `fullText contains '${q.replace(/'/, "\\'")}'`,
       spaces: "drive",
+      includeItemsFromAllDrives: includeItemsFromAllDrivesSetting,
+      supportsAllDrives: supportsAllDrivesSetting,
     });
     return (
       data.data.files?.map(f => {
