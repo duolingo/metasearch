@@ -32,7 +32,7 @@ const getMimeInfo = (
 
 const engine: Engine = {
   id: "drive",
-  init: ({ credentials, token}: { credentials: string; token: string}) => {
+  init: ({ credentials, token }: { credentials: string; token: string }) => {
     // https://github.com/googleapis/google-api-nodejs-client/tree/62f8193#oauth2-client
     const {
       web: { client_id, client_secret },
