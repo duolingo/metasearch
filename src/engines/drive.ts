@@ -50,10 +50,12 @@ const engine: Engine = {
     const data = await drive.files.list({
       // Searches "Visible to anyone in..."
       // https://developers.google.com/drive/api/v3/search-files#search_the_corpora
-      corpora: "domain",
+      corpora: "allDrives",
       fields: "files(description,id,kind,mimeType,modifiedTime,name,owners)",
       q: `fullText contains '${q.replace(/'/, "\\'")}'`,
       spaces: "drive",
+      includeItemsFromAllDrives: true,
+      supportsAllDrives: true,
     });
     return (
       data.data.files?.map(f => {
