@@ -222,6 +222,14 @@ mark {
     transform: translateY(-50%);
   }
 
+  .engine-icon {
+    float: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    background-size: 24px!important;
+  }
+
   .has-results {
     border-radius: var(--radius-standard);
     color: inherit;

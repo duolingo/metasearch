@@ -6,6 +6,7 @@
 !.node-version
 !config-example.yaml
 !dist/mark.min.js
+!dist/logos/*.svg
 !dist/*.min.js
 !dist/*.png
 !Makefile
