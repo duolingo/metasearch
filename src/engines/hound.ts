@@ -3,22 +3,31 @@ import * as he from "he";
 
 let client: AxiosInstance | undefined;
 let org: string | undefined;
+let host: string;
+
+let displayName: string;
 
 const engine: Engine = {
   id: "hound",
   init: ({
+    name,
+    codeHost,
     organization,
     origin,
   }: {
-    organization: string;
+    name: string | undefined;
+    codeHost: string | undefined;
+    organization: string | undefined;
     origin: string;
   }) => {
     client = axios.create({ baseURL: `${origin}/api/v1` });
     org = organization;
+    displayName = name ? name : "hound";
+    host = codeHost ? codeHost : "https://github.com"
   },
-  name: "Hound",
+  name: () => displayName,
   search: async q => {
-    if (!(client && org)) {
+    if (!(client && host)) {
       throw Error("Engine not initialized");
     }
 
@@ -53,7 +62,7 @@ const engine: Engine = {
                 ? "(Line too long to display)"
                 : `<code>${he.encode(Line)}</code>`,
             title: `${repo}/${Filename}#L${LineNumber}`,
-            url: `https://github.com/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
+            url: `${host}/${org}/${repo}/blob/master/${Filename}#L${LineNumber}`,
           })),
         ),
       )
