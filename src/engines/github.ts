@@ -147,11 +147,9 @@ const engine: Engine = {
               snippet: item.body
                 ? `<blockquote>${marked(item.body)}</blockquote>`
                 : undefined,
-              title: `${
-                item.pull_request ? "PR" : "Issue"
-              } in ${item.html_url.match(
-                /github\.com\/([^\/]+\/[^\/]+)\//,
-              )?.[1]}: ${item.title}`,
+              title: `${item.pull_request ? "PR" : "Issue"} in ${
+                item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]
+              }: ${item.title}`,
               url: item.html_url,
             }));
           } catch {

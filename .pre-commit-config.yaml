@@ -7,7 +7,7 @@ repos:
         language: system
         files: ^src/*
   - repo: https://github.com/duolingo/pre-commit-hooks.git
-    rev: 1.7.0
+    rev: 1.8.0
     hooks:
       - id: duolingo
         exclude: config.yaml
