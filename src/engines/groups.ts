@@ -50,9 +50,9 @@ const engine: Engine = {
       .map(g => ({
         snippet: g.description ?? undefined,
         title: `${g.name}: ${g.email}`,
-        url: `https://groups.google.com/a/${domain}/forum/#!members/${g.email?.split(
-          "@",
-        )[0]}`,
+        url: `https://groups.google.com/a/${domain}/forum/#!members/${
+          g.email?.split("@")[0]
+        }`,
       }));
   },
 };
