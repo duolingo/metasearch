@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg27"
+   sodipodi:docname="trello.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview29"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="14.979167"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg27" />
+  <defs
+     id="defs19">
+    <clipPath
+       id="clipPath4">
+      <path
+         transform="matrix(15.33333 0 0 11.5 415-125.5)"
+         d="m-24 13c0 1.105-.672 2-1.5 2-.828 0-1.5-.895-1.5-2 0-1.105.672-2 1.5-2 .828 0 1.5.895 1.5 2"
+         fill="#1890d0"
+         id="path2" />
+    </clipPath>
+    <clipPath
+       id="clipPath8">
+      <path
+         d="m69.63 12.145h-.052c-22.727-.292-46.47 4.077-46.709 4.122-2.424.451-4.946 2.974-5.397 5.397-.044.237-4.414 23.983-4.122 46.71-.292 22.777 4.078 46.523 4.122 46.761.451 2.423 2.974 4.945 5.398 5.398.237.044 23.982 4.413 46.709 4.121 22.779.292 46.524-4.077 46.761-4.121 2.423-.452 4.946-2.976 5.398-5.399.044-.236 4.413-23.981 4.121-46.709.292-22.777-4.077-46.523-4.121-46.761-.453-2.423-2.976-4.946-5.398-5.397-.238-.045-23.984-4.414-46.71-4.122"
+         id="path6" />
+    </clipPath>
+    <clipPath
+       id="clipPath12">
+      <path
+         transform="matrix(15.33333 0 0 11.5 415-125.5)"
+         d="m-24 13c0 1.105-.672 2-1.5 2-.828 0-1.5-.895-1.5-2 0-1.105.672-2 1.5-2 .828 0 1.5.895 1.5 2"
+         fill="#1890d0"
+         id="path10" />
+    </clipPath>
+    <linearGradient
+       id="0"
+       x1="-10.767"
+       y1="4.675"
+       x2="-11.233"
+       y2="-22.851"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.77384,0,0,1.71427,42.46,39.38)">
+      <stop
+         stop-color="#155bc2"
+         id="stop14" />
+      <stop
+         stop-color="#369dff"
+         offset="1"
+         id="stop16" />
+    </linearGradient>
+  </defs>
+  <g
+     enable-background="new"
+     id="g23"
+     transform="matrix(0.77315134,0,0,0.77315134,5.118164,5.0760646)">
+    <rect
+       height="48"
+       width="48"
+       rx="3.085"
+       fill="url(#0)"
+       stroke-width="1.714"
+       id="rect21"
+       style="fill:url(#0)"
+       x="0"
+       y="0" />
+  </g>
+  <path
+     d="m 11.625006,11.261275 c -0.177825,0 -0.321632,0.143807 -0.321632,0.321632 v 24.099127 c 0,0.177824 0.143807,0.321631 0.321632,0.321631 h 8.995616 c 0.177825,0 0.32163,-0.143807 0.32163,-0.321631 V 11.582907 c 0,-0.177825 -0.143805,-0.321632 -0.32163,-0.321632 h -8.995616 m 15.101965,0 c -0.177825,0 -0.321631,0.143807 -0.321631,0.321632 v 14.940376 c 0,0.177825 0.143806,0.321631 0.321631,0.321631 h 8.995616 c 0.177824,0 0.32163,-0.143806 0.32163,-0.321631 V 11.582907 c 0,-0.177825 -0.143806,-0.321632 -0.32163,-0.321632 h -8.995616"
+     fill="#dfebfa"
+     id="path25"
+     style="stroke-width:0.773151" />
+</svg>
