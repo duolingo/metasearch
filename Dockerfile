@@ -1,4 +1,10 @@
-FROM node:22.13.1
+FROM docker.io/library/node:22.19.0-trixie
+
+ENV DEBIAN_FRONTEND="noninteractive"
+
+RUN apt-get update \
+  && apt-get upgrade -y \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code
 
