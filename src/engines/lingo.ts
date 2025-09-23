@@ -56,7 +56,7 @@ const engine: Engine = {
       // kit_token param, (B) contains human-readable slug and kit_token param,
       // (C) contains only human-readable slug. A and B both require a cookie to
       // be included when calling the search API, while C doesn't.
-      const [{}, spaceId, kitFragment, kitToken] =
+      const [, spaceId, kitFragment, kitToken] =
         kit.match(/\/(\d+)\/k\/([^?]+)(?:\?kit_token=([\w-]+))?/) ?? [];
 
       // Determine kit UUID
@@ -76,12 +76,13 @@ const engine: Engine = {
               ).data;
               kitName = data.result.kit.name;
               return data.result.kit.kit_uuid;
-            } catch (ex) {
+            } catch (ex: any) {
               if (
                 ((e): e is AxiosError => e.isAxiosError)(ex) &&
                 ex.response?.status === 401
               ) {
-                return ex.response.data.error.details.kit_uuid as string;
+                return (ex.response.data as any).error.details
+                  .kit_uuid as string;
               }
               throw ex;
             }
@@ -104,7 +105,7 @@ const engine: Engine = {
                 },
                 { headers: { "Content-Type": "application/json" } },
               );
-            } catch (ex) {
+            } catch (ex: any) {
               // Lingo's login route is fairly aggressively rate-limited, in
               // which case we just fail silently and try again later
               if (

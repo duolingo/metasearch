@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import * as marked from "marked";
+import marked from "marked";
 
 import { getUnixTime, rateLimit } from "../util";
 
@@ -139,7 +139,7 @@ const engine: Engine = {
         const post = data.posts[postId];
         return {
           modified: getUnixTime(post.update_at),
-          snippet: `<blockquote>${marked(post.message)}</blockquote>`,
+          snippet: `<blockquote>${marked.parse(post.message)}</blockquote>`,
           title: await getTitle(post.channel_id, post.user_id),
           url: `${ori}/${teamName}/pl/${post.id}`,
         };

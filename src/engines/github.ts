@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import * as marked from "marked";
+import marked from "marked";
 
 import { escapeQuotes, fuzzyIncludes, getUnixTime, rateLimit } from "../util";
 
@@ -89,12 +89,8 @@ const engine: Engine = {
     return (
       await Promise.all([
         // Search repo names and descriptions
-        (async () => {
-          if (!(getRepos && org)) {
-            throw Error("Engine not initialized");
-          }
-
-          return Array.from(await getRepos())
+        (async () =>
+          Array.from(await getRepos())
             .filter(
               r =>
                 !r.isArchived &&
@@ -108,14 +104,9 @@ const engine: Engine = {
                 r.description?.replace(/ *:[a-z-]+: */g, "") || undefined,
               title: `Repo ${org}/${r.name}`,
               url: `https://github.com/${org}/${r.name}`,
-            }));
-        })(),
+            })))(),
         // Search issues and pull requests
         (async () => {
-          if (!(client && org)) {
-            throw Error("Engine not initialized");
-          }
-
           try {
             // TODO: Paginate
             // https://developer.github.com/v3/search/#search-issues-and-pull-requests
@@ -145,7 +136,7 @@ const engine: Engine = {
             return data.items.map(item => ({
               modified: getUnixTime(item.updated_at),
               snippet: item.body
-                ? `<blockquote>${marked(item.body)}</blockquote>`
+                ? `<blockquote>${marked.parse(item.body)}</blockquote>`
                 : undefined,
               title: `${item.pull_request ? "PR" : "Issue"} in ${
                 item.html_url.match(/github\.com\/([^\/]+\/[^\/]+)\//)?.[1]

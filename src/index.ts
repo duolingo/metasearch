@@ -5,7 +5,7 @@ import * as compression from "compression";
 import * as ejs from "ejs";
 import * as express from "express";
 import { createHttpTerminator } from "http-terminator";
-import { safeLoad } from "js-yaml";
+import { load } from "js-yaml";
 
 import engines from "./engines";
 import { sanitizeHtml } from "./util";
@@ -49,7 +49,7 @@ ${JSON.stringify(data)}`);
     }
 
     // Parse user-provided config file and expand environment variables
-    const userConfig: Config = safeLoad(
+    const userConfig = load(
       fs
         .readFileSync(configFile, "utf8")
         .replace(/\$\{(\w+)\}/g, ({}, varName) => {
@@ -67,7 +67,7 @@ ${JSON.stringify(data)}`);
             `Config references nonexistent environment variable '${varName}'`,
           );
         }),
-    );
+    ) as Config;
 
     /** Recursively pulls out all values from a complex object */
     const allValues = (node: any): Set<any> =>
@@ -157,7 +157,7 @@ ${JSON.stringify(data)}`);
             : undefined,
         })),
       );
-    } catch (ex) {
+    } catch (ex: any) {
       // TODO: Instead return 500 and show error UI
       res.json([]);
 
@@ -165,7 +165,7 @@ ${JSON.stringify(data)}`);
       if (ex.isAxiosError) {
         const {
           code,
-          config: { baseURL, method, url },
+          config: { baseURL, method, url } = {},
           response: { data = undefined, status = undefined } = {},
         } = ex as AxiosError;
         console.error(

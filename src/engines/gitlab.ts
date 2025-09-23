@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import * as marked from "marked";
+import marked from "marked";
 
 import { getUnixTime, trimLines } from "../util";
 
@@ -40,7 +40,7 @@ const engine: Engine = {
 
     return data.map(mr => ({
       modified: getUnixTime(mr.updated_at),
-      snippet: `<blockquote>${marked(
+      snippet: `<blockquote>${marked.parse(
         trimLines(mr.description, q),
       )}</blockquote>`,
       title: mr.title,

@@ -74,7 +74,7 @@ const engine: Engine = {
       try {
         await client.get(f.thumbnail_url, { maxRedirects: 0 });
         throw Error("Thumbnail URL not found");
-      } catch (ex) {
+      } catch (ex: any) {
         // TODO: Use library-provided type guard in v0.20
         // https://github.com/axios/axios/pull/2949
         if (
