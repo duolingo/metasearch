@@ -5,3 +5,4 @@
 /dist/*.html
 /node_modules/
 !/dist/*.min.js
+.idea/
