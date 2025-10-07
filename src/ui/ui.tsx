@@ -141,6 +141,7 @@ const Sidebar = ({
               }
             >
               <div className="engine-wrap">
+                <span className="engine-icon" style={{background: `url(/logos/${engine.id}.svg)`}}/>
                 {engine.name}
                 {numResults === undefined ? null : (
                   <span className="num-results">{numResults}</span>
