@@ -16,7 +16,7 @@ const engine: Engine = {
   init: (options: { origin: string; token: string; user: string }) => {
     client = axios.create({
       auth: { password: options.token, username: options.user },
-      baseURL: `${options.origin}/rest/api/2`,
+      baseURL: `${options.origin}/rest/api/3`,
     });
     origin = options.origin;
   },
@@ -27,8 +27,7 @@ const engine: Engine = {
       throw Error("Engine not initialized");
     }
 
-    // TODO: Use API v3?
-    // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
+    // https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get
     const data: {
       issues: {
         fields: {
@@ -40,8 +39,12 @@ const engine: Engine = {
         renderedFields: { description: string };
       }[];
     } = (
-      await client.get("/search", {
-        params: { expand: "renderedFields", jql: `text ~ "${sanitize(q)}"` },
+      await client.get("/search/jql", {
+        params: {
+          expand: "renderedFields",
+          fields: "description,summary,updated",
+          jql: `text ~ "${sanitize(q)}"`,
+        },
       })
     ).data;
     return data.issues.map(issue => ({
