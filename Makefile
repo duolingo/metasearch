@@ -23,6 +23,12 @@ build: _ts
 	echo 'Compiling Sass...'
 	node_modules/.bin/sass --no-source-map -s compressed src/ui/styles.scss dist/styles.css
 
+# Push image to Docker Hub
+.PHONY: push
+push:
+	docker build -t duolingo/metasearch .
+	docker push duolingo/metasearch
+
 # Get a Google OAuth refresh token
 .PHONY: oauth
 oauth: _ts
