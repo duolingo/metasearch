@@ -5,7 +5,7 @@ interface Engine {
   id: string;
   init: (options: object) => void | Promise<void>;
   isSnippetLarge?: boolean;
-  name: string;
+  name: string | (() => string);
   search: (q: string) => Promise<Result[]>;
 }
 
