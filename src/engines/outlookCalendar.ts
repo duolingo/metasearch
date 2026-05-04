@@ -15,20 +15,12 @@ interface EventDate {
 }
 
 interface Event {
-  body: {
-    content: string;
-    contentType: string;
-  };
+  body: { content: string; contentType: string };
   bodyPreview: string;
   end: EventDate;
   id: string;
   lastModifiedDateTime: string;
-  organizer: {
-    emailAddress: {
-      address: string;
-      name: string;
-    };
-  };
+  organizer: { emailAddress: { address: string; name: string } };
   start: EventDate;
   subject: string;
   webLink: string;
@@ -73,9 +65,9 @@ const engine: Engine = {
             // case
             done(null, auth_result.accessToken);
           }
-        } catch (err) {
-          console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
-          done(err, null);
+        } catch (ex) {
+          console.log(JSON.stringify(ex, Object.getOwnPropertyNames(ex)));
+          done(ex, null);
         }
       },
     });

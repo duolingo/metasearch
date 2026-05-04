@@ -242,7 +242,7 @@ const Results = ({
 );
 
 const memoize = <F extends Function>(fn: F) => {
-  let cache: Record<string, any> = {};
+  const cache: Record<string, any> = {};
   return ((...args: any[]) => {
     const cacheKey = JSON.stringify(args);
     if (!(cacheKey in cache)) {
@@ -296,8 +296,7 @@ const handleSearch = async (
       }
 
       // Highlight query
-      for (let i = 0; i < results.length; ++i) {
-        const result = results[i];
+      for (const [i, result] of results.entries()) {
         result.relevance = i;
         for (const property of ["title", "snippet"] as const) {
           const value = result[property];

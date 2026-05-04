@@ -32,7 +32,7 @@ app.get("/", async (req, res) => {
   if (typeof code === "string") {
     // MSAL client returns access token(valid for 1 hour)
     await msalClient.acquireTokenByCode({
-      code: code,
+      code,
       redirectUri: REDIRECT_URI,
       scopes: SCOPES,
     });
@@ -45,7 +45,7 @@ app.get("/", async (req, res) => {
 
     // We can use the refresh token to get new access tokens during the
     // initialization of the engine(s) that use Microsoft Graph API OAuth
-    console.log("\nRefresh token: ", refreshToken);
+    console.log("\nRefresh token:", refreshToken);
     res.status(200).send("Success! Close this tab and check your terminal.");
   } else {
     res.status(400).send("OAuth failed!");

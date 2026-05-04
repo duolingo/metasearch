@@ -27,7 +27,7 @@ interface User {
 let getChannels: (() => Promise<Channel[]>) | undefined;
 let getUsers: (() => Promise<User[]>) | undefined;
 
-let getTitle = async (channelId: string, userId: string): Promise<string> => {
+const getTitle = async (channelId: string, userId: string): Promise<string> => {
   if (!(getChannels && getUsers)) {
     throw Error("Engine not initialized");
   }
@@ -97,7 +97,7 @@ const engine: Engine = {
 
       while (true) {
         const data: User[] = (
-          await axiosClient.get(`/users`, { params: { page: page } })
+          await axiosClient.get(`/users`, { params: { page } })
         ).data;
 
         if (!data?.length) {

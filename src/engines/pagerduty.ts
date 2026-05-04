@@ -27,16 +27,16 @@ const engine: Engine = {
     // https://developer.pagerduty.com/docs/rest-api-v2/pagination/
 
     getSchedules = rateLimit(async () => {
-      const data: {
-        schedules: Model[];
-      } = (await client.get("/schedules", { params: { limit: 100 } })).data;
+      const data: { schedules: Model[] } = (
+        await client.get("/schedules", { params: { limit: 100 } })
+      ).data;
       return new Set(data.schedules);
     }, 4);
 
     getServices = rateLimit(async () => {
-      const data: {
-        services: Model[];
-      } = (await client.get("/services", { params: { limit: 100 } })).data;
+      const data: { services: Model[] } = (
+        await client.get("/services", { params: { limit: 100 } })
+      ).data;
       return new Set(data.services);
     }, 4);
   },

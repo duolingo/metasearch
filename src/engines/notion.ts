@@ -5,25 +5,15 @@ import { getUnixTime } from "../util";
 let axiosClient: AxiosInstance | undefined;
 let notionWorkspace: string;
 
-type RichText = {
-  plain_text: string;
-} & {
-  [propertyName: string]: string;
-};
+type RichText = { plain_text: string } & Record<string, string>;
 interface Page {
-  object: "page";
   id: string;
   last_edited_time: string;
+  object: "page";
   properties: {
-    Name?: {
-      type: "title";
-      title: RichText[];
-    };
-    title?: {
-      type: "title";
-      title: RichText[];
-    };
-  } & { [propertyName: string]: string };
+    Name?: { title: RichText[]; type: "title" };
+    title?: { title: RichText[]; type: "title" };
+  } & Record<string, string>;
 }
 
 const engine: Engine = {
@@ -48,15 +38,9 @@ const engine: Engine = {
 
     return (
       await axiosClient.post("/search", {
+        filter: { property: "object", value: "page" },
         query: q,
-        sort: {
-          direction: "ascending",
-          timestamp: "last_edited_time",
-        },
-        filter: {
-          value: "page",
-          property: "object",
-        },
+        sort: { direction: "ascending", timestamp: "last_edited_time" },
       })
     ).data.results
       .map((result: Page) => {

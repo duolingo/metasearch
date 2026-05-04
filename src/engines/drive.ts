@@ -46,15 +46,15 @@ const engine: Engine = {
       throw Error("Engine not initialized");
     }
 
-    const drive = google.drive({ version: "v3", auth });
+    const drive = google.drive({ auth, version: "v3" });
     const data = await drive.files.list({
       // Searches "Visible to anyone in..."
       // https://developers.google.com/drive/api/v3/search-files#search_the_corpora
       corpora: "allDrives",
       fields: "files(description,id,kind,mimeType,modifiedTime,name,owners)",
+      includeItemsFromAllDrives: true,
       q: `fullText contains '${q.replace(/'/, "\\'")}'`,
       spaces: "drive",
-      includeItemsFromAllDrives: true,
       supportsAllDrives: true,
     });
     return (

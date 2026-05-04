@@ -3,9 +3,9 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { rateLimit, stripStopWords } from "../util";
 
 interface KitClient {
+  client: AxiosInstance;
   kitName: string;
   kitToken?: string;
-  client: AxiosInstance;
 }
 
 interface HSB {

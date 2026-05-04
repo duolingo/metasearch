@@ -316,7 +316,8 @@ h2 {
   img {
     // Show checkered background for partially transparent images
     background-blend-mode: normal, difference, normal;
-    background-image: linear-gradient(
+    background-image:
+      linear-gradient(
         to right,
         rgba(224, 224, 224, 0.9),
         rgba(224, 224, 224, 0.9)

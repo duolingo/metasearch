@@ -23,9 +23,8 @@ const engine: Engine = {
     getJobs = rateLimit(async () => {
       // Get all jobs (without description)
       // https://developers.greenhouse.io/job-board.html#list-jobs
-      const jobIdData: {
-        jobs: { id: number }[];
-      } = (await client.get("/jobs")).data;
+      const jobIdData: { jobs: { id: number }[] } = (await client.get("/jobs"))
+        .data;
 
       // Get job descriptions
       // https://developers.greenhouse.io/job-board.html#retrieve-a-job

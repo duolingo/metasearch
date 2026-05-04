@@ -36,9 +36,7 @@ const engine: Engine = {
 
     getChannels = rateLimit(async () => {
       // https://api.slack.com/methods/conversations.list
-      const data: {
-        channels: Channel[];
-      } = (
+      const data: { channels: Channel[] } = (
         await axiosClient.get("/conversations.list", {
           params: { limit: 1000 },
         })

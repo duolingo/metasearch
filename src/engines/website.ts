@@ -64,11 +64,7 @@ const engine: Engine = {
         p => p.content.includes(q.toLowerCase()) || fuzzyIncludes(p.title, q),
       )
       .sort((a, b) => (a.url > b.url ? 1 : -1))
-      .map(p => ({
-        modified: p.modified,
-        title: p.title,
-        url: p.url,
-      }));
+      .map(p => ({ modified: p.modified, title: p.title, url: p.url }));
   },
 };
 

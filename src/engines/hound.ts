@@ -28,10 +28,7 @@ const engine: Engine = {
         {
           Matches: {
             Filename: string;
-            Matches: {
-              Line: string;
-              LineNumber: string;
-            }[];
+            Matches: { Line: string; LineNumber: string }[];
           }[];
         }
       >;

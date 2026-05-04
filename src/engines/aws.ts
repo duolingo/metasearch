@@ -84,11 +84,6 @@ const RESOURCE_NAME_TO_URL: Record<
   // Can't link to individual resources because there's no way to tell from the
   // ARN whether a cluster is Memcached vs. Redis
   elasticache: ({ region }) => `${HOST}/elasticache/home${region}`,
-  // TODO: Handle non-cluster EMR resources
-  elasticmapreduce: ({ id, region }) =>
-    `${HOST}/elasticmapreduce/home${region}#cluster-details:${
-      id[0].split("/")[1]
-    }`,
   elasticloadbalancing: ({ arn, id: [resourceId], region }) => {
     const base = `${HOST}/ec2/v2/home${region}`;
     const [type, ...id] = resourceId.split("/");
@@ -102,6 +97,11 @@ const RESOURCE_NAME_TO_URL: Record<
         return base;
     }
   },
+  // TODO: Handle non-cluster EMR resources
+  elasticmapreduce: ({ id, region }) =>
+    `${HOST}/elasticmapreduce/home${region}#cluster-details:${
+      id[0].split("/")[1]
+    }`,
   kinesis: ({ id, region }) =>
     `${HOST}/kinesis/home${region}#/streams/details/${id[0].split("/")[1]}`,
   kms: ({ id, region }) =>
