@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="logosandtypes_com"
+   data-name="logosandtypes com"
+   viewBox="0 0 150 150"
+   version="1.1"
+   sodipodi:docname="greenhouse.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="4.7933333"
+     inkscape:cx="75"
+     inkscape:cy="75"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="logosandtypes_com" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:none;}.cls-2{fill:#008561;}</style>
+  </defs>
+  <path
+     class="cls-1"
+     d="M0,0H150V150H0Z"
+     transform="translate(0 0)"
+     id="path6" />
+  <path
+     class="cls-2"
+     d="m 98.744294,48.065184 a 22.73,22.73 0 0 1 -7,16.21 c -4.84,4.83 -11.86,6 -11.86,10.15 0,5.57 9,3.87 17.54,12.46 a 30.78,30.78 0 0 1 -21.89,52.719996 30.78,30.78 0 0 1 -21.89,-52.709996 c 8.59,-8.59 17.5,-6.89 17.5,-12.46 0,-4.11 -7,-5.32 -11.85,-10.15 a 22.75,22.75 0 0 1 15.85,-39.18 c 2.42,0 4.6,0.36 6.41,0.36 3.26,0 5,-1.45 5,-3.75 0,-1.33 -0.61,-3 -0.61,-4.83 a 7.6809374,7.6809374 0 0 1 15.359996,0.24 c 0,4.47 -3.509996,6.52 -6.169996,7.5 -2.17,0.72 -3.87,1.69 -3.87,3.87 0,4.09 7.5,8.09 7.5,19.57 z m -2.4,60.719996 c 0,-11.999996 -8.83,-21.649996 -20.8,-21.649996 -11.97,0 -20.8,9.68 -20.8,21.649996 0,11.97 8.83,21.64 20.8,21.64 11.97,0 20.8,-9.81 20.8,-21.64 z m -7.14,-60.999996 a 13.67,13.67 0 1 0 -13.67,13.95 13.86,13.86 0 0 0 13.67,-13.91 z"
+     id="path8" />
+</svg>
