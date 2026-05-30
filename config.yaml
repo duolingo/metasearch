@@ -37,6 +37,8 @@ engines:
     token: Ex4mp1eEx4mp1eEx4mp1eEx4
     # Atlassian user who owns the API token
     user: admin@example.com
+    # optional list of document types to be searched. defaults to [page]
+    documentTypes: [page, blogpost, comment]
 
   # Dropbox files and folders
   dropbox:
@@ -123,7 +125,9 @@ engines:
 
   # Hound-indexed code: https://github.com/hound-search/hound
   hound:
-    # GitHub organization
+    # base url of code hoster. defaults to https://github.com
+    codeHost: https://github.com
+    # optional: GitHub organization
     organization: example
     # Hound server URL origin
     origin: https://hound.example.com
