@@ -3,6 +3,6 @@ owner:
   team: "6a7b78fec98b10016eccd5b5ad170000" # Language Learning - Long-form Experience
 technology-type: [web-client, internal-tool]
 lifecycle:
-  state: production
-  context: "Internal tool, not learner-facing."
+  state: frozen
+  context: "No deploy path and no owner commits since 2024-02; the sibling infra-metasearch repo was archived."
 compliance: []
